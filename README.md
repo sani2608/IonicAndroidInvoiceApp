@@ -12,4 +12,4 @@ Screenshots of the application.
 
 Screen 1               |  Screen 2                       | Screen 3                            |  Screen 4
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![invoices](imagesReadme/invoice.png)|![stocks](imagesReadme\stocks.png)|![addItem](imagesReadme/addItem.png)|![](imagesReadme/update.png)|
+![invoices](imagesReadme/invoice.png)|![stocks](imagesReadme/stocks.png)|![addItem](imagesReadme/addItem.png)|![](imagesReadme/update.png)|
