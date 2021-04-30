@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor() { }
+  clickStock() {
+    console.log('Stocks button clicked');
+  }
 
 }
