@@ -12,4 +12,4 @@ Screenshots of the application.
 
 Screen 1               |
 :-------------------------:|
-![](homePage.png)|
+![](homePage.png =100x20)|
