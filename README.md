@@ -1,15 +1,15 @@
 # Ionic-Android-Invoice-app-Sanikumar
 
-### Data Model of the Application
+## Data Model of the Application
 
 ## [Used this site for designing the DataModel](https://lucid.app/users/login)
 
-![DataModel](DataModel.png)
-
+![DataModel](imagesReadme/DataModel.png)
 
 Screenshots of the application.
-- Screenshots
 
-Screen 1               |
-:-------------------------:|
-![](homePage.png =100x20)|
+
+
+Screen 1               |  Screen 2                       | Screen 3                            |  Screen 4
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![invoices](imagesReadme/invoice.png)|![stocks](imagesReadme\stocks.png)|![addItem](imagesReadme/addItem.png)|![](imagesReadme/update.png)|
