@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center"> stocks (4)</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button [routerLink]="['/add-item']">
+        <ion-icon
+          color="primary"
+          slot="icon-only"
+          name="add-sharp"
+          size="large"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!-- stocks page -->
+
+<ion-content [fullscreen]="true">
+  <div>
+    <ion-card [routerLink]="['/update-item']">
+      <ion-card-content>
+        <ion-grid>
+          <!-- 1 row -->
+          <ion-row>
+            <ion-col>
+              <ion-text><h1>Onion</h1></ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- 2nd row -->
+          <ion-row>
+            <ion-col>
+              <ion-text color="secondary"> <h2>₹ 20 per KG</h2></ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card  [routerLink]="['/update-item']">
+      <ion-card-content>
+        <ion-grid>
+          <!-- 1 row -->
+          <ion-row>
+            <ion-col>
+              <ion-text><h1>Potato</h1></ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- 2nd row -->
+          <ion-row>
+            <ion-col>
+              <ion-text color="secondary"> <h2>₹ 25 per KG</h2></ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card  [routerLink]="['/update-item']">
+      <ion-card-content>
+        <ion-grid>
+          <!-- 1 row -->
+          <ion-row>
+            <ion-col>
+              <ion-text><h1>Milk</h1></ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- 2nd row -->
+          <ion-row>
+            <ion-col>
+              <ion-text color="secondary"> <h2>₹ 30 per Litre</h2></ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card  [routerLink]="['/update-item']">
+      <ion-card-content>
+        <ion-grid>
+          <!-- 1 row -->
+          <ion-row>
+            <ion-col>
+              <ion-text><h1>Cabbage</h1></ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- 2nd row -->
+          <ion-row>
+            <ion-col>
+              <ion-text color="secondary"> <h2>₹ 40 per Litre</h2></ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
