@@ -10,6 +10,6 @@
 Screenshots of the application.
 - Screenshots
 
-Screen 1
-:-------------------------:
-![](homePage.png)
+Screen 1               |
+:-------------------------:|
+![](homePage.png)|
