@@ -23,11 +23,20 @@ const routes: Routes = [
     path: 'update-item',
     loadChildren: () => import('./pages/update-item/update-item.module').then( m => m.UpdateItemPageModule)
   },
+   {
+    path: 'add-item-in-invoice',
+    loadChildren: () => import('./pages/add-item-in-invoice/add-item-in-invoice.module').then( m => m.AddItemInInvoicePageModule)
+  },
+  {
+    path: 'customer-info',
+    loadChildren: () => import('./pages/customer-info/customer-info.module').then( m => m.CustomerInfoPageModule)
+  },
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
   },
+
 
 ];
 
