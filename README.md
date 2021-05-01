@@ -12,4 +12,4 @@ Screenshots of the application.
 
 Screen 1               |  Screen 2                       | Screen 3                            |  Screen 4
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![invoices](imagesReadme/invoice.png)|![stocks](imagesReadme/stocks.png)|![addItem](imagesReadme/addItem.png)|![](imagesReadme/update.png)|
+![invoices](imagesReadme/invoice.png)|![stocks](https://intranet.indience.in:8443/training/ionic-android-invoice-app-sanikumar/-/blob/master/imagesReadme/iphoneMockup/stocks_iphoneseblack_portrait.png)|![addItem](imagesReadme/addItem.png)|![](imagesReadme/update.png)|
