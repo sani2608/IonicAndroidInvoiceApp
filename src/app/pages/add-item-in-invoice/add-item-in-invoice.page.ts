@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Alert } from 'src/app/shared/alert';
 
 @Component({
   selector: 'app-add-item-in-invoice',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddItemInInvoicePage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private alert: Alert
+  ) { }
 
   ngOnInit() {
   }
+
+  cardClicked() {
+    this.alert.presentAlertPrompt();
+  }
+
 
 }
