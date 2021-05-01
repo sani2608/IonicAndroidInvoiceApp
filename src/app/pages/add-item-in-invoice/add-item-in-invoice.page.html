@@ -3,10 +3,88 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">New Invoice</ion-title>
+    <ion-title class="ion-text-center">Add Items</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<p>hello from add item in invoice</p>
+
+
+<ion-content [fullscreen]="true">
+  <div>
+    <ion-card  (click)="cardClicked()">
+      <ion-card-content>
+        <ion-grid>
+          <!-- 1 row -->
+          <ion-row>
+            <ion-col >
+              <ion-text><h1>Onion</h1></ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- 2nd row -->
+          <ion-row>
+            <ion-col>
+              <ion-text color="secondary"> <h2>₹ 20 per KG</h2></ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card  (click)="cardClicked()">
+      <ion-card-content>
+        <ion-grid>
+          <!-- 1 row -->
+          <ion-row>
+            <ion-col>
+              <ion-text><h1>Potato</h1></ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- 2nd row -->
+          <ion-row>
+            <ion-col>
+              <ion-text color="secondary"> <h2>₹ 25 per KG</h2></ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card (click)="cardClicked()">
+      <ion-card-content>
+        <ion-grid>
+          <!-- 1 row -->
+          <ion-row>
+            <ion-col>
+              <ion-text><h1>Milk</h1></ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- 2nd row -->
+          <ion-row>
+            <ion-col>
+              <ion-text color="secondary"> <h2>₹ 30 per Litre</h2></ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card  (click)="cardClicked()">
+      <ion-card-content>
+        <ion-grid>
+          <!-- 1 row -->
+          <ion-row>
+            <ion-col>
+              <ion-text><h1>Cabbage</h1></ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- 2nd row -->
+          <ion-row>
+            <ion-col>
+              <ion-text color="secondary"> <h2>₹ 40 per Litre</h2></ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

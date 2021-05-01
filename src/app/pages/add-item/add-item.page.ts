@@ -20,7 +20,6 @@ export class AddItemPage implements OnInit {
      */
     this.itemForm = this.formBuilder.group({
       name: ['onion', [Validators.required]],
-      quantity: [5, [Validators.required]],
       uom: ['kg', [Validators.required]],
       price: [50, [Validators.required]],
     });
