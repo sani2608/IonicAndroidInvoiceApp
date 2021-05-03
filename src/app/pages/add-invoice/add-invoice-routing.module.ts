@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: AddInvoicePage
-  }
+  },
+  {
+    path: 'add-item-in-invoice',
+    loadChildren: () => import('../add-item-in-invoice/add-item-in-invoice.module').then(m => m.AddItemInInvoicePageModule)
+  },
 ];
 
 @NgModule({

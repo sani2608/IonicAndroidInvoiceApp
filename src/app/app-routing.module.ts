@@ -10,10 +10,10 @@ const routes: Routes = [
   //   path: 'stocks',
   //   loadChildren: () => import('./pages/stocks/stocks.module').then(m => m.StocksPageModule)
   // },
-  {
-    path: 'add-invoice',
-    loadChildren: () => import('./pages/add-invoice/add-invoice.module').then(m => m.AddInvoicePageModule)
-  },
+  // {
+  //   path: 'add-invoice',
+  //   loadChildren: () => import('./pages/add-invoice/add-invoice.module').then(m => m.AddInvoicePageModule)
+  // },
 
   // {
   //   path: 'add-item',
@@ -23,14 +23,14 @@ const routes: Routes = [
   //   path: 'update-item',
   //   loadChildren: () => import('./pages/update-item/update-item.module').then( m => m.UpdateItemPageModule)
   // },
-   {
-    path: 'add-item-in-invoice',
-    loadChildren: () => import('./pages/add-item-in-invoice/add-item-in-invoice.module').then( m => m.AddItemInInvoicePageModule)
-  },
-  {
-    path: 'customer-info',
-    loadChildren: () => import('./pages/customer-info/customer-info.module').then( m => m.CustomerInfoPageModule)
-  },
+  //  {
+  //   path: 'add-item-in-invoice',
+  //   loadChildren: () => import('./pages/add-item-in-invoice/add-item-in-invoice.module').then( m => m.AddItemInInvoicePageModule)
+  //  },
+  // {
+  //   path: 'customer-info',
+  //   loadChildren: () => import('./pages/customer-info/customer-info.module').then( m => m.CustomerInfoPageModule)
+  // },
   {
     path: '',
     redirectTo: 'home',

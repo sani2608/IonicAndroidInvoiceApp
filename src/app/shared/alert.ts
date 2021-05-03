@@ -27,8 +27,10 @@ export class Alert {
           }
         }, {
           text: 'Ok',
-          handler: () => {
+          handler: (value) => {
             console.log('Confirm Ok');
+            console.log(value);
+            return value.quantity;
           }
         }
       ]
