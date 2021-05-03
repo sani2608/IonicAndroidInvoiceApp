@@ -36,6 +36,13 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  // {
+  //   path: 'view-invoice-in-readonly',
+  //   loadChildren: () => import('./pages/view-invoice-in-readonly/view-invoice-in-readonly.module').then( m => m.ViewInvoiceInReadonlyPageModule)
+  // },
+
+
+
 
 
 ];
