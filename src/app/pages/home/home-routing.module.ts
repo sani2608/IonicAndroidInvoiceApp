@@ -25,7 +25,7 @@ const routes: Routes = [
     loadChildren: () => import('../add-invoice/add-invoice.module').then(m => m.AddInvoicePageModule)
   },
   {
-    path: 'view-invoice-in-readonly',
+    path: 'view-invoice-in-readonly/:id',
     loadChildren: () => import('../view-invoice-in-readonly/view-invoice-in-readonly.module').then(m => m.ViewInvoiceInReadonlyPageModule)
   },
 
