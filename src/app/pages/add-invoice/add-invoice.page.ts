@@ -11,5 +11,10 @@ export class AddInvoicePage implements OnInit {
 
   ngOnInit() {
   }
-
+  getItemsFromCart(){
+    //TODO: Implement getItemsFromCart() function.
+  }
+  deleteItemFromCart(){
+    //TODO: Implement deleteItemFromCart() function.
+  }
 }

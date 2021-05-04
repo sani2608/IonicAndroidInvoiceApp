@@ -11,5 +11,8 @@ export class StocksPage implements OnInit {
 
   ngOnInit() {
   }
+  getAllItems(){
+    //TODO: Implement getAllItems() function.
+  }
 
 }

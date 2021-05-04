@@ -11,5 +11,8 @@ export class ViewInvoiceInReadonlyPage implements OnInit {
 
   ngOnInit() {
   }
+  getAllItems(){
+    //TODO: implement getAllItems() function.
+  }
 
 }

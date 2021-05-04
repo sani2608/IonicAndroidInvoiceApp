@@ -19,5 +19,11 @@ export class AddItemInInvoicePage implements OnInit {
     this.alert.presentAlertPrompt();
   }
 
+  getAllItemsFromStock(){
+    //TODO: implement getAllItemsFromStock() function.
+  }
+  addItemInInvoice(){
+    //TODO: implement AddItemInInvoice() function.
+  }
 
 }

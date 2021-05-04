@@ -11,5 +11,8 @@ export class CustomerInfoPage implements OnInit {
 
   ngOnInit() {
   }
+  addCustomer(){
+    //TODO: Implement addCustomer() function
+  }
 
 }

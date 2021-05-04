@@ -11,5 +11,12 @@ export class HomePage {
   clickStock() {
     console.log('Stocks button clicked');
   }
+  //* ALL THE FUNCTIONS TO BE IMPLEMENTED
 
+  getAllInvoices(){
+    //TODO: Implement getAllInvoice() function.
+  }
+  searchInvoice(){
+    //TODO: Implement searchInvoice() function.
+  }
 }

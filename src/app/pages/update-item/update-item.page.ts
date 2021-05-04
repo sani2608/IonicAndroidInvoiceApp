@@ -32,7 +32,8 @@ export class UpdateItemPage implements OnInit {
   /**
    * This method is used to pass formData to service.
    */
-  addItem(): void {
+  updateItem(): void {
+    //TODO: Implement updateItem() function.
     // if (!this.service.isItemPresent(this.itemForm.value.name)) {
     //   this.service.addData(this.itemForm.value);
     //   this.toast.displayToast(
