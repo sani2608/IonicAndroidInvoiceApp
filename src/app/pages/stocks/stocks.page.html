@@ -21,7 +21,7 @@
 
 <ion-content [fullscreen]="true">
   <div>
-    <ion-card  *ngFor="let item of items ; let id = index" [routerLink]="['./','update-item',id]">
+    <ion-card  *ngFor="let item of items" [routerLink]="['./','update-item',item.itemId]">
       <ion-card-content>
         <ion-grid>
           <!-- 1 row -->

@@ -27,9 +27,10 @@
   <ion-searchbar
     placeholder="search by customer name or invoice no."
   ></ion-searchbar>
+
   <div>
     <!-- *FIRST CARD -->
-    <ion-card *ngFor="let invoice of invoices ; let id = index" [routerLink]="['./','view-invoice-in-readonly',id]">
+    <ion-card *ngFor="let invoice of invoices" [routerLink]="['./','view-invoice-in-readonly',invoice.invoiceId]">
       <ion-card-content>
         <ion-grid>
           <!-- 1 row -->
