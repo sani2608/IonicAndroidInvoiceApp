@@ -36,7 +36,7 @@
         <ion-card>
           <ion-item lines="none">
             <ion-list >
-              <ion-text >You have <strong>{{readOnlyItemList.length}}</strong> Items in Invoice</ion-text>
+              <ion-text >You have <strong>{{readOnlyItemList.length}}</strong> Items in Invoice and total quantity 38</ion-text>
             </ion-list>
           </ion-item>
         </ion-card>
@@ -46,7 +46,6 @@
 
   <!-- *Item section -->
   <div>
-    <!-- //TODO *Implementation to be added later -->
     <!-- *FIRST ITEM CARD -->
     <ion-card *ngFor="let item of readOnlyItemList">
       <ion-card-content class="item-margin">
