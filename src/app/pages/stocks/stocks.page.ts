@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StocksPage implements OnInit {
 
-  //TODO: replace this with actual data from database.
-  items = [
+  //TODO: replace this with actual Data.
+  private _itemsInStock = [
     {
       itemId:1,
       name: 'onion',
@@ -46,6 +47,11 @@ export class StocksPage implements OnInit {
   ngOnInit() {
   }
 
+  public get itemsInStock(){
+    return this._itemsInStock;
+  }
+
+  //? This will get all the items present in the stock.
   getAllItems(){
     //TODO: Implement getAllItems() function.
   }

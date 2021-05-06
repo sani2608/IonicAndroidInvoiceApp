@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-center"> stocks (4)</ion-title>
+    <ion-title class="ion-text-center"> stocks ({{itemsInStock.length}})</ion-title>
     <ion-buttons slot="primary">
       <ion-button [routerLink]="['./','add-item']">
         <ion-icon
@@ -18,10 +18,9 @@
 </ion-header>
 
 <!-- *stocks page -->
-
 <ion-content [fullscreen]="true">
   <div>
-    <ion-card  *ngFor="let item of items" [routerLink]="['./','update-item',item.itemId]">
+    <ion-card  *ngFor="let item of itemsInStock" [routerLink]="['./','update-item',item.itemId]">
       <ion-card-content>
         <ion-grid>
           <!-- 1 row -->
