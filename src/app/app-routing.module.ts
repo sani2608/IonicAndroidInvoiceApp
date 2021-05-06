@@ -6,6 +6,11 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
   // {
   //   path: 'stocks',
   //   loadChildren: () => import('./pages/stocks/stocks.module').then(m => m.StocksPageModule)
@@ -31,11 +36,6 @@ const routes: Routes = [
   //   path: 'customer-info',
   //   loadChildren: () => import('./pages/customer-info/customer-info.module').then( m => m.CustomerInfoPageModule)
   // },
-  {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
 
   // {
   //   path: 'view-invoice-in-readonly',
