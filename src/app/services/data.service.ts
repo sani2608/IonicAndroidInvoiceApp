@@ -7,6 +7,11 @@ export class DataService {
 
   constructor() { }
 
+  //? Database related functions.
+  //1. check if the database is present.
+  isDatabasePresent(){}
+
+
   //*DATABASE CRUD FUNCTIONS.
   //? Items Table
   addItemInDB(){
