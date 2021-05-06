@@ -1,5 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Item } from 'src/app/models/data';
 
 @Component({
   selector: 'app-add-item',
@@ -8,40 +10,24 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddItemPage implements OnInit {
 
-  private itemForm: FormGroup;
+  private _itemForm: FormGroup;
   constructor(
-    // private service: ItemService,
     private formBuilder: FormBuilder,
-    // private toast: ToastExample
   ) { }
   ngOnInit(): void {
-    /**
-     * Reactive Form
-     */
-    this.itemForm = this.formBuilder.group({
+    this._itemForm = this.formBuilder.group({
       name: ['onion', [Validators.required]],
       uom: ['kg', [Validators.required]],
       price: [50, [Validators.required]],
     });
   }
-  get formData() {
-    return this.itemForm;
+  get itemForm(): FormGroup {
+    return this._itemForm;
   }
 
-  /**
-   * This method is used to pass formData to service.
-   */
-  addItem(): void {
+  addItem(value: Item): void {
     //TODO: Implement addItem() function.
-    // if (!this.service.isItemPresent(this.itemForm.value.name)) {
-    //   this.service.addData(this.itemForm.value);
-    //   this.toast.displayToast(
-    //     `${this.itemForm.value.name} added successfully.`
-    //   );
-    // } else {
-    //   this.toast.displayToast(
-    //     `${this.itemForm.value.name} already added in cart goto cart.`
-    //   );
-    // }
-  }
+    console.log('Implement addItem()');
+    console.log(value);
+    }
 }

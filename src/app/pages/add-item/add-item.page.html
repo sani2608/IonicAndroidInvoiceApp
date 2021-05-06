@@ -14,7 +14,7 @@
         <ion-col size-md="8" offset-md="2" size-sm="12" size-xs="12">
           <!-- ?starting of the card -->
           <ion-card>
-            <form [formGroup]="formData" (ngSubmit)="addItem()">
+            <form [formGroup]="itemForm" (ngSubmit)="addItem(itemForm.value)">
               <ion-card-content>
                 <!-- *item name -->
                 <ion-item>
@@ -28,16 +28,7 @@
                   ></ion-input>
                 </ion-item>
 
-                <!-- *item quantity 
-                <ion-item>
-                  <ion-label position="floating"
-                    >Quantity<ion-text color="danger">*</ion-text></ion-label
-                  >
-                  <ion-input
-                    type="number"
-                    formControlName="quantity"
-                  ></ion-input>
-                </ion-item> -->
+
 
                 <!-- *unit of measuring -->
                 <ion-item>
@@ -69,7 +60,7 @@
                       <ion-button
                         expand="block"
                         type="submit"
-                        [disabled]="!formData.valid"
+                        [disabled]="!itemForm.valid"
                       >
                         <ion-icon slot="end" name="add-outline"></ion-icon>
                         Add Item
