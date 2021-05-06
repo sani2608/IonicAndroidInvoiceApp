@@ -1,5 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { UpdateItem } from 'src/app/models/data';
 
 @Component({
   selector: 'app-update-item',
@@ -7,43 +10,34 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./update-item.page.scss'],
 })
 export class UpdateItemPage implements OnInit {
-
-  private itemForm: FormGroup;
+  private _updateForm: FormGroup;
+  private _id: number;
   constructor(
-    // private service: ItemService,
     private formBuilder: FormBuilder,
-    // private toast: ToastExample
-  ) { }
+    private route: ActivatedRoute
+  ) {}
   ngOnInit(): void {
-    /**
-     * Reactive Form
-     */
-    this.itemForm = this.formBuilder.group({
+    this.getItemById();
+    //implement the form later
+    this._updateForm = this.formBuilder.group({
       name: ['onion', [Validators.required]],
-      quantity: [5, [Validators.required]],
       uom: ['kg', [Validators.required]],
       price: [50, [Validators.required]],
     });
   }
-  get formData() {
-    return this.itemForm;
+  get updateForm(): FormGroup {
+    return this._updateForm;
   }
-
-  /**
-   * This method is used to pass formData to service.
-   */
-  updateItem(): void {
-    //TODO: Implement updateItem() function.
-    // if (!this.service.isItemPresent(this.itemForm.value.name)) {
-    //   this.service.addData(this.itemForm.value);
-    //   this.toast.displayToast(
-    //     `${this.itemForm.value.name} added successfully.`
-    //   );
-    // } else {
-    //   this.toast.displayToast(
-    //     `${this.itemForm.value.name} already added in cart goto cart.`
-    //   );
-    // }
+  getItemById(): void {
+    //*below line gets item id to update from the routerlink
+    this._id = this.route.snapshot.params.id;
+    console.log('item id =', this._id);
+    //TODO implement getItemById()
+    console.log('implement getItemById()');
   }
-
+  updateItem(value: UpdateItem): void {
+    //TODO: Implement updateItem()
+    console.log('Implement UpdateItem()');
+    console.log(value);
+  }
 }
