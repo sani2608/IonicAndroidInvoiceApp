@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Invoices } from 'src/app/models/data';
 
 @Component({
   selector: 'app-home',
@@ -42,10 +43,10 @@ export class HomePage {
 
   constructor() { }
   clickStock() {
-    console.log('Stocks button clicked');
+    console.log('Going to Stocks Page');
   }
-  //* ALL THE FUNCTIONS TO BE IMPLEMENTED
 
+  //* ALL THE FUNCTIONS TO BE IMPLEMENTED
   getAllInvoices(){
     //TODO: Implement getAllInvoice() function.
   }
