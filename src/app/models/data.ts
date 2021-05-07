@@ -442,54 +442,5 @@ export class ReadOnlyInvoice {
   }
 }
 
-//? this model will be used for updating item in stock.
-export class UpdateItem {
-  private _name: string;
-  private _uom: string;
-  private _price: number;
-
-  /**
-   * Getter name @return {string}
-   */
-  public get name(): string {
-    return this._name;
-  }
-
-  /**
-   * Setter name @param {string} name
-   */
-  public set name(name: string) {
-    this._name = name;
-  }
-
-  /**
-   * Getter uom @return {string}
-   */
-  public get uom(): string {
-    return this._uom;
-  }
-
-  /**
-   * Setter uom @param {string} uom
-   */
-  public set uom(uom: string) {
-    this._uom = uom;
-  }
-
-  /**
-   * Getter price @return {number}
-   */
-  public get price(): number {
-    return this._price;
-  }
-
-  /**
-   * Setter price @param {number} price
-   */
-  public set price(price: number) {
-    this._price = price;
-  }
-}
-
 
 

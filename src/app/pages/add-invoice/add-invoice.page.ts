@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Alert } from 'src/app/shared/alert';
-import { CustomerInfoPageModule } from '../customer-info/customer-info.module';
 
 @Component({
   selector: 'app-add-invoice',
