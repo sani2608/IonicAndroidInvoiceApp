@@ -34,12 +34,12 @@ export class DataService {
   }
 
   updateItem(value: Item): void {
-    //TODO impmlement updateItemInDB() function.
+    //TODO impmlement updateItem() function.
     console.log('updateItem from dataService\n', value);
   }
 
   getItems(): Observable<Item[]> {
-    //TODO: implement getItemsFromDB() function.
+    //TODO: implement getItems() function.
     //Use behavioural subject to pass latest item value.
     //gets items list from DATABASE.
     return;
