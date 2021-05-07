@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Item } from '../models/data';
+import { Observable, ObservableInput, of } from 'rxjs';
+import { Customer, Invoices, Item, ReadOnlyInvoice } from '../models/data';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +11,21 @@ export class DataService {
 
   //? Database related functions.
   //1. check if the database is present.
-  isDatabasePresent(){
+  isDatabasePresent() {
     //return boolean value if db is presesnt.
     //use BehaviorSubject bolean.
+    //TODO implement isDatabasePresent
   }
 
-  createDatabase(){
+  createDatabase() {
+    //TODO implement createDatabase()
     // if isDatabasePresent returns false then create DATABASE.
   }
 
   //? Items Table
-  isItemPresent(value: string): boolean{
+  isItemPresent(value: string): boolean {
     //TODO implement function to check if item is present in Database.
-    console.log('will check if '+ value + ' is present in Database');
+    console.log('will check if ' + value + ' is present in Database');
     return true;
   }
   addItem(value: Item): void {
@@ -33,48 +35,49 @@ export class DataService {
 
   updateItem(value: Item): void {
     //TODO impmlement updateItemInDB() function.
-    console.log('updateItem from dataService\n',value);
+    console.log('updateItem from dataService\n', value);
   }
 
-  getItems(): Observable<Item[]>  {
+  getItems(): Observable<Item[]> {
     //TODO: implement getItemsFromDB() function.
     //Use behavioural subject to pass latest item value.
     //gets items list from DATABASE.
     return;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-  //*DATABASE CRUD FUNCTIONS.
-  //? Invoice Table
-  getInvoicesFromDB(){
+  //? HOME SECTION
+  getInvoices(): Observable<Invoices[]> {
     //TODO: implement getInvoicesFromDB() function.
+    return of([]);
   }
-  //? Custmer Table
-  getCustomersFromDB(){
-    //TODO: implement getCustomersFromDB() function.
+
+  searchInvoices(invoice: string | number): Observable<Invoices[]> {
+    //TODO implement searchInvoice
+    console.log('from service search function\n', invoice);
+    return of([]);;
   }
-  deleteCustomerFromDB(){
-    //TODO: implement deleteCustomerFromDB() function
+
+  //? READONLY PAGE
+  getInvoicesInReadOnly(): Observable<ReadOnlyInvoice[]> {
+    //TODO: implement getInvoicesFromDB() function.
+    return of([]);
   }
-  //? Cart Table
-  getCartItemFromDB(){
-    //TODO: implement getCartItemsFromDB() function.
+  //? ADD NEW INVOICE
+  addCustomer(value: Customer): void {
+    //TODO addCustomer
   }
-  deleteCartItem(){
-    //TODO: implement deleteCartItem() function.
+
+  addItemInInvoice(itemId: number, quantity: number): void {
+    //TODO addItemInInvoice
   }
-  //* SEARCH FUNCTIONS
-  searchInvoice(){
-    //TODO: implement searchInvoice() function.
+
+  getItemsFromInvoice(): Observable<ReadOnlyInvoice[]> {
+    //will get items that are added in the cart.
+    //TODO: getItemsFromInvoice
+    return of([]);
+  }
+
+  deleteItemFromInvoice(itemId: number): void{
+    //TODO deleteItemFromInvoice
   }
 }

@@ -40,7 +40,7 @@
   </ion-card>
 
   <!-- * Add Items card -->
-  <ion-card>
+  <ion-card >
     <ion-toolbar>
       <ion-title align="center">Items ({{itemsInCart.length}})</ion-title>
       <ion-buttons slot="primary">
@@ -73,7 +73,7 @@
   <div>
     <!-- //TODO *Implementation to be added later -->
     <!-- *FIRST ITEM CARD -->
-    <ion-card *ngFor="let item of itemsInCart">
+    <ion-card *ngFor="let item of itemsInCart" class="border">
       <ion-card-content class="item-margin">
         <ion-grid>
           <!-- 1 row -->

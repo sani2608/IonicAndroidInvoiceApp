@@ -3,7 +3,6 @@
     <ion-buttons slot="start">
       <ion-button
         color="primary"
-        (click)="clickStock()"
         [routerLink]="['./','stocks']"
       >
         Stocks
@@ -25,8 +24,9 @@
 
 <ion-content [fullscreen]="true">
   <ion-searchbar
-    enterkeyhint= "enter"
+    #searchBox
     placeholder="search by customer name or invoice no."
+     (input)="searchInvoice(searchBox.value)"
   ></ion-searchbar>
 
   <div>
