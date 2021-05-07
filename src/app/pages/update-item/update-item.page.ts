@@ -2,7 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { UpdateItem } from 'src/app/models/data';
+import { Item } from 'src/app/models/data';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-update-item',
@@ -14,10 +15,17 @@ export class UpdateItemPage implements OnInit {
   private _id: number;
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private dataService: DataService
+  ) { }
   ngOnInit(): void {
     this.getItemById();
+    this.formData();
+  }
+  get updateForm(): FormGroup {
+    return this._updateForm;
+  }
+  formData() {
     //implement the form later
     this._updateForm = this.formBuilder.group({
       name: ['onion', [Validators.required]],
@@ -25,9 +33,7 @@ export class UpdateItemPage implements OnInit {
       price: [50, [Validators.required]],
     });
   }
-  get updateForm(): FormGroup {
-    return this._updateForm;
-  }
+
   getItemById(): void {
     //*below line gets item id to update from the routerlink
     this._id = this.route.snapshot.params.id;
@@ -35,9 +41,9 @@ export class UpdateItemPage implements OnInit {
     //TODO implement getItemById()
     console.log('implement getItemById()');
   }
-  updateItem(value: UpdateItem): void {
+
+  updateItem(value: Item): void {
     //TODO: Implement updateItem()
-    console.log('Implement UpdateItem()');
-    console.log(value);
+    this.dataService.updateItem(value);
   }
 }
