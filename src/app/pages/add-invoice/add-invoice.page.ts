@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Customer } from 'src/app/models/data';
+import { DataService } from 'src/app/services/data.service';
 import { Alert } from 'src/app/shared/alert';
 
 @Component({
@@ -35,7 +37,8 @@ export class AddInvoicePage implements OnInit {
     },
 ];
   constructor(
-    private alert: Alert
+    private alert: Alert,
+    private dataService: DataService
   ) { }
 
   ngOnInit() {
@@ -46,13 +49,13 @@ export class AddInvoicePage implements OnInit {
 
   }
 
-  getCustomerName(){
-    //TODO: implement getCustomerName() function.
+  addCustomerName(value: Customer): void {
+    //?get value from the alert and pass it to service.
+    this.dataService.addCustomer(value);
   }
-  getItemsFromCart(){
-    //TODO: Implement getItemsFromCart() function.
+
+  deleteItemFromInvoice(itemId: number): void {
+    this.dataService.deleteItemFromInvoice(itemId);
   }
-  deleteItemFromCart(){
-    //TODO: Implement deleteItemFromCart() function.
-  }
+
 }

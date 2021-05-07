@@ -58,13 +58,6 @@ export class Alert {
       ],
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
-        }, {
           text: 'Submit',
           handler: (value) => {
             console.log('Confirm Ok');

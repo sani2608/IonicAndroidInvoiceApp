@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-view-invoice-in-readonly',
@@ -35,12 +36,15 @@ export class ViewInvoiceInReadonlyPage implements OnInit {
     },
   ];
 
-  constructor() { }
+  constructor(
+    private dataService: DataService
+  ) { }
 
   ngOnInit() {
   }
-  getAllItems() {
+  getInvoices(): void {
     //TODO: implement getAllItems() function.
+    this.dataService.getInvoicesInReadOnly();  //subscribe
   }
 
 }

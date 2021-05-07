@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Alert } from 'src/app/shared/alert';
-import { Cart} from 'src/app/models/data';
+import { Cart, Customer} from 'src/app/models/data';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-add-item-in-invoice',
@@ -10,7 +11,8 @@ import { Cart} from 'src/app/models/data';
 export class AddItemInInvoicePage implements OnInit {
   cart = new Cart(123,234);
   constructor(
-    private alert: Alert
+    private alert: Alert,
+    private dataService: DataService
   ) { }
 
   ngOnInit() {
@@ -20,11 +22,16 @@ export class AddItemInInvoicePage implements OnInit {
     this.alert.presentAlertPrompt();
   }
 
-  getAllItemsFromStock(){
-    //TODO: implement getAllItemsFromStock() function.
+
+  getItemsFromStock() {
+    //TODO getItemsFromInvoice
+    this.dataService.getItems(); //subscribe
   }
-  addItemInInvoice(){
+
+  addItemInInvoice(itemId: number,quantity: number){
     //TODO: implement AddItemInInvoice() function.
+    this.dataService.addItemInInvoice(itemId, quantity);
   }
+
 
 }

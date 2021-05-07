@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-stocks',
@@ -42,7 +43,9 @@ export class StocksPage implements OnInit {
     },
   ];
 
-  constructor() { }
+  constructor(
+    private dataService: DataService
+  ) { }
 
   ngOnInit() {
   }
@@ -54,6 +57,8 @@ export class StocksPage implements OnInit {
   //? This will get all the items present in the stock.
   getAllItems(){
     //TODO: Implement getAllItems() function.
+    this.dataService.getItems();// subscribe
+
   }
 
 }

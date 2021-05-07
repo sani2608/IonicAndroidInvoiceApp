@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
+import { DataService } from 'src/app/services/data.service';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Invoices } from 'src/app/models/data';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
+
 
 @Component({
   selector: 'app-home',
@@ -7,7 +12,6 @@ import { Invoices } from 'src/app/models/data';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
   //TODO: replace this with actual data from database.
   invoices = [
     {
@@ -39,18 +43,34 @@ export class HomePage {
       totalPrice: 5600,
       invoiceId: 1003,
     },
+    {
+      customerName: 'Saurabh',
+      date: 'May 3, 2021',
+      totalItems: 30,
+      totalPrice: 5000,
+      invoiceId: 1004,
+    },
   ];
 
-  constructor() { }
-  clickStock() {
-    console.log('Going to Stocks Page');
-  }
+  invoices$: Observable<Invoices[]>;
+  private searchTerms = new Subject<string>();
+
+
+  constructor(
+    private dataService: DataService
+  ) { }
 
   //* ALL THE FUNCTIONS TO BE IMPLEMENTED
-  getAllInvoices(){
+  getAllInvoices(): void {
     //TODO: Implement getAllInvoice() function.
+    this.dataService.getInvoices();
   }
-  searchInvoice(){
-    //TODO: Implement searchInvoice() function.
+
+  searchInvoice(val: string | number): void {
+     this.dataService.searchInvoices(val);
+  //   this.invoices$ = this.searchTerms.pipe(debounceTime(300),
+  //     distinctUntilChanged(),
+  //     switchMap((value: string | number) => this.dataService.searchInvoices(value)));
   }
 }
+
