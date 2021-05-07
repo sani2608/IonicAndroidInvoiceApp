@@ -11,21 +11,22 @@ export class DataService {
 
   //? Database related functions.
   //1. check if the database is present.
-  isDatabasePresent() {
+  async isDatabasePresent(): Promise<boolean> {
     //return boolean value if db is presesnt.
     //use BehaviorSubject bolean.
     //TODO implement isDatabasePresent
+    return false;
   }
 
-  createDatabase() {
+  async createDatabase() {
     //TODO implement createDatabase()
     // if isDatabasePresent returns false then create DATABASE.
   }
 
   //? Items Table
-  isItemPresent(value: string): boolean {
+  async isItemPresent(itemName: string): Promise<boolean> {
     //TODO implement function to check if item is present in Database.
-    console.log('will check if ' + value + ' is present in Database');
+    console.log('will check if ' + itemName + ' is present in Database');
     return true;
   }
   addItem(value: Item): void {
@@ -38,7 +39,7 @@ export class DataService {
     console.log('updateItem from dataService\n', value);
   }
 
-  getItems(): Observable<Item[]> {
+  getItems(): Promise<Item[]> {
     //TODO: implement getItems() function.
     //Use behavioural subject to pass latest item value.
     //gets items list from DATABASE.
@@ -51,7 +52,15 @@ export class DataService {
     return of([]);
   }
 
-  searchInvoices(invoice: string | number): Observable<Invoices[]> {
+  searchInvoiceByCustomerName(customerName: string) {
+    this.searchInvoices(customerName)
+  }
+
+  searchInvoiceByInvoiceNumber(invoiceNumber: number) {
+    this.searchInvoices(invoiceNumber)
+  }
+
+  private searchInvoices(invoiceNumberOrCustomerName: string | number): Observable<Invoices[]> {
     //TODO implement searchInvoice
     console.log('from service search function\n', invoice);
     return of([]);;
@@ -63,11 +72,11 @@ export class DataService {
     return of([]);
   }
   //? ADD NEW INVOICE
-  addCustomer(value: Customer): void {
+  addCustomerToInvoice(value: Customer, invoice: Invoice): void {
     //TODO addCustomer
   }
 
-  addItemInInvoice(itemId: number, quantity: number): void {
+  addItemInInvoice(itemId: number, quantity: number, invoice: Invoice): void {
     //TODO addItemInInvoice
   }
 
