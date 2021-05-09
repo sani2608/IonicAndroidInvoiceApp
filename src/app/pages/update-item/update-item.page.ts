@@ -12,7 +12,7 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class UpdateItemPage implements OnInit {
   private _updateForm: FormGroup;
-  private _id: number;
+  private _itemId: number;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -22,28 +22,39 @@ export class UpdateItemPage implements OnInit {
     this.getItemById();
     this.formData();
   }
-  get updateForm(): FormGroup {
+
+  /** getter updateForm used by template */
+  public get updateForm(): FormGroup {
     return this._updateForm;
   }
-  formData() {
+
+
+  /** Getter itemId used by template*/
+  public get itemId(): number {
+    return this._itemId;
+  }
+
+  /**
+   * @param item is the updated item
+   * @param itemId is the itemId of the item
+   */
+  updateItem(item: Item, itemId: number): void {
+    this.dataService.updateItem(item, itemId);
+  }
+
+  /** Gets the itemId from the ActiveRouterLink */
+  private getItemById(): void {
+    this._itemId = this.route.snapshot.params.id;
+    this.dataService.getItemByItemId(this._itemId);
+  }
+
+  /**This is the reactive FormData which will capture updated information*/
+  private formData() {
     //implement the form later
     this._updateForm = this.formBuilder.group({
       name: ['onion', [Validators.required]],
       uom: ['kg', [Validators.required]],
       price: [50, [Validators.required]],
     });
-  }
-
-  getItemById(): void {
-    //*below line gets item id to update from the routerlink
-    this._id = this.route.snapshot.params.id;
-    console.log('item id =', this._id);
-    //TODO implement getItemById()
-    console.log('implement getItemById()');
-  }
-
-  updateItem(value: Item): void {
-    //TODO: Implement updateItem()
-    this.dataService.updateItem(value);
   }
 }
