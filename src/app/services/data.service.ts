@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, ObservableInput, of } from 'rxjs';
-import { Customer, Invoices, Item, ReadOnlyInvoice } from '../models/data';
+import { Observable, of } from 'rxjs';
+import { Customer, Invoice, Invoices, Item, ReadOnlyInvoice } from '../models/data';
 
 @Injectable({
   providedIn: 'root'
@@ -10,83 +10,82 @@ export class DataService {
   constructor() { }
 
   //? Database related functions.
-  //1. check if the database is present.
   async isDatabasePresent(): Promise<boolean> {
     //return boolean value if db is presesnt.
-    //use BehaviorSubject bolean.
-    //TODO implement isDatabasePresent
     return false;
   }
 
   async createDatabase() {
-    //TODO implement createDatabase()
     // if isDatabasePresent returns false then create DATABASE.
   }
 
   //? Items Table
   async isItemPresent(itemName: string): Promise<boolean> {
-    //TODO implement function to check if item is present in Database.
     console.log('will check if ' + itemName + ' is present in Database');
     return true;
   }
-  addItem(value: Item): void {
-    //TODO: implement addItem function.
-    console.log('addItem from dataService\n', value);
+
+  async addItem(item: Item): Promise<any> {
+    console.log('addIem from dataService\n', item);
   }
 
-  updateItem(value: Item): void {
-    //TODO impmlement updateItem() function.
-    console.log('updateItem from dataService\n', value);
+  async updateItem(item: Item, itemId: number): Promise<any> {
+    console.log('updateItem from dataService\n', item, itemId);
   }
 
-  getItems(): Promise<Item[]> {
-    //TODO: implement getItems() function.
-    //Use behavioural subject to pass latest item value.
+  /**
+   *
+   * @param itemId is the itemId of the item
+   * @returns item
+   */
+  async getItemByItemId(itemId: number): Promise<Item[]> {
+    //gets items list from DATABASE.
+    console.log('from dataservice', itemId);
+    return;
+  }
+
+  /**
+   * @returns list of items present in the stock.
+   */
+  async getItems(): Promise<Item[]> {
     //gets items list from DATABASE.
     return;
   }
 
+
+
   //? HOME SECTION
-  getInvoices(): Observable<Invoices[]> {
-    //TODO: implement getInvoicesFromDB() function.
-    return of([]);
+  async getInvoices(): Promise<Invoices[]> {
+    return;
   }
 
-  searchInvoiceByCustomerName(customerName: string) {
-    this.searchInvoices(customerName)
+  async searchInvoiceByCustomerName(customerName: string): Promise<any> {
+    console.log('from search by name function\n', customerName);
   }
 
-  searchInvoiceByInvoiceNumber(invoiceNumber: number) {
-    this.searchInvoices(invoiceNumber)
-  }
-
-  private searchInvoices(invoiceNumberOrCustomerName: string | number): Observable<Invoices[]> {
-    //TODO implement searchInvoice
-    console.log('from service search function\n', invoice);
-    return of([]);;
+  async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<any> {
+    console.log('from search by invoiceNumber \n', invoiceNumber);
   }
 
   //? READONLY PAGE
-  getInvoicesInReadOnly(): Observable<ReadOnlyInvoice[]> {
-    //TODO: implement getInvoicesFromDB() function.
-    return of([]);
+  async getInvoicesInReadOnly(): Promise<ReadOnlyInvoice[]> {
+    return;
   }
   //? ADD NEW INVOICE
-  addCustomerToInvoice(value: Customer, invoice: Invoice): void {
-    //TODO addCustomer
+  async addCustomerToInvoice(customerName: Customer, invoice: Invoice): Promise<any> {
+    return;
   }
 
-  addItemInInvoice(itemId: number, quantity: number, invoice: Invoice): void {
-    //TODO addItemInInvoice
+  async addItemInInvoice(itemId: number, quantity: number, invoice: number): Promise<any> {
+    return;
   }
 
-  getItemsFromInvoice(): Observable<ReadOnlyInvoice[]> {
+  async getItemsFromInvoice(): Promise<ReadOnlyInvoice[]> {
     //will get items that are added in the cart.
-    //TODO: getItemsFromInvoice
-    return of([]);
+    return;
   }
 
-  deleteItemFromInvoice(itemId: number): void{
-    //TODO deleteItemFromInvoice
+  async deleteItemFromInvoice(itemId: number, invoiceNumber: number): Promise<any> {
+    return;
   }
 }
