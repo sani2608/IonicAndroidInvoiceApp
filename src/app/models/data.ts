@@ -116,7 +116,7 @@ export class Customer {
   private _customerId: number;
   private _firstName: string;
   private _lastName: string;
-  constructor(customerId: number) {
+  constructor(customerId?: number) {
     this._customerId = customerId;
   }
   /**
@@ -152,12 +152,6 @@ export class Customer {
    */
   public set lastName(value: string) {
     this._lastName = value;
-  }
-  /**
-   * @returns fullName of customer
-   */
-  public getFullName(): string {
-    return `${this._firstName}  ${this._lastName}`;
   }
 }
 //? this Invoice model is to enter values in Invoice table.
