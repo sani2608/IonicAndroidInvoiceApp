@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Invoices } from 'src/app/models/data';
@@ -11,7 +11,7 @@ import { Subject } from 'rxjs/internal/Subject';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   //TODO: replace this with actual data from database.
   invoices = [
     {
@@ -60,17 +60,30 @@ export class HomePage {
     private dataService: DataService
   ) { }
 
+  ngOnInit() {
+    console.log('CREATING DATABASE');
+    this.dataService.createDatabase();
+    console.log('DATABASE IS CREATED');
+  }
+
+
   //* ALL THE FUNCTIONS TO BE IMPLEMENTED
   getAllInvoices(): void {
-    //TODO: Implement getAllInvoice() function.
     this.dataService.getInvoices();
   }
 
-  searchInvoice(val: string | number): void {
-     this.dataService.searchInvoices(val);
-  //   this.invoices$ = this.searchTerms.pipe(debounceTime(300),
-  //     distinctUntilChanged(),
-  //     switchMap((value: string | number) => this.dataService.searchInvoices(value)));
+  searchInvoice(searchValue: string): void {
+    // eslint-disable-next-line radix
+    const convertSearchValueToNumber = parseInt(searchValue);
+    if (isNaN(convertSearchValueToNumber)) {
+      this.dataService.searchInvoiceByCustomerName(searchValue);
+    } else {
+      this.dataService.searchInvoiceByInvoiceNumber(convertSearchValueToNumber);
+    }
+    // this.dataService.searchInvoices(val);
+    // this.invoices$ = this.searchTerms.pipe(debounceTime(300),
+    //   distinctUntilChanged(),
+    //   switchMap((value: string | number) => this.dataService.searchInvoices(value)));
   }
 }
 
