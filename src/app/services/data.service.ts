@@ -6,6 +6,9 @@ import { Customer, Invoice, Invoices, Item, ReadOnlyInvoice } from '../models/da
   providedIn: 'root'
 })
 export class DataService {
+  private _listOfItemsInStock: Array<Item[]> = [];
+  private _homePageInvoiceList: Array<Invoice[]> = [];
+  private _temporaryItemList: Array<Item[]> = [];
 
   constructor() { }
 

@@ -20,17 +20,18 @@
         <!-- 1 row -->
         <ion-row>
           <ion-col>
-            <ion-text  button (click)="captureCustomerName(100)"><h1>Sanikumar S</h1></ion-text>
+            <ion-text  button (click)="captureCustomerName(100)"><h1>Sanikumar s</h1></ion-text>
+            <!-- <h1>{{customerName.firstName}} {{customerName.lastName}}</h1> -->
           </ion-col>
           <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
-            <ion-text color="danger"><h2>February 25, 2021</h2></ion-text>
+            <ion-text color="danger"><h2>{{date | date: 'dd-MMMM-yyyy'}}</h2></ion-text>
           </ion-col>
         </ion-row>
         <!-- 2nd row -->
         <ion-row>
-          <ion-col>
+          <!-- <ion-col>
             <ion-text> <h4>Invoice #: 1000</h4></ion-text>
-          </ion-col>
+          </ion-col> -->
           <ion-col offset-xs="1">
             <ion-text color="secondary" align="right"><h2>₹ 1000</h2></ion-text>
           </ion-col>

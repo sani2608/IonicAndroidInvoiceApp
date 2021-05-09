@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { Customer, Invoice } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
@@ -36,6 +37,18 @@ export class AddInvoicePage implements OnInit {
       totalPrice: 400,
     },
   ];
+  private _date: Date = new Date();
+  private _customerName = new Customer();
+
+  /**Getter date used by template */
+  public get date(): Date {
+    return this._date;
+  }
+
+  /** Getter customerName usedby Template */
+  public get customerName(): Customer {
+    return this._customerName;
+  }
   constructor(
     private alert: Alert,
     private dataService: DataService
@@ -44,13 +57,24 @@ export class AddInvoicePage implements OnInit {
   ngOnInit() {
     //run after 1 second delay.
     this.captureCustomerName(1000);
-    this.createNewInvoice();
+    console.log('ngOnInit  lifecycle in add new invoice');
+  }
+
+
+  addCustomerToInvoice(customerName: Customer, invoiceNumber: Invoice): void {
+    //?get value from the alert and pass it to service.
+    //Here Only customerName will be passed because the invoiceId in automatically generated as it is a primary key
+    this.dataService.addCustomerToInvoice(customerName, invoiceNumber);
+  }
+
+  deleteItemFromInvoice(itemId: number, invoiceNumber: number): void {
+    this.dataService.deleteItemFromInvoice(itemId, invoiceNumber);
   }
 
   /**
    * @param delayTime is passed to function to open the alert after some delay.
    */
-  captureCustomerName(delayTime: number) {
+  private captureCustomerName(delayTime: number) {
     const inputObj = [
       {
         name: 'firstName',
@@ -64,40 +88,24 @@ export class AddInvoicePage implements OnInit {
       },
     ];
     const buttonObj = [
-        {
-          text: 'Submit',
-          handler: (value) => {
-            console.log('Confirm Submit');
-            console.log(value.firstName + ' ' + value.lastName);
-          }
+      {
+        text: 'Submit',
+        handler: (value) => {
+          console.log('Confirm Submit');
+          this.customerName.firstName = value.firstName;
+          this.customerName.lastName = value.lastName;
+          console.log(value.firstName + ' ' + value.lastName);
         }
-      ];
-      const header = 'Enter Customer Name';
-    setTimeout(() => {
-      this.alert.presentAlertPrompt(
+      }
+    ];
+    const header = 'Enter Customer Name';
+    setTimeout(async () => {
+      await this.alert.presentAlertPrompt(
         header,
         inputObj,
         buttonObj
       );
     }, delayTime);
-  }
-
-  /**
-   * AS soon as the customer taps on Add new invoice, a new row is
-   *  inserted in the table with just invoiceId and created Date.
-   */
-  createNewInvoice() {
-    //as soon as the customer goes to add new Invoice page an, Invoice_no will be generated.
-  }
-
-  addCustomerToInvoice(customerName: Customer, invoiceNumber: Invoice): void {
-    //?get value from the alert and pass it to service.
-    //Here Only customerName will be passed because the invoiceId in automatically generated as it is a primary key
-    this.dataService.addCustomerToInvoice(customerName, invoiceNumber);
-  }
-
-  deleteItemFromInvoice(itemId: number, invoiceNumber: number): void {
-    this.dataService.deleteItemFromInvoice(itemId, invoiceNumber);
   }
 
 }
