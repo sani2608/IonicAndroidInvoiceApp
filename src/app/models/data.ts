@@ -63,7 +63,7 @@ export class Cart {
   private _invoiceId: number;
   private _itemId: number;
   private _quantity: number;
-  private _butPrice: number;
+  private _buyPrice: number;
 
   constructor(invoiceId: number, itemId: number) {
     this._invoiceId = invoiceId;
@@ -98,17 +98,17 @@ export class Cart {
   }
 
   /**
-   * Getter butPrice @return {number}
+   * Getter buyPrice @return {number}
    */
-  public get butPrice(): number {
-    return this._butPrice;
+  public get buyPrice(): number {
+    return this._buyPrice;
   }
 
   /**
-   * Setter butPrice @param {number} buyPrice
+   * Setter buyPrice @param {number} buyPrice
    */
-  public set butPrice(buyPrice: number) {
-    this._butPrice = buyPrice;
+  public set buyPrice(buyPrice: number) {
+    this._buyPrice = buyPrice;
   }
 }
 //? this Customer model is to enter values in Customer table.
