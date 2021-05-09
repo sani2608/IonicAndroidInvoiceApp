@@ -47,8 +47,7 @@ export class StocksPage implements OnInit {
     private dataService: DataService
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   public get itemsInStock(){
     return this._itemsInStock;
@@ -56,9 +55,7 @@ export class StocksPage implements OnInit {
 
   //? This will get all the items present in the stock.
   getAllItems(){
-    //TODO: Implement getAllItems() function.
-    this.dataService.getItems();// subscribe
-
+    this.dataService.getItems();
   }
 
 }
