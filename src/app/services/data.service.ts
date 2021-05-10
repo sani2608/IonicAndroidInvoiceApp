@@ -43,7 +43,7 @@ export class DataService {
     return false;
   }
 
-  async createDatabase(): Promise<any> {
+  async createDatabase(): Promise<void> {
     // if isDatabasePresent returns false then create DATABASE.
   }
 
@@ -53,11 +53,11 @@ export class DataService {
     return true;
   }
 
-  async addItemInStock(item: Item): Promise<any> {
+  async addItemInStock(item: Item): Promise<void> {
     console.log('addIem from dataService\n', item);
   }
 
-  async updateItemInStock(item: Item, itemId: number): Promise<any> {
+  async updateItemInStock(item: Item, itemId: number): Promise<void> {
     console.log('updateItem from dataService\n', item, itemId);
   }
 
@@ -82,39 +82,41 @@ export class DataService {
     return;
   }
 
-  async searchInvoiceByCustomerName(customerName: string): Promise<any> {
+  async searchInvoiceByCustomerName(customerName: string): Promise<ReadOnlyInvoice> {
     console.log('from search by name function\n', customerName);
+    return;
   }
 
-  async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<any> {
+  async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<ReadOnlyInvoice> {
     console.log('from search by invoiceNumber \n', invoiceNumber);
+    return;
   }
 
 
   //? READONLY PAGE RELATED FUNCTIONS
-  async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<ReadOnlyInvoice[]> {
+  async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<ReadOnlyInvoice> {
     return;
   }
 
   //? NEW INVOICE PAGE RELATED FUNCTIONS
-  async createNewInvoice(date: Date): Promise<any> {
+  async createNewInvoice(date: Date): Promise<void> {
     return;
   }
 
-  async addCustomerInNewInvoice(customerName: Customer, invoiceNumber: number): Promise<any> {
+  async addCustomerInNewInvoice(customerName: Customer, invoiceNumber: number): Promise<void> {
     return;
   }
 
-  async addItemInNewInvoice(itemId: number, quantity: number, invoice: number): Promise<any> {
+  async addItemInNewInvoice(itemId: number, quantity: number, invoice: number): Promise<void> {
     return;
   }
 
-  async getItemsFromNewInvoice(): Promise<ReadOnlyInvoice[]> {
+  async getItemsFromNewInvoice(): Promise<ItemAddedInNewInvoice[]> {
     //will get items that are added in the cart.
     return;
   }
 
-  async deleteItemFromNewInvoice(itemId: number, invoiceNumber: number): Promise<any> {
+  async deleteItemFromNewInvoice(itemId: number, invoiceNumber: number): Promise<void> {
     return;
   }
 }
