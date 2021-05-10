@@ -58,6 +58,89 @@ export class Item {
     this._uom = uom;
   }
 }
+//? this model is used when add items in new INvoice
+export class ItemAddedInNewInvoice {
+  private _itemId: number;
+  private _name: string;
+  private _price: number;
+  private _uom: string;
+  private _quantity: number;
+  private _totalPrice: number;
+  constructor(itemId: number) {
+    this._itemId = itemId;
+  }
+
+  /**
+   * Getter itemId  @return {number}
+   */
+  public get itemId(): number {
+    return this._itemId;
+  }
+
+  /**
+   * Getter name @return {string}
+   */
+  public get name(): string {
+    return this._name;
+  }
+
+  /**
+   * Setter name @param {string} name
+   */
+  public set name(name: string) {
+    this._name = name;
+  }
+
+  /**
+   * Getter price @return {number}
+   */
+  public get price(): number {
+    return this._price;
+  }
+
+  /**
+   * Setter price @param {number} price
+   */
+  public set price(price: number) {
+    this._price = price;
+  }
+
+  /**
+   * Getter uom @return {string}
+   */
+  public get uom(): string {
+    return this._uom;
+  }
+
+  /**
+   * Setter uom @param {string} uom
+   */
+  public set uom(uom: string) {
+    this._uom = uom;
+  }
+
+    /**
+     * Getter quantity @return {number}
+     */
+	public get quantity(): number {
+		return this._quantity;
+	}
+
+    /**
+     * Setter quantity @param {number} quantity
+     */
+	public set quantity(quantity: number) {
+		this._quantity = quantity;
+	}
+
+    /**
+     * Getter totalPrice @return {number}
+     */
+	public get totalPrice(): number {
+    const total = this._quantity * this._totalPrice;
+		return total;
+	}
+}
 //? this Cart model is to enter values in Cart table.
 export class Cart {
   private _invoiceId: number;
