@@ -52,9 +52,6 @@ export class HomePage implements OnInit {
     },
   ];
 
-  invoices$: Observable<Invoices[]>;
-  private searchTerms = new Subject<string>();
-
 
   constructor(
     private dataService: DataService
@@ -67,12 +64,11 @@ export class HomePage implements OnInit {
   }
 
 
-  //* ALL THE FUNCTIONS TO BE IMPLEMENTED
-  getAllInvoices(): void {
-    this.dataService.getInvoices();
+  public getAllInvoices(): void {
+    this.dataService.getAllInvoices();
   }
 
-  searchInvoice(searchValue: string): void {
+  public searchInvoice(searchValue: string): void {
     // eslint-disable-next-line radix
     const convertSearchValueToNumber = parseInt(searchValue);
     if (isNaN(convertSearchValueToNumber)) {
@@ -80,10 +76,6 @@ export class HomePage implements OnInit {
     } else {
       this.dataService.searchInvoiceByInvoiceNumber(convertSearchValueToNumber);
     }
-    // this.dataService.searchInvoices(val);
-    // this.invoices$ = this.searchTerms.pipe(debounceTime(300),
-    //   distinctUntilChanged(),
-    //   switchMap((value: string | number) => this.dataService.searchInvoices(value)));
   }
 }
 

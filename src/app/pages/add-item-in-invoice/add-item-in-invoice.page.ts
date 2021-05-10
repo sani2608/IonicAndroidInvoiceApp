@@ -1,6 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { Alert } from 'src/app/shared/alert';
-import { Cart, Customer} from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -90,19 +90,20 @@ export class AddItemInInvoicePage implements OnInit {
       buttonObj,
     );
   }
+  /** Getter used by template */
   public get itemsInStock() {
-    // eslint-disable-next-line no-underscore-dangle
     return this._itemsInStock;
   }
 
 
-  getItemsFromStock() {
-    this.dataService.getItems();
+  /** this function will get the items present in the stock  */
+  public getItemsFromStock(): void {
+    this.dataService.getListOfItemsFromStock();
   }
 
-  addItemInInvoice(itemId: number, quantity: number, invoiceNumber: number){
-    this.dataService.addItemInInvoice(itemId, quantity, invoiceNumber);
+  /**will add new item in the invoice */
+  public addItemInNewInvoice(itemId: number, quantity: number, invoiceNumber: number): void{
+    this.dataService.addItemInNewInvoice(itemId, quantity, invoiceNumber);
   }
-
 
 }

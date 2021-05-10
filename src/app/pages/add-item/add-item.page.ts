@@ -28,8 +28,8 @@ export class AddItemPage implements OnInit {
    * @param item is passed to dataService
    */
   public addItem(item: Item): void {
-    if (this.dataService.isItemPresent(item.name)) {
-      this.dataService.addItem(item);
+    if (this.dataService.isItemPresentInStock(item.name)) {
+      this.dataService.addItemInStock(item);
     } else {
       //TODO: implementation pending
     }

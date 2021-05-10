@@ -11,7 +11,7 @@ import { Alert } from 'src/app/shared/alert';
 })
 export class AddInvoicePage implements OnInit {
   //TODO: to be replace with real data.
-  itemsInCart = [
+  itemsAddedInInvoice = [
     {
       cartId: 100,
       name: 'Onion',
@@ -49,26 +49,34 @@ export class AddInvoicePage implements OnInit {
   public get customerName(): Customer {
     return this._customerName;
   }
+
   constructor(
     private alert: Alert,
     private dataService: DataService
   ) { }
 
   ngOnInit() {
-    //run after 1 second delay.
     this.captureCustomerName(1000);
-    console.log('ngOnInit  lifecycle in add new invoice');
+    console.log('ngOnInit Lifecycle in add-new-invoice');
   }
 
-
-  addCustomerToInvoice(customerName: Customer, invoiceNumber: Invoice): void {
-    //?get value from the alert and pass it to service.
-    //Here Only customerName will be passed because the invoiceId in automatically generated as it is a primary key
-    this.dataService.addCustomerToInvoice(customerName, invoiceNumber);
+  /**
+   * @param date is the date when customer creates new invoice.
+   * As soon as the customer clicks on add new invoice A new invoice number is generated,
+   * and the customer is attached to that particular invoiceId.
+   */
+  public createNewInvoice(date: Date ): void{
+    console.log('Generating new invoice Number');
   }
 
-  deleteItemFromInvoice(itemId: number, invoiceNumber: number): void {
-    this.dataService.deleteItemFromInvoice(itemId, invoiceNumber);
+  public deleteItemFromInvoice(itemId: number, invoiceNumber: number): void {
+    this.dataService.deleteItemFromNewInvoice(itemId, invoiceNumber);
+  }
+
+  public addCustomerToInvoice(customerName: Customer, invoiceNumber: number): void {
+    //Here Only customerName will be passed because
+    // the invoiceId is automatically generated as it is a primary key
+    this.dataService.addCustomerInNewInvoice(customerName,invoiceNumber);
   }
 
   /**
@@ -90,7 +98,7 @@ export class AddInvoicePage implements OnInit {
     const buttonObj = [
       {
         text: 'Submit',
-        handler: (value) => {
+        handler: (value: any) => {
           console.log('Confirm Submit');
           this.customerName.firstName = value.firstName;
           this.customerName.lastName = value.lastName;

@@ -39,13 +39,13 @@ export class UpdateItemPage implements OnInit {
    * @param itemId is the itemId of the item
    */
   updateItem(item: Item, itemId: number): void {
-    this.dataService.updateItem(item, itemId);
+    this.dataService.updateItemInStock(item, itemId);
   }
 
   /** Gets the itemId from the ActiveRouterLink */
   private getItemById(): void {
     this._itemId = this.route.snapshot.params.id;
-    this.dataService.getItemByItemId(this._itemId);
+    this.dataService.getItemByItemIdFromStock(this._itemId);
   }
 
   /**This is the reactive FormData which will capture updated information*/

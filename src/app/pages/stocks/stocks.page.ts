@@ -59,7 +59,7 @@ export class StocksPage implements OnInit {
 
   /** This will get all the items present in the stock from Database */
   private getAllItems() {
-    this.dataService.getItems();
+    this.dataService.getListOfItemsFromStock();
   }
 
 }
