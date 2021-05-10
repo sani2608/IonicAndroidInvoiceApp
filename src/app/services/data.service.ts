@@ -17,16 +17,6 @@ export class DataService {
   private _readOnlyInvoiceDetails: ReadOnlyInvoice;
 
   //? Getters and Setters for private variables
-  /** Getter itemsAddedInNewInvoice */
-  public get itemsAddedInNewInvoice(): Array<ItemAddedInNewInvoice[]> {
-    return this._itemsAddedInNewInvoice;
-  }
-
-  /** Getter readOnlyInvoiceDetails */
-  public get readOnlyInvoiceDetails(): ReadOnlyInvoice {
-    return this._readOnlyInvoiceDetails;
-  }
-
   /** Getter listOfItemsInStock */
   public get listOfItemsInStock(): Array<Item[]> {
     return this._listOfItemsInStock;
@@ -37,12 +27,17 @@ export class DataService {
     return this._homePageInvoiceList;
   }
 
-  /**Getter itemsAddedInInvoice*/
-  public get itemsAddedInInvoice(): Array<ItemAddedInNewInvoice[]> {
+  /** Getter itemsAddedInNewInvoice */
+  public get itemsAddedInNewInvoice(): Array<ItemAddedInNewInvoice[]> {
     return this._itemsAddedInNewInvoice;
   }
 
-  //? Database related functions.
+  /** Getter readOnlyInvoiceDetails */
+  public get readOnlyInvoiceDetails(): ReadOnlyInvoice {
+    return this._readOnlyInvoiceDetails;
+  }
+
+  //? DATABASE RELATED FUNCTIONS
   async isDatabasePresent(): Promise<boolean> {
     //return boolean value if db is presesnt.
     return false;
@@ -52,7 +47,7 @@ export class DataService {
     // if isDatabasePresent returns false then create DATABASE.
   }
 
-  //? Items Table
+  //? ITEMS TABLE RELATED FUNCTIONS
   async isItemPresentInStock(itemName: string): Promise<boolean> {
     console.log('will check if ' + itemName + ' is present in Database');
     return true;
@@ -82,7 +77,7 @@ export class DataService {
     return;
   }
 
-  //? HOME SECTION
+  //? HOME SECTION RELATED FUNCTION
   async getAllInvoices(): Promise<Invoices[]> {
     return;
   }
@@ -96,7 +91,7 @@ export class DataService {
   }
 
 
-  //? READONLY PAGE
+  //? READONLY PAGE RELATED FUNCTIONS
   async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<ReadOnlyInvoice[]> {
     return;
   }
