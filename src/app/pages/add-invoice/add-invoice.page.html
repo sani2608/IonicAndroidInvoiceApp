@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title class="ion-text-center">New Invoice</ion-title>
     <ion-buttons slot="end">
-      <ion-button color="danger">Save</ion-button>
+      <ion-button color="danger" (click)="addNewInvoice()">Save</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -20,7 +20,7 @@
         <!-- 1 row -->
         <ion-row>
           <ion-col>
-            <ion-text  button (click)="captureCustomerName(100)"><h1>Sanikumar s</h1></ion-text>
+            <ion-text  button (click)="captureCustomerName(100)"><h1>Sanikumar S</h1></ion-text>
             <!-- <h1>{{customerName.firstName}} {{customerName.lastName}}</h1> -->
           </ion-col>
           <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
@@ -29,9 +29,9 @@
         </ion-row>
         <!-- 2nd row -->
         <ion-row>
-          <!-- <ion-col>
+          <ion-col>
             <ion-text> <h4>Invoice #: 1000</h4></ion-text>
-          </ion-col> -->
+          </ion-col>
           <ion-col offset-xs="1">
             <ion-text color="secondary" align="right"><h2>₹ 1000</h2></ion-text>
           </ion-col>
@@ -43,7 +43,7 @@
   <!-- * Add Items card -->
   <ion-card >
     <ion-toolbar>
-      <ion-title align="center">Items ({{itemsInCart.length}})</ion-title>
+      <ion-title align="center">Items ({{itemsAddedInInvoice.length}})</ion-title>
       <ion-buttons slot="primary">
         <ion-button [routerLink]="['./','add-item-in-invoice']">
           <ion-icon
@@ -74,7 +74,7 @@
   <div>
     <!-- //TODO *Implementation to be added later -->
     <!-- *FIRST ITEM CARD -->
-    <ion-card *ngFor="let item of itemsInCart" class="border">
+    <ion-card *ngFor="let item of itemsAddedInInvoice" class="border">
       <ion-card-content class="item-margin">
         <ion-grid>
           <!-- 1 row -->
