@@ -19,7 +19,7 @@
         <ion-col size-md="8" offset-md="2" size-sm="12" size-xs="12">
           <!-- ?starting of the card -->
           <ion-card>
-            <form [formGroup]="itemForm" (ngSubmit)="addItem(itemForm.value)">
+            <form [formGroup]="itemForm" (ngSubmit)="submit()">
               <ion-card-content>
                 <!-- *item name -->
                 <ion-item>
@@ -65,8 +65,10 @@
                         type="submit"
                         [disabled]="!itemForm.valid"
                       >
-                        <ion-icon slot="end" name="add-outline"></ion-icon>
-                        Add Item
+                        <ion-icon  *ngIf="!flag" slot="end" name="add-circle-outline"></ion-icon>
+                        <ion-icon *ngIf="flag" slot="end" name="add-outline"></ion-icon>
+                       <ion-text *ngIf="!flag">Update Item</ion-text>
+                       <ion-text *ngIf="flag">Add Item</ion-text>
                       </ion-button>
                     </ion-col>
                   </ion-row>

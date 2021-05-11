@@ -14,6 +14,7 @@ export class AddUpdateItemPage implements OnInit {
   private _flag = false;
   private _itemForm: FormGroup;
   private _itemId: number;
+  private isUpdateOrAdd: number;
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,
@@ -48,12 +49,23 @@ export class AddUpdateItemPage implements OnInit {
       //TODO: implementation pending
     }
   }
+
   /**
    * @param item is the updated item
    * @param itemId is the itemId of the item
    */
   updateItem(item: Item, itemId: number): void {
     this.dataService.updateItemInStock(item, itemId);
+  }
+  public submit(): void {
+    if (isNaN(this.isUpdateOrAdd)) {
+      this.addItem(this._itemForm.value);
+
+    } else {
+      this._flag = false;
+      this.updateItem(this._itemForm.value, this._itemId);
+
+    }
   }
 
   /**ReactiveForm data */
@@ -67,12 +79,17 @@ export class AddUpdateItemPage implements OnInit {
   /** this function will check if the route if to update item or add new item*/
   private getStatusOfUrl(): void {
     // eslint-disable-next-line radix
-    const isUpdateOrAdd = parseInt(this.route.snapshot.params.id);
-    if (isNaN(isUpdateOrAdd)) {
+    this.isUpdateOrAdd = parseInt(this.route.snapshot.params.id);
+    if (isNaN(this.isUpdateOrAdd)) {
       this._flag = true;
     } else {
       this._flag = false;
-      this._itemId = isUpdateOrAdd;
+      this._itemId = this.isUpdateOrAdd;
+      this.getItemById(this._itemId);
     }
+  }
+  private getItemById(itemId: number): void {
+    console.log('getting details of', itemId);
+    this.dataService.getItemByItemIdFromStock(this._itemId);
   }
 }
