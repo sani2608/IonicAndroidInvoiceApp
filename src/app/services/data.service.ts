@@ -1,83 +1,122 @@
+/* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
-import { Observable, ObservableInput, of } from 'rxjs';
-import { Customer, Invoices, Item, ReadOnlyInvoice } from '../models/data';
+import { Customer, Invoice, Invoices, Item, ItemAddedInNewInvoice, ReadOnlyInvoice } from '../models/data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  //? Private variables to store data.
+  /** this variable will store all the items present in the stock */
+  private _listOfItemsInStock: Array<Item[]> = [];
+  /**this will store all the invoice to show on homepage */
+  private _homePageInvoiceList: Array<Invoice[]> = [];
+  /** This will store the items that are added in stock while creating new invoice */
+  private _itemsAddedInNewInvoice: Array<ItemAddedInNewInvoice[]> = [];
+  /** This will store the ready only invoice details */
+  private _readOnlyInvoiceDetails: ReadOnlyInvoice;
 
-  constructor() { }
-
-  //? Database related functions.
-  //1. check if the database is present.
-  isDatabasePresent() {
-    //return boolean value if db is presesnt.
-    //use BehaviorSubject bolean.
-    //TODO implement isDatabasePresent
+  //? Getters and Setters for private variables
+  /** Getter listOfItemsInStock */
+  public get listOfItemsInStock(): Array<Item[]> {
+    return this._listOfItemsInStock;
   }
 
-  createDatabase() {
-    //TODO implement createDatabase()
+  /**Getter homePageInvoiceList */
+  public get homePageInvoiceList(): Array<Invoice[]> {
+    return this._homePageInvoiceList;
+  }
+
+  /** Getter itemsAddedInNewInvoice */
+  public get itemsAddedInNewInvoice(): Array<ItemAddedInNewInvoice[]> {
+    return this._itemsAddedInNewInvoice;
+  }
+
+  /** Getter readOnlyInvoiceDetails */
+  public get readOnlyInvoiceDetails(): ReadOnlyInvoice {
+    return this._readOnlyInvoiceDetails;
+  }
+
+  //? DATABASE RELATED FUNCTIONS
+  async isDatabasePresent(): Promise<boolean> {
+    //return boolean value if db is presesnt.
+    return false;
+  }
+
+  async createDatabase(): Promise<void> {
     // if isDatabasePresent returns false then create DATABASE.
   }
 
-  //? Items Table
-  isItemPresent(value: string): boolean {
-    //TODO implement function to check if item is present in Database.
-    console.log('will check if ' + value + ' is present in Database');
+  //? ITEMS TABLE RELATED FUNCTIONS
+  async isItemPresentInStock(itemName: string): Promise<boolean> {
+    console.log('will check if ' + itemName + ' is present in Database');
     return true;
   }
-  addItem(value: Item): void {
-    //TODO: implement addItem function.
-    console.log('addItem from dataService\n', value);
+
+  async addItemInStock(item: Item): Promise<void> {
+    console.log('addIem from dataService\n', item);
   }
 
-  updateItem(value: Item): void {
-    //TODO impmlement updateItem() function.
-    console.log('updateItem from dataService\n', value);
+  async updateItemInStock(item: Item, itemId: number): Promise<void> {
+    console.log('updateItem from dataService\n', item, itemId);
   }
 
-  getItems(): Observable<Item[]> {
-    //TODO: implement getItems() function.
-    //Use behavioural subject to pass latest item value.
+  /**
+   * @param itemId is the itemId of the item
+   * @returns item
+   */
+  async getItemByItemIdFromStock(itemId: number): Promise<Item[]> {
+    console.log('from dataservice', itemId);
+    return;
+  }
+
+  /**
+   * @returns list of items present in the stock */
+  async getListOfItemsFromStock(): Promise<Item[]> {
     //gets items list from DATABASE.
     return;
   }
 
-  //? HOME SECTION
-  getInvoices(): Observable<Invoices[]> {
-    //TODO: implement getInvoicesFromDB() function.
-    return of([]);
+  //? HOME SECTION RELATED FUNCTION
+  async getAllInvoices(): Promise<Invoices[]> {
+    return;
   }
 
-  searchInvoices(invoice: string | number): Observable<Invoices[]> {
-    //TODO implement searchInvoice
-    console.log('from service search function\n', invoice);
-    return of([]);;
+  async searchInvoiceByCustomerName(customerName: string): Promise<ReadOnlyInvoice> {
+    console.log('from search by name function\n', customerName);
+    return;
   }
 
-  //? READONLY PAGE
-  getInvoicesInReadOnly(): Observable<ReadOnlyInvoice[]> {
-    //TODO: implement getInvoicesFromDB() function.
-    return of([]);
-  }
-  //? ADD NEW INVOICE
-  addCustomer(value: Customer): void {
-    //TODO addCustomer
+  async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<ReadOnlyInvoice> {
+    console.log('from search by invoiceNumber \n', invoiceNumber);
+    return;
   }
 
-  addItemInInvoice(itemId: number, quantity: number): void {
-    //TODO addItemInInvoice
+
+  //? READONLY PAGE RELATED FUNCTIONS
+  async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<ReadOnlyInvoice> {
+    return;
   }
 
-  getItemsFromInvoice(): Observable<ReadOnlyInvoice[]> {
+  //? NEW INVOICE PAGE RELATED FUNCTIONS
+  async createNewInvoice(date: Date): Promise<void> {
+    return;
+  }
+
+  async addCustomerInNewInvoice(customerName: Customer, invoiceNumber: number): Promise<void> {
+    return;
+  }
+
+  async addItemInNewInvoice(itemId: number, quantity: number, invoice: number): Promise<void> {
+    return;
+  }
+
+  async getItemsFromNewInvoice(): Promise<ItemAddedInNewInvoice[]> {
     //will get items that are added in the cart.
-    //TODO: getItemsFromInvoice
-    return of([]);
+    return;
   }
 
-  deleteItemFromInvoice(itemId: number): void{
-    //TODO deleteItemFromInvoice
+  async deleteItemFromNewInvoice(itemId: number, invoiceNumber: number): Promise<void> {
+    return;
   }
 }

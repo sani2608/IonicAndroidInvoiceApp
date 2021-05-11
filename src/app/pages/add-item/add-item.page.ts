@@ -10,7 +10,6 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./add-item.page.scss'],
 })
 export class AddItemPage implements OnInit {
-
   private _itemForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
@@ -19,23 +18,29 @@ export class AddItemPage implements OnInit {
   ngOnInit(): void {
     this.formData();
   }
-  get itemForm(): FormGroup {
+
+  /** Getter itemForm used by template */
+  public get itemForm(): FormGroup {
     return this._itemForm;
   }
-  formData() {
+
+  /**
+   * @param item is passed to dataService
+   */
+  public addItem(item: Item): void {
+    if (this.dataService.isItemPresentInStock(item.name)) {
+      this.dataService.addItemInStock(item);
+    } else {
+      //TODO: implementation pending
+    }
+  }
+
+  private formData(): void {
     this._itemForm = this.formBuilder.group({
-      name: ['onion', [Validators.required]],
-      uom: ['kg', [Validators.required]],
-      price: [50, [Validators.required]],
+      name: ['', [Validators.required]],
+      uom: ['', [Validators.required]],
+      price: [0, [Validators.required]],
     });
   }
 
-  addItem(value: Item): void {
-    //TODO: Implement addItem() function to check if item is already present in Db.
-    if (this.dataService.isItemPresent(value.name)) {
-      this.dataService.addItem(value);
-    } else {
-      //implement else function
-    }
-  }
 }

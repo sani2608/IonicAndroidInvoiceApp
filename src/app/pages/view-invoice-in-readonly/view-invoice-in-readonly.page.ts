@@ -42,9 +42,9 @@ export class ViewInvoiceInReadonlyPage implements OnInit {
 
   ngOnInit() {
   }
-  getInvoices(): void {
-    //TODO: implement getAllItems() function.
-    this.dataService.getInvoicesInReadOnly();  //subscribe
+  public getInvoiceByInvoiceId(invoiceId: number): void {
+    //get id from activated routerlink.
+    this.dataService.getInvoiceDetailsByInvoiceId(invoiceId);  //subscribe
   }
 
 }
