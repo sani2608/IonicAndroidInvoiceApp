@@ -1,11 +1,17 @@
+/* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
 import { Customer, Invoice, Invoices, Item, ItemAddedInNewInvoice, ReadOnlyInvoice } from '../models/data';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
+import { Platform } from '@ionic/angular';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  public storage: SQLite;
+
   //? Private variables to store data.
   /** this variable will store all the items present in the stock */
   private _listOfItemsInStock: Array<Item[]> = [];
@@ -15,6 +21,17 @@ export class DataService {
   private _itemsAddedInNewInvoice: Array<ItemAddedInNewInvoice[]> = [];
   /** This will store the ready only invoice details */
   private _readOnlyInvoiceDetails: ReadOnlyInvoice;
+  //?DATABASE OBJECT
+  private databaseObject: SQLiteObject;
+
+  constructor(
+    private sqlite: SQLite,
+    private platform: Platform) {
+    this.platform.ready().then(() => {
+      console.log('PLATFORM READY FOR DATABASE OPERATIONS');
+      this.createDatabase();
+    });
+  }
 
   //? Getters and Setters for private variables
   /** Getter listOfItemsInStock */
@@ -45,6 +62,21 @@ export class DataService {
 
   async createDatabase(): Promise<void> {
     // if isDatabasePresent returns false then create DATABASE.
+    await this.sqlite.create({
+      name: 'invoice.db',
+      location: 'default'
+    }).then((databaseObject: SQLiteObject) => {
+      this.databaseObject = databaseObject;
+      console.log(databaseObject);
+      this.databaseObject.executeSql('CREATE TABLE IF NOT EXISTS Item(item_id INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL,name TEXT NOT NULL UNIQUE, price REAL NOT NULL, uom TEXT NOT NULL)', [])
+        .then(() => this.databaseObject.executeSql('SELECT * FROM Item').then((res)=> console.log(res)))
+        .catch(e => console.log('eroorore\n',e));
+    });
+  }
+  //will get readymade database with tables created from the assets
+  async seedDatabaseFromAssets(): Promise<void> {
+    // this.storage = new SQLite();
+    // this.storage.
   }
 
   //? ITEMS TABLE RELATED FUNCTIONS
@@ -53,8 +85,18 @@ export class DataService {
     return true;
   }
 
+  // async addItemm(): Promise<void> {
+  //   await this.databaseObject.executeSql("INSERT INTO addstocks(name , price, UOM ) VALUES (?,?,?)", [this.stock.name, this.stock.price, this.stock.UOM]).catch((res) => console.log(res));
+  //   await this.databaseObject.executeSql('SELECT * FROM Item');
+  // }
+
   async addItemInStock(item: Item): Promise<void> {
     console.log('addIem from dataService\n', item);
+    // console.log(this.databaseObject);
+    await this.databaseObject.executeSql('INSERT INTO Item(name, price, uom ) VALUES (?,?,?)', [item.name, item.price, item.uom])
+    .then(() => console.log('insert query executed successfully'))
+    .catch((res) => console.log(res));
+
   }
 
   async updateItemInStock(item: Item, itemId: number): Promise<void> {

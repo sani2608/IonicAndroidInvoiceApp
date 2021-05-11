@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { Invoices } from 'src/app/models/data';
-import { Observable } from 'rxjs/internal/Observable';
-import { Subject } from 'rxjs/internal/Subject';
-
 
 
 @Component({
@@ -56,13 +51,9 @@ export class HomePage implements OnInit {
 
   constructor(
     private dataService: DataService
-  ) { }
+  ) {}
 
-  ngOnInit() {
-    console.log('CREATING DATABASE');
-    this.dataService.createDatabase();
-    console.log('DATABASE IS CREATED');
-  }
+  ngOnInit() {}
 
 
   public getAllInvoices(): void {
