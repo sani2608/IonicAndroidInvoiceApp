@@ -1,5 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Item } from 'src/app/models/data';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-update-item',
@@ -7,42 +11,50 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./update-item.page.scss'],
 })
 export class UpdateItemPage implements OnInit {
-
-  private itemForm: FormGroup;
+  private _updateForm: FormGroup;
+  private _itemId: number;
   constructor(
-    // private service: ItemService,
     private formBuilder: FormBuilder,
-    // private toast: ToastExample
+    private route: ActivatedRoute,
+    private dataService: DataService
   ) { }
   ngOnInit(): void {
-    /**
-     * Reactive Form
-     */
-    this.itemForm = this.formBuilder.group({
+    this.getItemById();
+    this.formData();
+  }
+
+  /** getter updateForm used by template */
+  public get updateForm(): FormGroup {
+    return this._updateForm;
+  }
+
+
+  /** Getter itemId used by template*/
+  public get itemId(): number {
+    return this._itemId;
+  }
+
+  /**
+   * @param item is the updated item
+   * @param itemId is the itemId of the item
+   */
+  updateItem(item: Item, itemId: number): void {
+    this.dataService.updateItemInStock(item, itemId);
+  }
+
+  /** Gets the itemId from the ActiveRouterLink */
+  private getItemById(): void {
+    this._itemId = this.route.snapshot.params.id;
+    this.dataService.getItemByItemIdFromStock(this._itemId);
+  }
+
+  /**This is the reactive FormData which will capture updated information*/
+  private formData() {
+    //implement the form later
+    this._updateForm = this.formBuilder.group({
       name: ['onion', [Validators.required]],
-      quantity: [5, [Validators.required]],
       uom: ['kg', [Validators.required]],
       price: [50, [Validators.required]],
     });
   }
-  get formData() {
-    return this.itemForm;
-  }
-
-  /**
-   * This method is used to pass formData to service.
-   */
-  addItem(): void {
-    // if (!this.service.isItemPresent(this.itemForm.value.name)) {
-    //   this.service.addData(this.itemForm.value);
-    //   this.toast.displayToast(
-    //     `${this.itemForm.value.name} added successfully.`
-    //   );
-    // } else {
-    //   this.toast.displayToast(
-    //     `${this.itemForm.value.name} already added in cart goto cart.`
-    //   );
-    // }
-  }
-
 }

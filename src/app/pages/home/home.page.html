@@ -3,14 +3,13 @@
     <ion-buttons slot="start">
       <ion-button
         color="primary"
-        (click)="clickStock()"
         [routerLink]="['./','stocks']"
       >
         Stocks
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="primary">
-      <ion-button [routerLink]="['./','customer-info']">
+      <ion-button [routerLink]="['./','add-invoice']">
         <ion-icon
           color="primary"
           slot="icon-only"
@@ -19,36 +18,39 @@
         ></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">Invoices(6)</ion-title>
+    <ion-title class="ion-text-center">Invoices({{invoices.length}})</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-searchbar
+    #searchBox
     placeholder="search by customer name or invoice no."
+     (search)="searchInvoice(searchBox.value)"
   ></ion-searchbar>
+
   <div>
     <!-- *FIRST CARD -->
-    <ion-card [routerLink]="['./','view-invoice-in-readonly']">
+    <ion-card *ngFor="let invoice of invoices" [routerLink]="['./','view-invoice-in-readonly',invoice.invoiceId]">
       <ion-card-content>
         <ion-grid>
           <!-- 1 row -->
           <ion-row>
             <ion-col>
-              <ion-text><h1>John Doe</h1></ion-text>
+              <ion-text><h1>{{invoice.customerName}}</h1></ion-text>
             </ion-col>
             <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
-              <ion-text color="danger"><h2>February 25, 2021</h2></ion-text>
+              <ion-text color="danger"><h2>{{invoice.date}}</h2></ion-text>
             </ion-col>
           </ion-row>
           <!-- 2nd row -->
           <ion-row>
             <ion-col>
-              <ion-text> <h4>10 Items</h4></ion-text>
+              <ion-text> <h4>{{invoice.totalItems}} Items</h4></ion-text>
             </ion-col>
             <ion-col offset-xs="1">
               <ion-text color="secondary" align="right"
-                ><h2>₹ 1000</h2></ion-text
+                ><h2>₹ {{invoice.totalPrice}}</h2></ion-text
               >
             </ion-col>
           </ion-row>
@@ -61,160 +63,5 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-    <!-- *SECOND CARD -->
-    <ion-card [routerLink]="['./','view-invoice-in-readonly']">
-      <ion-card-content>
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>Sanikumar</h1></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="danger"><h2>February 25, 2021</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>10 Items</h4></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="secondary"><h2>₹ 1000</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 3rd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>Invoice #: 1000</h4></ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-    <!-- *THIRD CARD -->
-    <ion-card [routerLink]="['./','view-invoice-in-readonly']">
-      <ion-card-content>
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>Soumya</h1></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="danger"><h2>February 25, 2021</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>10 Items</h4></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="secondary"><h2>₹ 1000</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 3rd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>Invoice #: 1000</h4></ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-    <!-- *FIFTH CARD -->
-    <ion-card [routerLink]="['./','view-invoice-in-readonly']">
-      <ion-card-content>
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>Girish</h1></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="danger"><h2>February 25, 2021</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>10 Items</h4></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="secondary"><h2>₹ 1000</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 3rd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>Invoice #: 1000</h4></ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>Arvind</h1></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="danger"><h2>February 25, 2021</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>10 Items</h4></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="secondary"><h2>₹ 1000</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 3rd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>Invoice #: 1000</h4></ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>Deepak</h1></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="danger"><h2>February 25, 2021</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>10 Items</h4></ion-text>
-            </ion-col>
-            <ion-col offset-xs="1">
-              <ion-text color="secondary"><h2>₹ 1000</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 3rd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h4>Invoice #: 1000</h4></ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-  </div>
+    </div>
 </ion-content>

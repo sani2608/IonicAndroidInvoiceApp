@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title class="ion-text-center">New Invoice</ion-title>
     <ion-buttons slot="end">
-      <ion-button color="danger">Save</ion-button>
+      <ion-button color="danger" (click)="addNewInvoice()">Save</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -20,10 +20,11 @@
         <!-- 1 row -->
         <ion-row>
           <ion-col>
-            <ion-text><h1>Sanikumar S</h1></ion-text>
+            <ion-text  button (click)="captureCustomerName(100)"><h1>Sanikumar S</h1></ion-text>
+            <!-- <h1>{{customerName.firstName}} {{customerName.lastName}}</h1> -->
           </ion-col>
           <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
-            <ion-text color="danger"><h2>February 25, 2021</h2></ion-text>
+            <ion-text color="danger"><h2>{{date | date: 'dd-MMMM-yyyy'}}</h2></ion-text>
           </ion-col>
         </ion-row>
         <!-- 2nd row -->
@@ -40,9 +41,9 @@
   </ion-card>
 
   <!-- * Add Items card -->
-  <ion-card>
+  <ion-card >
     <ion-toolbar>
-      <ion-title align="center">Items (4)</ion-title>
+      <ion-title align="center">Items ({{itemsAddedInInvoice.length}})</ion-title>
       <ion-buttons slot="primary">
         <ion-button [routerLink]="['./','add-item-in-invoice']">
           <ion-icon
@@ -73,156 +74,25 @@
   <div>
     <!-- //TODO *Implementation to be added later -->
     <!-- *FIRST ITEM CARD -->
-    <ion-card>
+    <ion-card *ngFor="let item of itemsAddedInInvoice" class="border">
       <ion-card-content class="item-margin">
         <ion-grid>
           <!-- 1 row -->
           <ion-row>
             <ion-col>
-              <ion-text><h1>Onion</h1></ion-text>
+              <ion-text><h1>{{item.name}}</h1></ion-text>
             </ion-col>
             <ion-col align="right">
-              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹ 200</h2></ion-text>
+              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹  {{item.totalPrice}}</h2></ion-text>
             </ion-col>
           </ion-row>
           <!-- 2nd row -->
           <ion-row>
             <ion-col>
-              <ion-text> <h3>Quantity: 10 Kg</h3></ion-text>
+              <ion-text> <h3>Quantity: {{item.price}}</h3></ion-text>
               <div style="clear: both">
                 <h4 style="float: left">Price:</h4>
-                <h4 style="float: left; color: #3880ff">₹ 20 per kg</h4>
-              </div>
-            </ion-col>
-            <!-- *DELETE ICON SECTION -->
-            <ion-col>
-              <ion-buttons>
-                <ion-grid>
-                  <ion-row>
-                    <ion-col align="right">
-                      <ion-button>
-                        <ion-icon
-                          color="danger"
-                          slot="icon-only"
-                          name="trash-outline"
-                          size="large"
-                        ></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-buttons>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-    <!-- *SECONDN ITEM CARD -->
-    <ion-card>
-      <ion-card-content class="item-margin">
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>milk</h1></ion-text>
-            </ion-col>
-            <ion-col align="right">
-              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹ 200</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h3>Quantity: 10 Kg</h3></ion-text>
-              <div style="clear: both">
-                <h4 style="float: left">Price:</h4>
-                <h4 style="float: left; color: #3880ff">₹ 20 per kg</h4>
-              </div>
-            </ion-col>
-            <!-- *DELETE ICON SECTION -->
-            <ion-col>
-              <ion-buttons>
-                <ion-grid>
-                  <ion-row>
-                    <ion-col align="right">
-                      <ion-button>
-                        <ion-icon
-                          color="danger"
-                          slot="icon-only"
-                          name="trash-outline"
-                          size="large"
-                        ></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-buttons>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card><ion-card>
-      <ion-card-content class="item-margin">
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>Beetroot</h1></ion-text>
-            </ion-col>
-            <ion-col align="right">
-              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹ 200</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h3>Quantity: 10 Kg</h3></ion-text>
-              <div style="clear: both">
-                <h4 style="float: left">Price:</h4>
-                <h4 style="float: left; color: #3880ff">₹ 20 per kg</h4>
-              </div>
-            </ion-col>
-            <!-- *DELETE ICON SECTION -->
-            <ion-col>
-              <ion-buttons>
-                <ion-grid>
-                  <ion-row>
-                    <ion-col align="right">
-                      <ion-button>
-                        <ion-icon
-                          color="danger"
-                          slot="icon-only"
-                          name="trash-outline"
-                          size="large"
-                        ></ion-icon>
-                      </ion-button>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-buttons>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card><ion-card>
-      <ion-card-content class="item-margin">
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>Cabbage</h1></ion-text>
-            </ion-col>
-            <ion-col align="right">
-              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹ 200</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h3>Quantity: 10 Kg</h3></ion-text>
-              <div style="clear: both">
-                <h4 style="float: left">Price:</h4>
-                <h4 style="float: left; color: #3880ff">₹ 20 per kg</h4>
+                <h4 style="float: left; color: #3880ff">₹  {{item.price}} per  {{item.uom}}</h4>
               </div>
             </ion-col>
             <!-- *DELETE ICON SECTION -->
@@ -251,10 +121,3 @@
   </div>
 </ion-content>
 
-<!--* use this if lot of data is loading to show loading bubble -->
-<!-- <ion-infinite-scroll>
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more data…">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll> -->

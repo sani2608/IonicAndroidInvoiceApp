@@ -1,5 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Item } from 'src/app/models/data';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-add-item',
@@ -7,40 +10,37 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-item.page.scss'],
 })
 export class AddItemPage implements OnInit {
-
-  private itemForm: FormGroup;
+  private _itemForm: FormGroup;
   constructor(
-    // private service: ItemService,
     private formBuilder: FormBuilder,
-    // private toast: ToastExample
+    private dataService: DataService
   ) { }
   ngOnInit(): void {
-    /**
-     * Reactive Form
-     */
-    this.itemForm = this.formBuilder.group({
-      name: ['onion', [Validators.required]],
-      uom: ['kg', [Validators.required]],
-      price: [50, [Validators.required]],
-    });
+    this.formData();
   }
-  get formData() {
-    return this.itemForm;
+
+  /** Getter itemForm used by template */
+  public get itemForm(): FormGroup {
+    return this._itemForm;
   }
 
   /**
-   * This method is used to pass formData to service.
+   * @param item is passed to dataService
    */
-  addItem(): void {
-    // if (!this.service.isItemPresent(this.itemForm.value.name)) {
-    //   this.service.addData(this.itemForm.value);
-    //   this.toast.displayToast(
-    //     `${this.itemForm.value.name} added successfully.`
-    //   );
-    // } else {
-    //   this.toast.displayToast(
-    //     `${this.itemForm.value.name} already added in cart goto cart.`
-    //   );
-    // }
+  public addItem(item: Item): void {
+    if (this.dataService.isItemPresentInStock(item.name)) {
+      this.dataService.addItemInStock(item);
+    } else {
+      //TODO: implementation pending
+    }
   }
+
+  private formData(): void {
+    this._itemForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      uom: ['', [Validators.required]],
+      price: [0, [Validators.required]],
+    });
+  }
+
 }

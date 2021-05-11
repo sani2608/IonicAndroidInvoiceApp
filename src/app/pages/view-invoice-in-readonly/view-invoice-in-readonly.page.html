@@ -11,7 +11,7 @@
 
 <ion-content>
   <!-- * Customer Information Card -->
-  <ion-card color="secondary">
+  <ion-card color="secondary" class="border-white">
     <ion-card-content>
       <ion-grid>
         <!-- 1 row -->
@@ -32,108 +32,46 @@
             <ion-text color="secondary" align="right"><h2>₹ 1000</h2></ion-text>
           </ion-col>
         </ion-row>
+        <!-- 3rd row -->
+        <ion-card>
+          <ion-item lines="none">
+            <ion-list >
+              <ion-text >You have <strong>{{readOnlyItemList.length}}</strong> Items in Invoice and total quantity 38</ion-text>
+            </ion-list>
+          </ion-item>
+        </ion-card>
       </ion-grid>
     </ion-card-content>
   </ion-card>
 
-
   <!-- *Item section -->
   <div>
-    <!-- //TODO *Implementation to be added later -->
     <!-- *FIRST ITEM CARD -->
-    <ion-card>
+    <ion-card *ngFor="let item of readOnlyItemList" class="border">
       <ion-card-content class="item-margin">
         <ion-grid>
           <!-- 1 row -->
           <ion-row>
             <ion-col>
-              <ion-text><h1>Onion</h1></ion-text>
+              <ion-text><h1>{{item.name}}</h1></ion-text>
             </ion-col>
             <ion-col align="right">
-              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹ 200</h2></ion-text>
+              <ion-text color="primary"
+                ><h2 style="padding-right: 15px !important">
+                  ₹ {{item.totalPrice}}
+                </h2></ion-text
+              >
             </ion-col>
           </ion-row>
           <!-- 2nd row -->
           <ion-row>
             <ion-col>
-              <ion-text> <h3>Quantity: 10 Kg</h3></ion-text>
+              <ion-text> <h3>Quantity: {{item.quantity}}</h3></ion-text>
               <div style="clear: both">
                 <h4 style="float: left">Price:</h4>
-                <h4 style="float: left; color: #3880ff">₹ 20 per kg</h4>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card>
-    <!-- *SECONDN ITEM CARD -->
-    <ion-card>
-      <ion-card-content class="item-margin">
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>milk</h1></ion-text>
-            </ion-col>
-            <ion-col align="right">
-              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹ 200</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h3>Quantity: 10 Kg</h3></ion-text>
-              <div style="clear: both">
-                <h4 style="float: left">Price:</h4>
-                <h4 style="float: left; color: #3880ff">₹ 20 per kg</h4>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card><ion-card>
-      <ion-card-content class="item-margin">
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>Beetroot</h1></ion-text>
-            </ion-col>
-            <ion-col align="right">
-              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹ 200</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h3>Quantity: 10 Kg</h3></ion-text>
-              <div style="clear: both">
-                <h4 style="float: left">Price:</h4>
-                <h4 style="float: left; color: #3880ff">₹ 20 per kg</h4>
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-content>
-    </ion-card><ion-card>
-      <ion-card-content class="item-margin">
-        <ion-grid>
-          <!-- 1 row -->
-          <ion-row>
-            <ion-col>
-              <ion-text><h1>Cabbage</h1></ion-text>
-            </ion-col>
-            <ion-col align="right">
-              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹ 200</h2></ion-text>
-            </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text> <h3>Quantity: 10 Kg</h3></ion-text>
-              <div style="clear: both">
-                <h4 style="float: left">Price:</h4>
-                <h4 style="float: left; color: #3880ff">₹ 20 per kg</h4>
+                <h4 style="float: left; color: #3880ff">
+                  ₹ {{item.price}} per {{item.uom}}
+                </h4>
               </div>
             </ion-col>
           </ion-row>

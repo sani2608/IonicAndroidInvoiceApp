@@ -16,16 +16,16 @@ const routes: Routes = [
     path: 'stocks',
     loadChildren: () => import('../stocks/stocks.module').then(m => m.StocksPageModule)
   },
-  {
-    path: 'customer-info',
-    loadChildren: () => import('../customer-info/customer-info.module').then(m => m.CustomerInfoPageModule)
-  },
+  // {
+  //   path: 'customer-info',
+  //   loadChildren: () => import('../customer-info/customer-info.module').then(m => m.CustomerInfoPageModule)
+  // },
   {
     path: 'add-invoice',
     loadChildren: () => import('../add-invoice/add-invoice.module').then(m => m.AddInvoicePageModule)
   },
   {
-    path: 'view-invoice-in-readonly',
+    path: 'view-invoice-in-readonly/:id',
     loadChildren: () => import('../view-invoice-in-readonly/view-invoice-in-readonly.module').then(m => m.ViewInvoiceInReadonlyPageModule)
   },
 
