@@ -21,6 +21,14 @@ const routes: Routes = [
     path: 'update-item/:id',
     loadChildren: () => import('../update-item/update-item.module').then(m => m.UpdateItemPageModule)
   },
+  {
+    path: 'add-update-item/:id',
+    loadChildren: () => import('../add-update-item/add-update-item.module').then(m => m.AddUpdateItemPageModule)
+  },
+  {
+    path: 'add-update-item/:addNewItem',
+    loadChildren: () => import('../add-update-item/add-update-item.module').then(m => m.AddUpdateItemPageModule)
+  },
 ];
 
 @NgModule({
