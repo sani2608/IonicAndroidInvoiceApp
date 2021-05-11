@@ -78,11 +78,14 @@ export class AddInvoicePage implements OnInit {
     // the invoiceId is automatically generated as it is a primary key
     this.dataService.addCustomerInNewInvoice(customerName,invoiceNumber);
   }
+  addNewInvoice() {
+    console.log('saving new invoice...... please wait.');
+  }
 
   /**
    * @param delayTime is passed to function to open the alert after some delay.
    */
-  private captureCustomerName(delayTime: number) {
+  public captureCustomerName(delayTime: number) {
     const inputObj = [
       {
         name: 'firstName',
@@ -115,5 +118,6 @@ export class AddInvoicePage implements OnInit {
       );
     }, delayTime);
   }
+
 
 }

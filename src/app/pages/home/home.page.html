@@ -31,7 +31,7 @@
 
   <div>
     <!-- *FIRST CARD -->
-    <ion-card *ngFor="let invoice of invoices" [routerLink]="['./','view-invoice-in-readonly',invoice.invoiceId]">
+    <ion-card *ngFor="let invoice of invoices" [routerLink]="['./','view-invoice-in-readonly',invoice.invoiceId]"  class="no-ripple">
       <ion-card-content>
         <ion-grid>
           <!-- 1 row -->
