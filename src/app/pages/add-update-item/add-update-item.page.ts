@@ -76,10 +76,10 @@ export class AddUpdateItemPage implements OnInit {
       price: [0, [Validators.required]],
     });
   }
-  /** this function will check if the route if to update item or add new item*/
+
+  /** this function will check if the route if toupdate item or add new item*/
   private getStatusOfUrl(): void {
-    // eslint-disable-next-line radix
-    this.isUpdateOrAdd = parseInt(this.route.snapshot.params.id);
+    this.isUpdateOrAdd = parseInt(this.route.snapshot.params.id,10);
     if (isNaN(this.isUpdateOrAdd)) {
       this._flag = true;
     } else {
@@ -88,6 +88,7 @@ export class AddUpdateItemPage implements OnInit {
       this.getItemById(this._itemId);
     }
   }
+
   private getItemById(itemId: number): void {
     console.log('getting details of', itemId);
     this.dataService.getItemByItemIdFromStock(this._itemId);
