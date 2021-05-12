@@ -4,17 +4,16 @@ import { Injectable } from '@angular/core';
 import { Customer, Invoice, Invoices, Item, ItemAddedInNewInvoice, ReadOnlyInvoice } from '../models/data';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Platform } from '@ionic/angular';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { ItemTableQuery, CustomerTableQuery, CartTableQuery, InvoiceTableQuery, TriggerQuery } from '../services/sqlQueries/queries';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  public storage: SQLite;
-
   //? Private variables to store data.
   /** this variable will store all the items present in the stock */
-  private _listOfItemsInStock: Array<Item[]> = [];
+  private _listOfItemsInStock: BehaviorSubject<Array<Item>> = new BehaviorSubject([]);
   /**this will store all the invoice to show on homepage */
   private _homePageInvoiceList: Array<Invoice[]> = [];
   /** This will store the items that are added in stock while creating new invoice */
@@ -23,20 +22,22 @@ export class DataService {
   private _readOnlyInvoiceDetails: ReadOnlyInvoice;
   //?DATABASE OBJECT
   private databaseObject: SQLiteObject;
+  private isDatabaseReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     private sqlite: SQLite,
     private platform: Platform) {
     this.platform.ready().then(() => {
       console.log('PLATFORM READY FOR DATABASE OPERATIONS');
-      this.createDatabase();
+      this.createDatabase()
+      .then(() => this.isDatabaseReady.next(true));
     });
   }
 
   //? Getters and Setters for private variables
   /** Getter listOfItemsInStock */
-  public get listOfItemsInStock(): Array<Item[]> {
-    return this._listOfItemsInStock;
+  public get listOfItemsInStock(): Observable<Item[]> {
+    return this._listOfItemsInStock.asObservable();
   }
 
   /**Getter homePageInvoiceList */
@@ -56,32 +57,44 @@ export class DataService {
 
   //? DATABASE RELATED FUNCTIONS
   async isDatabasePresent(): Promise<boolean> {
-    //return boolean value if db is presesnt.
     return false;
   }
 
+  databaseState() {
+    return this.isDatabaseReady.asObservable();
+  }
+
+
   async createDatabase(): Promise<void> {
-    // if isDatabasePresent returns false then create DATABASE.
+    // if isDatabasePresent returns false then create DATABASE..
     await this.sqlite.create({
       name: 'invoice.db',
       location: 'default'
-    }).then((databaseObject: SQLiteObject) => {
-      this.databaseObject = databaseObject;
-      console.log(databaseObject);
-      this.databaseObject.executeSql('CREATE TABLE IF NOT EXISTS Item(item_id INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL,name TEXT NOT NULL UNIQUE, price REAL NOT NULL, uom TEXT NOT NULL)', [])
-        .then(() => this.databaseObject.executeSql('SELECT * FROM Item').then((res)=> console.log(res)))
-        .catch(e => console.log('eroorore\n',e));
-    });
+    }).then((databaseObj: SQLiteObject) => {
+      this.databaseObject = databaseObj;
+    }).then(
+      () => this.databaseObject.executeSql(ItemTableQuery, [])
+        .then(
+          () => this.databaseObject.executeSql(CustomerTableQuery,[])
+          .then(
+            () => this.databaseObject.executeSql(InvoiceTableQuery,[])
+            .then(
+              () => this.databaseObject.executeSql(CartTableQuery,[])
+              .then(
+                () => this.databaseObject.executeSql(TriggerQuery,[]).then(() => console.log('ALL THE TABLES CREATED SUCCESSFULLY.'))
+              )
+            )
+          )
+        )
+      ).catch((e) => console.log('error while creating tables\n', e));
   }
-  //will get readymade database with tables created from the assets
-  async seedDatabaseFromAssets(): Promise<void> {
-    // this.storage = new SQLite();
-    // this.storage.
-  }
+
 
   //? ITEMS TABLE RELATED FUNCTIONS
   async isItemPresentInStock(itemName: string): Promise<boolean> {
     console.log('will check if ' + itemName + ' is present in Database');
+    await this.databaseObject.executeSql(`SELECT name FROM Item where name LIKE ${itemName}`,[])
+    .then((res) => console.log(res.row.Item(0))).catch((e) => console.log('got some error\n', e));
     return true;
   }
 
@@ -92,30 +105,61 @@ export class DataService {
 
   async addItemInStock(item: Item): Promise<void> {
     console.log('addIem from dataService\n', item);
-    // console.log(this.databaseObject);
     await this.databaseObject.executeSql('INSERT INTO Item(name, price, uom ) VALUES (?,?,?)', [item.name, item.price, item.uom])
-    .then(() => console.log('insert query executed successfully'))
-    .catch((res) => console.log(res));
+      .then(() => console.log('insert query executed successfully'))
+      .catch((e) => console.log(item.name + ' is already present in the databse.'));
 
   }
 
   async updateItemInStock(item: Item, itemId: number): Promise<void> {
     console.log('updateItem from dataService\n', item, itemId);
+    await this.databaseObject.executeSql(`UPDATE Item SET name = ?, price = ?,  uom = ? WHERE item_id = ${itemId}`, [item.name, item.price, item.uom])
+      .then((response) => console.log('update query complete from database service \n', response))
+      .catch((e) => console.log('got error while updateing item \n', e));
   }
 
   /**
    * @param itemId is the itemId of the item
-   * @returns item
+   * @returns single item Object
    */
-  async getItemByItemIdFromStock(itemId: number): Promise<Item[]> {
+  async getItemByItemIdFromStock(itemId: number): Promise<Item> {
     console.log('from dataservice', itemId);
-    return;
+    const item = new Item();
+    await this.databaseObject.executeSql('SELECT item_id,name,price,uom FROM Item WHERE item_id=?', [itemId])
+      .then((res) => {
+        console.log('Select query by id executed successfully and response is', res);
+        item.itemId = res.rows.item(0).item_id;
+        item.name = res.rows.item(0).name;
+        item.price = res.rows.item(0).price;
+        item.uom = res.rows.item(0).price;
+        // console.log(item);
+      }
+      );
+    return item;
   }
 
   /**
    * @returns list of items present in the stock */
   async getListOfItemsFromStock(): Promise<Item[]> {
     //gets items list from DATABASE.
+    await this.databaseObject.executeSql('SELECT item_id,name,price,uom FROM Item', [])
+      .then((res) => {
+        console.log('Select query executed successfully and response is', res);
+        let items = [];
+        if (res.rows.length > 0) {
+          for (let i = 0; i < res.rows.length; i++) {
+            items.push({
+              itemId: res.rows.item(i).item_id,
+              name: res.rows.item(i).name,
+              price: res.rows.item(i).price,
+              uom: res.rows.item(i).uom
+            });
+          }
+        }
+        console.log(items);
+        this._listOfItemsInStock.next(items);
+      })
+      .catch((res) => console.log(res));
     return;
   }
 

@@ -43,11 +43,9 @@ export class AddUpdateItemPage implements OnInit {
    * @param item new item is passed to dataService
    */
   public addItem(item: Item): void {
-    if (this.dataService.isItemPresentInStock(item.name)) {
-      this.dataService.addItemInStock(item);
-    } else {
-      //TODO: implementation pending
-    }
+    this.dataService.addItemInStock(item);
+    this.updateStockList();
+
   }
 
   /**
@@ -56,6 +54,7 @@ export class AddUpdateItemPage implements OnInit {
    */
   updateItem(item: Item, itemId: number): void {
     this.dataService.updateItemInStock(item, itemId);
+    this.updateStockList();
   }
   public submit(): void {
     if (isNaN(this.isUpdateOrAdd)) {
@@ -69,17 +68,17 @@ export class AddUpdateItemPage implements OnInit {
   }
 
   /**ReactiveForm data */
-  private formData(): void {
+  private formData(name?: string, uom?: string, price?: number): void {
     this._itemForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      uom: ['', [Validators.required]],
-      price: [0, [Validators.required]],
+      name: [name, [Validators.required]],
+      uom: [uom, [Validators.required]],
+      price: [price, [Validators.required]],
     });
   }
 
   /** this function will check if the route if toupdate item or add new item*/
   private getStatusOfUrl(): void {
-    this.isUpdateOrAdd = parseInt(this.route.snapshot.params.id,10);
+    this.isUpdateOrAdd = parseInt(this.route.snapshot.params.id, 10);
     if (isNaN(this.isUpdateOrAdd)) {
       this._flag = true;
     } else {
@@ -89,8 +88,21 @@ export class AddUpdateItemPage implements OnInit {
     }
   }
 
+  /**
+   * @param itemId is pased to the database item with that id is fetched.
+   */
   private getItemById(itemId: number): void {
-    console.log('getting details of', itemId);
-    this.dataService.getItemByItemIdFromStock(this._itemId);
+    console.log('getting details of ' + itemId + 'from getItemById');
+    this.dataService.getItemByItemIdFromStock(this._itemId).then(
+      (item) => {
+        console.log('from getitembyid', item);
+        this.formData(item.name, item.uom, item.price);
+      }
+    );
+  }
+  private updateStockList(){
+    this.dataService.isDatabasePresent().then(
+      () => this.dataService.getListOfItemsFromStock()
+    );
   }
 }

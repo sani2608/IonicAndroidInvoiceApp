@@ -44,7 +44,7 @@ export class StocksPage implements OnInit {
   ];
 
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
   ) {}
 
   ngOnInit() {
@@ -54,12 +54,13 @@ export class StocksPage implements OnInit {
 
   /** Getter itemsInStock used by template */
   public get itemsInStock() {
-    return this._itemsInStock;
+    return this.dataService.listOfItemsInStock;
   }
 
   /** This will get all the items present in the stock from Database */
-  private getAllItems() {
-    this.dataService.getListOfItemsFromStock();
+   getAllItems() {
+      this.dataService.isDatabasePresent().then(
+        () => this.dataService.getListOfItemsFromStock()
+      );
   }
-
 }
