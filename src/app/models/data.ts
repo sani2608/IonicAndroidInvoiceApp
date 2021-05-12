@@ -5,7 +5,8 @@ export class Item {
   private _name: string;
   private _price: number;
   private _uom: string;
-  constructor(itemId: number) {
+
+  constructor(itemId?: number) {
     this._itemId = itemId;
   }
 
@@ -14,6 +15,13 @@ export class Item {
    */
   public get itemId(): number {
     return this._itemId;
+  }
+
+  /**
+   * Setter itemId @param {number} value
+   */
+  public set itemId(value: number) {
+    this._itemId = value;
   }
 
   /**
