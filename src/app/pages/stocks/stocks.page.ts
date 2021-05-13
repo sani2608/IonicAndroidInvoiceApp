@@ -9,43 +9,10 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class StocksPage implements OnInit {
 
-  //TODO: replace this with actual Data.
-  private _itemsInStock = [
-    {
-      itemId: 1,
-      name: 'onion',
-      price: 24,
-      uom: 'kg'
-    },
-    {
-      itemId: 2,
-      name: 'potato',
-      price: 30,
-      uom: 'kg'
-    },
-    {
-      itemId: 3,
-      name: 'milk',
-      price: 30,
-      uom: 'Litre'
-    },
-    {
-      itemId: 4,
-      name: 'cabbage',
-      price: 40,
-      uom: 'kg'
-    },
-    {
-      itemId: 5,
-      name: 'rice',
-      price: 100,
-      uom: 'kg'
-    },
-  ];
 
   constructor(
     private dataService: DataService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getAllItems();
@@ -58,9 +25,12 @@ export class StocksPage implements OnInit {
   }
 
   /** This will get all the items present in the stock from Database */
-   getAllItems() {
-      this.dataService.isDatabasePresent().then(
-        () => this.dataService.getListOfItemsFromStock()
-      );
+  getAllItems() {
+    this.dataService.databaseState()
+      .subscribe((response) => {
+        if (response) {
+          this.dataService.getListOfItemsFromStock();
+        }
+      });
   }
 }
