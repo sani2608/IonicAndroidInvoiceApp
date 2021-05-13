@@ -37,7 +37,7 @@ const invoiceTableQuery = `
 const triggerQuery = `
   DROP TRIGGER IF EXISTS update_total_price;
   CREATE TRIGGER update_total_priceAFTER INSERTON CartBEGINUPDATE InvoiceSET total_price = (
-    SELECT sum(quantity * price)FROM CartWHERE Cart.invoice_id = Invoice.invoice_id);END;`;
+    SELECT sum(quantity * price)FROM Cart WHERE Cart.invoice_id = Invoice.invoice_id);END;`;
 
 export { itemTableQuery, customerTableQuery, cartTableQuery, invoiceTableQuery, triggerQuery };
 
