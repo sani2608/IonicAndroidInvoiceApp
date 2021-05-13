@@ -9,12 +9,12 @@ export class Toast {
    *
    * @param message pass message accordingly
    */
-  async displayToast(message: string, color: string) {
+  async displayToast(message: string, color: string, position: any) {
     if (!this.isToastPresent) {
       this.isToastPresent = true;
       const toast = await this.toastController.create({
         message,
-        position: 'top',
+        position,
         duration: 1000,
         color,
       });

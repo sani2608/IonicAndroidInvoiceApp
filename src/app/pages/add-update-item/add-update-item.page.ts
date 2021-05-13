@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
 import { Toast } from 'src/app/shared/toast';
@@ -22,6 +22,7 @@ export class AddUpdateItemPage implements OnInit {
     private formBuilder: FormBuilder,
     private dataService: DataService,
     private route: ActivatedRoute,
+    private router: Router,
     private toast: Toast
   ) { }
   ngOnInit(): void {
@@ -56,12 +57,14 @@ export class AddUpdateItemPage implements OnInit {
     this.dataService.addItemInStock(item)
       .then(() => {
         console.log(`${item.name} added successuflly`);
-        this.toast.displayToast(`${item.name} added successfully`, 'primary');
+        this.toast.displayToast(`${item.name} added successfully`, 'primary','bottom');
         this.updateStockList();
+        this.router.navigateByUrl('home/stocks');
+
       })
       .catch((e) => {
         console.log(item.name + ' is already present in the databse.');
-        this.toast.displayToast(`${item.name} is already present in Cart`, 'danger');
+        this.toast.displayToast(`${item.name} is already present in Cart `, 'danger','bottom');
       });
   }
 
@@ -72,8 +75,9 @@ export class AddUpdateItemPage implements OnInit {
   public updateItem(item: Item, itemId: number): void {
     this.dataService.updateItemInStock(item, itemId)
       .then(() => {
-        this.toast.displayToast(`${item.name} Updated Successfully`, 'primary');
+        this.toast.displayToast(`${item.name} Updated Successfully`, 'primary','bottom');
         this.updateStockList();
+        this.router.navigateByUrl('home/stocks');
       }).catch(
         (e) => console.log('Got some error while updating item', e)
       );
