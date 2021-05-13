@@ -6,8 +6,16 @@ export class Item {
   private _price: number;
   private _uom: string;
 
-  constructor(itemId?: number) {
+  constructor(
+    itemId?: number,
+    name?: string,
+    price?: number,
+    uom?: string
+  ) {
     this._itemId = itemId;
+    this._name = name;
+    this._price = price;
+    this._uom = uom;
   }
 
   /**
@@ -127,27 +135,27 @@ export class ItemAddedInNewInvoice {
     this._uom = uom;
   }
 
-    /**
-     * Getter quantity @return {number}
-     */
-	public get quantity(): number {
-		return this._quantity;
-	}
+  /**
+   * Getter quantity @return {number}
+   */
+  public get quantity(): number {
+    return this._quantity;
+  }
 
-    /**
-     * Setter quantity @param {number} quantity
-     */
-	public set quantity(quantity: number) {
-		this._quantity = quantity;
-	}
+  /**
+   * Setter quantity @param {number} quantity
+   */
+  public set quantity(quantity: number) {
+    this._quantity = quantity;
+  }
 
-    /**
-     * Getter totalPrice @return {number}
-     */
-	public get totalPrice(): number {
+  /**
+   * Getter totalPrice @return {number}
+   */
+  public get totalPrice(): number {
     const total = this._quantity * this._totalPrice;
-		return total;
-	}
+    return total;
+  }
 }
 //? this Cart model is to enter values in Cart table.
 export class Cart {
