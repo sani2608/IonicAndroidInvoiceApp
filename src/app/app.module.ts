@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { Toast } from './shared/toast';
 import { Alert } from './shared/alert';
 import { SQLite } from '@ionic-native/sqlite/ngx';
+import { CustomQueries } from './services/sqlQueries/queries';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,6 +20,7 @@ import { SQLite } from '@ionic-native/sqlite/ngx';
     AppRoutingModule,
     Toast,
     Alert,
+    CustomQueries
   ],
 
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, SQLite],
