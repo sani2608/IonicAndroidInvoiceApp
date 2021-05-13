@@ -41,9 +41,8 @@
                     ></ion-label
                   >
 
-                  <ion-select placeholder="kg" formControlName="uom">
-                    <ion-select-option value="Kg">Kg</ion-select-option>
-                    <ion-select-option value="Litre">Litre</ion-select-option>
+                  <ion-select formControlName="uom">
+                    <ion-select-option  *ngFor="let uom of unitOfMeasuring" >{{uom}}</ion-select-option>
                   </ion-select>
                 </ion-item>
 

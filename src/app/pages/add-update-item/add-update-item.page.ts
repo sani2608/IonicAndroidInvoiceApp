@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Item } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
+import { Toast } from 'src/app/shared/toast';
 
 @Component({
   selector: 'app-add-update-item',
@@ -11,6 +12,8 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./add-update-item.page.scss'],
 })
 export class AddUpdateItemPage implements OnInit {
+
+  private _unitOfMeasuring: Array<string> = ['unit', 'kg', 'litre'];
   private _flag = false;
   private _itemForm: FormGroup;
   private _itemId: number;
@@ -19,11 +22,18 @@ export class AddUpdateItemPage implements OnInit {
     private formBuilder: FormBuilder,
     private dataService: DataService,
     private route: ActivatedRoute,
-
+    private toast: Toast
   ) { }
   ngOnInit(): void {
     this.getStatusOfUrl();
     this.formData();
+  }
+
+  /**
+   * Getter _unitOfMeasuring @return {Array<string>}
+   */
+  public get unitOfMeasuring(): Array<string> {
+    return this._unitOfMeasuring;
   }
 
   /** Getter itemForm used by template */
@@ -43,19 +53,34 @@ export class AddUpdateItemPage implements OnInit {
    * @param item new item is passed to dataService
    */
   public addItem(item: Item): void {
-    this.dataService.addItemInStock(item);
-    this.updateStockList();
-
+    this.dataService.addItemInStock(item)
+      .then(() => {
+        console.log(`${item.name} added successuflly`);
+        this.toast.displayToast(`${item.name} added successfully`, 'primary');
+        this.updateStockList();
+      })
+      .catch((e) => {
+        console.log(item.name + ' is already present in the databse.');
+        this.toast.displayToast(`${item.name} is already present in Cart`, 'danger');
+      });
   }
 
   /**
    * @param item is the updated item
    * @param itemId is the itemId of the item
    */
-  updateItem(item: Item, itemId: number): void {
-    this.dataService.updateItemInStock(item, itemId);
-    this.updateStockList();
+  public updateItem(item: Item, itemId: number): void {
+    this.dataService.updateItemInStock(item, itemId)
+      .then(() => {
+        this.toast.displayToast(`${item.name} Updated Successfully`, 'primary');
+        this.updateStockList();
+      }).catch(
+        (e) => console.log('Got some error while updating item', e)
+      );
   }
+  /**
+   * this function checks if request is to update item or to add item.
+   */
   public submit(): void {
     if (isNaN(this.isUpdateOrAdd)) {
       this.addItem(this._itemForm.value);
@@ -92,17 +117,19 @@ export class AddUpdateItemPage implements OnInit {
    * @param itemId is pased to the database item with that id is fetched.
    */
   private getItemById(itemId: number): void {
-    console.log('getting details of ' + itemId + 'from getItemById');
-    this.dataService.getItemByItemIdFromStock(this._itemId).then(
+    this.dataService.getItemByItemIdFromStock(itemId).then(
       (item) => {
-        console.log('from getitembyid', item);
         this.formData(item.name, item.uom, item.price);
       }
     );
   }
-  private updateStockList(){
-    this.dataService.isDatabasePresent().then(
-      () => this.dataService.getListOfItemsFromStock()
-    );
+  /** update the stocklist as soon as item is added or updated. */
+  private updateStockList() {
+    this.dataService.databaseState()
+      .subscribe((response) => {
+        if (response) {
+          this.dataService.getListOfItemsFromStock();
+        }
+      });
   }
 }
