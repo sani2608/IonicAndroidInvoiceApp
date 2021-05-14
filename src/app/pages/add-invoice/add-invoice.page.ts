@@ -13,6 +13,18 @@ export class AddInvoicePage implements OnInit {
 
   private _date: Date = new Date();
   private _customerName = new Customer();
+  private customerId: number;
+  private _invoiceId: number;
+
+
+
+  /**
+   * Getter invoiceId @return {number}
+   */
+  public get invoiceId(): number {
+    return this._invoiceId;
+  }
+
 
   /**Getter date used by template */
   public get date(): Date {
@@ -30,8 +42,7 @@ export class AddInvoicePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.captureCustomerName(1000);
-    this.createNewInvoice(this._date);
+    this.captureCustomerName(1000);
     console.log('ngOnInit Lifecycle in add-new-invoice');
   }
 
@@ -40,48 +51,64 @@ export class AddInvoicePage implements OnInit {
    * As soon as the customer clicks on add new invoice A new invoice number is generated,
    * and the customer is attached to that particular invoiceId.
    */
-  public createNewInvoice(date: Date ): void{
-    this.dataService.createNewInvoice(date);
-    console.log('Generating new invoice Number');
+  public createNewInvoice(customerName: Customer): void {
+    this.dataService.addCustomer(customerName)
+      .then(response => {
+        this.customerId = response;
+        console.log('Got CustomerId from Datbase After Inserting customer Name', this.customerId);
+      })
+      .then(() =>
+        this.createInvoice(this.customerId)
+      );
   }
 
   public deleteItemFromInvoice(itemId: number, invoiceNumber: number): void {
     this.dataService.deleteItemFromNewInvoice(itemId, invoiceNumber);
   }
 
-  public addCustomerToInvoice(customerName: Customer, invoiceNumber: number): void {
-    //Here Only customerName will be passed because
-    // the invoiceId is automatically generated as it is a primary key
-    this.dataService.addCustomerInNewInvoice(customerName,invoiceNumber);
+  public createInvoice(customerId: number): void {
+    this.dataService.createNewInvoice(customerId)
+      .then((response) => {
+        this._invoiceId = response;
+        console.log('after creating new invoice', this._invoiceId);
+
+      });
   }
-  addNewInvoice() {
-    console.log('saving new invoice...... please wait.');
+
+  getInvoiceById() {
+    this.dataService.getInvoiceById(this._invoiceId);
   }
+
 
   /**
    * @param delayTime is passed to function to open the alert after some delay.
    */
   public captureCustomerName(delayTime: number) {
+
     const inputObj = [
       {
         name: 'firstName',
         type: 'text',
-        placeholder: 'sanikumar'
+        placeholder: 'first name',
+        value: this._customerName.firstName,
       },
       {
         name: 'lastName',
         type: 'text',
-        placeholder: 'sahani'
+        placeholder: 'last name',
+        value: this._customerName.lastName,
+
       },
     ];
     const buttonObj = [
       {
         text: 'Submit',
-        handler: (value: any) => {
-          console.log('Confirm Submit');
-          this.customerName.firstName = value.firstName;
-          this.customerName.lastName = value.lastName;
-          console.log(value.firstName + ' ' + value.lastName);
+        handler: (name: any) => {
+          //console.log('Alert Submit Button Clicked');
+          this.customerName.firstName = name.firstName;
+          this.customerName.lastName = name.lastName;
+          // console.log(this._customerName.fullName);
+          this.createNewInvoice(this.customerName);
         }
       }
     ];
@@ -94,35 +121,5 @@ export class AddInvoicePage implements OnInit {
       );
     }, delayTime);
   }
-
-
 }
 
-
-  // //TODO: to be replace with real data.
-  // itemsAddedInInvoice = [
-  //   {
-  //     cartId: 100,
-  //     name: 'Onion',
-  //     quantity: 23,
-  //     price: 20,
-  //     uom: 'kg',
-  //     totalPrice: 460,
-  //   },
-  //   {
-  //     cartId: 101,
-  //     name: 'Milk',
-  //     quantity: 5,
-  //     price: 30,
-  //     uom: 'Litre',
-  //     totalPrice: 150,
-  //   },
-  //   {
-  //     cartId: 102,
-  //     name: 'Cabbage',
-  //     quantity: 10,
-  //     price: 40,
-  //     uom: 'kg',
-  //     totalPrice: 400,
-  //   },
-  // ];

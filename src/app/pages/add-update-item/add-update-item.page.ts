@@ -55,11 +55,11 @@ export class AddUpdateItemPage implements OnInit {
    */
   public addItem(item: Item): void {
     this.dataService.addItemInStock(item)
-      .then(() => {
-        console.log(`${item.name} added successuflly`);
+      .then((res) => {
+        console.log(`${item.name} added successuflly amd itemId is `);
         this.toast.displayToast(`${item.name} added successfully`, 'primary','bottom');
         this.updateStockList();
-        this.router.navigateByUrl('home/stocks');
+        this.router.navigateByUrl('home/stocks/s');
 
       })
       .catch((e) => {
@@ -77,7 +77,7 @@ export class AddUpdateItemPage implements OnInit {
       .then(() => {
         this.toast.displayToast(`${item.name} Updated Successfully`, 'primary','bottom');
         this.updateStockList();
-        this.router.navigateByUrl('home/stocks');
+        this.router.navigateByUrl('home/stocks/s');
       }).catch(
         (e) => console.log('Got some error while updating item', e)
       );
