@@ -13,7 +13,7 @@ const routes: Routes = [
     component: HomePage,
   },
   {
-    path: 'stocks',
+    path: 'stocks/:s',
     loadChildren: () => import('../stocks/stocks.module').then(m => m.StocksPageModule)
   },
   // {

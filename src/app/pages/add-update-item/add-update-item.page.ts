@@ -63,7 +63,7 @@ export class AddUpdateItemPage implements OnInit {
 
       })
       .catch((e) => {
-        console.log(item.name + ' is already present in the databse.');
+        console.log(item.name + ' is already present in the databse.',e);
         this.toast.displayToast(`${item.name} is already present in Cart `, 'danger','bottom');
       });
   }

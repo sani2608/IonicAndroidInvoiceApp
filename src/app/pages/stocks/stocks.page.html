@@ -4,8 +4,17 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
 
-    <ion-title class="ion-text-center">
+    <ion-title
+      class="ion-text-center"
+      *ngIf="isStocksPageOrAddItemInInvoicePage === 's'"
+    >
       stocks ({{(itemsInStock | async).length }})</ion-title
+    >
+    <ion-title
+      class="ion-text-center"
+      *ngIf="isStocksPageOrAddItemInInvoicePage === 'AI'"
+    >
+      Add Items ({{(itemsInStock | async).length }})</ion-title
     >
 
     <ion-buttons slot="primary">
@@ -23,10 +32,36 @@
 
 <!-- *stocks page -->
 <ion-content [fullscreen]="true">
-  <div>
+  <div *ngIf="flag">
     <ion-card
       *ngFor="let item of itemsInStock | async"
       [routerLink]="['./','add-update-item',item.itemId]"
+      class="no-ripple"
+    >
+      <ion-card-content>
+        <ion-grid>
+          <!-- 1 row -->
+          <ion-row>
+            <ion-col>
+              <ion-text><h1>{{item.name}}</h1></ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- 2nd row -->
+          <ion-row>
+            <ion-col>
+              <ion-text color="secondary">
+                <h2>₹ {{item.price}} per {{item.uom}}</h2></ion-text
+              >
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+    <div *ngIf="!flag">
+    <ion-card
+      *ngFor="let item of itemsInStock | async"
+      (click) = "cardClicked(item.itemId)"
       class="no-ripple"
     >
       <ion-card-content>

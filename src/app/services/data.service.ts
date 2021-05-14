@@ -152,8 +152,37 @@ export class DataService {
   }
 
   //? NEW INVOICE PAGE RELATED FUNCTIONS
-  async createNewInvoice(date: Date): Promise<void> {
-    return;
+  // customerName: Customer
+  async createNewInvoice(date: Date,): Promise<void> {
+    await this.databaseObject.executeSql(this.customQueries.createNewInvoice(),[])
+    .then(async () => {
+
+      await this.databaseObject.executeSql(this.customQueries.getLastInsertedRow(),[])
+      .then((res) => {
+        console.log('new invoice created with id = ', res.rows.item());
+      } );
+    }
+    )
+    .catch((e) => console.log('got some error',e));
+
+    await this.databaseObject.executeSql(`SELECT last_insert_rowid();`,[])
+      .then((res) => {
+        console.log('new invoice created with id number ', res.rows.item(0)['last_insert_rowid()']);
+        for (let i = 0; i < res.rows.length; i++) {
+          console.log(res.rows.item(i));
+        }
+      })
+    .catch((e) => console.log('got some error',e));
+    // await this.databaseObject.executeSql(this.customQueries.deleteRows('Invoice'),[])
+    //   .then((res) => {
+    //     console.log('ALL THE INVOICE ARE DELETED', res.rows.item);
+    //     for (let i = 0; i < res.rows.length; i++) {
+    //       console.log(res.rows.item(i));
+    //     }
+    //   })
+    // .catch((e) => console.log('got some error',e));
+
+
   }
 
   async addCustomerInNewInvoice(customerName: Customer, invoiceNumber: number): Promise<void> {

@@ -1,10 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button
-        color="primary"
-        [routerLink]="['./','stocks']"
-      >
+      <ion-button color="primary" [routerLink]="['./','stocks','s']">
         Stocks
       </ion-button>
     </ion-buttons>
@@ -26,12 +23,16 @@
   <ion-searchbar
     #searchBox
     placeholder="search by customer name or invoice no."
-     (search)="searchInvoice(searchBox.value)"
+    (search)="searchInvoice(searchBox.value)"
   ></ion-searchbar>
 
   <div>
     <!-- *FIRST CARD -->
-    <ion-card *ngFor="let invoice of invoices" [routerLink]="['./','view-invoice-in-readonly',invoice.invoiceId]"  class="no-ripple">
+    <ion-card
+      *ngFor="let invoice of invoices"
+      [routerLink]="['./','view-invoice-in-readonly',invoice.invoiceId]"
+      class="no-ripple"
+    >
       <ion-card-content>
         <ion-grid>
           <!-- 1 row -->
@@ -63,5 +64,5 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-    </div>
+  </div>
 </ion-content>

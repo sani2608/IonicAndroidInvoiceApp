@@ -10,33 +10,7 @@ import { Alert } from 'src/app/shared/alert';
   styleUrls: ['./add-invoice.page.scss'],
 })
 export class AddInvoicePage implements OnInit {
-  //TODO: to be replace with real data.
-  itemsAddedInInvoice = [
-    {
-      cartId: 100,
-      name: 'Onion',
-      quantity: 23,
-      price: 20,
-      uom: 'kg',
-      totalPrice: 460,
-    },
-    {
-      cartId: 101,
-      name: 'Milk',
-      quantity: 5,
-      price: 30,
-      uom: 'Litre',
-      totalPrice: 150,
-    },
-    {
-      cartId: 102,
-      name: 'Cabbage',
-      quantity: 10,
-      price: 40,
-      uom: 'kg',
-      totalPrice: 400,
-    },
-  ];
+
   private _date: Date = new Date();
   private _customerName = new Customer();
 
@@ -56,7 +30,8 @@ export class AddInvoicePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.captureCustomerName(1000);
+    // this.captureCustomerName(1000);
+    this.createNewInvoice(this._date);
     console.log('ngOnInit Lifecycle in add-new-invoice');
   }
 
@@ -66,6 +41,7 @@ export class AddInvoicePage implements OnInit {
    * and the customer is attached to that particular invoiceId.
    */
   public createNewInvoice(date: Date ): void{
+    this.dataService.createNewInvoice(date);
     console.log('Generating new invoice Number');
   }
 
@@ -121,3 +97,32 @@ export class AddInvoicePage implements OnInit {
 
 
 }
+
+
+  // //TODO: to be replace with real data.
+  // itemsAddedInInvoice = [
+  //   {
+  //     cartId: 100,
+  //     name: 'Onion',
+  //     quantity: 23,
+  //     price: 20,
+  //     uom: 'kg',
+  //     totalPrice: 460,
+  //   },
+  //   {
+  //     cartId: 101,
+  //     name: 'Milk',
+  //     quantity: 5,
+  //     price: 30,
+  //     uom: 'Litre',
+  //     totalPrice: 150,
+  //   },
+  //   {
+  //     cartId: 102,
+  //     name: 'Cabbage',
+  //     quantity: 10,
+  //     price: 40,
+  //     uom: 'kg',
+  //     totalPrice: 400,
+  //   },
+  // ];

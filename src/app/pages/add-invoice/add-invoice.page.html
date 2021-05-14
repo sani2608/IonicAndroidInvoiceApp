@@ -20,7 +20,7 @@
         <!-- 1 row -->
         <ion-row>
           <ion-col>
-            <ion-text  button (click)="captureCustomerName(100)"><h1>Sanikumar S</h1></ion-text>
+            <ion-text  button (click)="captureCustomerName(200)"><h1>Sanikumar S</h1></ion-text>
             <!-- <h1>{{customerName.firstName}} {{customerName.lastName}}</h1> -->
           </ion-col>
           <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
@@ -43,9 +43,9 @@
   <!-- * Add Items card -->
   <ion-card >
     <ion-toolbar>
-      <ion-title align="center">Items ({{itemsAddedInInvoice.length}})</ion-title>
+      <!-- <ion-title align="center">Items ({{itemsAddedInInvoice.length}})</ion-title> -->
       <ion-buttons slot="primary">
-        <ion-button [routerLink]="['./','add-item-in-invoice']">
+        <ion-button [routerLink]="['./','stocks','AI']">
           <ion-icon
             color="primary"
             slot="icon-only"
@@ -70,14 +70,14 @@
       </ion-row>
     </ion-grid>
   </ion-item> -->
-  <!-- *Item section -->
+  <!-- *Item section
   <div>
-    <!-- //TODO *Implementation to be added later -->
-    <!-- *FIRST ITEM CARD -->
+    <!-- //TODO *Implementation to be added later
+    <!-- *FIRST ITEM CARD
     <ion-card *ngFor="let item of itemsAddedInInvoice" class="border">
       <ion-card-content class="item-margin">
         <ion-grid>
-          <!-- 1 row -->
+          <!-- 1 row
           <ion-row>
             <ion-col>
               <ion-text><h1>{{item.name}}</h1></ion-text>
@@ -86,7 +86,7 @@
               <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹  {{item.totalPrice}}</h2></ion-text>
             </ion-col>
           </ion-row>
-          <!-- 2nd row -->
+          <!-- 2nd row
           <ion-row>
             <ion-col>
               <ion-text> <h3>Quantity: {{item.price}}</h3></ion-text>
@@ -95,7 +95,7 @@
                 <h4 style="float: left; color: #3880ff">₹  {{item.price}} per  {{item.uom}}</h4>
               </div>
             </ion-col>
-            <!-- *DELETE ICON SECTION -->
+            <!-- *DELETE ICON SECTION
             <ion-col>
               <ion-buttons>
                 <ion-grid>
@@ -118,6 +118,6 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-  </div>
+  </div> -->
 </ion-content>
 

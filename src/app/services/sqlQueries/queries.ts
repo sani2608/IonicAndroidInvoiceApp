@@ -30,7 +30,7 @@ const cartTableQuery = `
 const invoiceTableQuery = `
   CREATE TABLE IF NOT EXISTS Invoice(
   invoice_id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
-  customer_id INTEGER REFERENCES Customer(customer_id),
+  customer_id INTEGER REFERENCES Customer(customer_id) ,
   created_date TEXT NOT NULL,
   total_price REAL DEFAULT[]);`;
 
@@ -49,8 +49,20 @@ export { itemTableQuery, customerTableQuery, cartTableQuery, invoiceTableQuery, 
  * This class will contain all the custom queris
  */
 export class CustomQueries {
+  //global queries (can be used by anyone)
+  getLastInsertedRow = () => `SELECT last_insert_rowid()`;
+  //query to delete all the rows
+  deleteRows = (tableName: string) => `DELETE FROM ${tableName}`;
+  //items related functions
   getItemsFromStock = () => `SELECT item_id,name,price,uom FROM Item`;
   insertNewItem = () => `INSERT INTO Item(name, price, uom ) VALUES (?,?,?)`;
   getItemById = (itemId: number) => `SELECT item_id,name,price,uom FROM Item WHERE item_id=${itemId}`;
   updateItemById = (itemId: number) => `UPDATE Item SET name = ?, price = ?,  uom = ? WHERE item_id = ${itemId}`;
+  //invoice related functions
+  createNewInvoice = () => `INSERT INTO INVOICE(invoice_id, created_date) VALUES (?,date('now'))`;
+  getInvoiceById = (invoiceId: string) => `SELECT invoice_id,created_date FROM Invoice WHERE invoice_id = ${invoiceId}`;
+  //customer related functions
+  addCustomer = () => `INSERT INTO Customer(first_name, last_name)`;
+  getCustomer = () =>   `SELECT first_name, last_name FROM Customer`;
+  getAllCustomer = () =>   `SELECT * FROM Customer`;
 }
