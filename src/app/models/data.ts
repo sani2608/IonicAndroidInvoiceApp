@@ -163,11 +163,10 @@ export class Cart {
   private _itemId: number;
   private _quantity: number;
   private _buyPrice: number;
+  private _totalItemPrice: number;
 
-  constructor(invoiceId: number, itemId: number) {
-    this._invoiceId = invoiceId;
-    this._itemId = itemId;
-  }
+  constructor() {}
+
 
   /**
    * Getter invoiceId @return {number}
@@ -176,12 +175,30 @@ export class Cart {
     return this._invoiceId;
   }
 
+    /**
+     * Setter invoiceId @param {number} value
+     */
+	public set invoiceId(value: number) {
+		this._invoiceId = value;
+	}
+
+
   /**
    * Getter itemId @return {number}
    */
   public get itemId(): number {
     return this._itemId;
   }
+
+    /**
+     * Setter itemId @param {number} value
+     */
+	public set itemId(value: number) {
+		this._itemId = value;
+	}
+
+
+
   /**
    * Getter quantity @return {number}
    */
@@ -208,6 +225,14 @@ export class Cart {
    */
   public set buyPrice(buyPrice: number) {
     this._buyPrice = buyPrice;
+  }
+
+  /**
+   * Getter totalItemPrice @return {number}
+   */
+  public get totalItemPrice() {
+    this._totalItemPrice = this.buyPrice * this.quantity;
+    return this._totalItemPrice;
   }
 }
 //? this Customer model is to enter values in Customer table.
