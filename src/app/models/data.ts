@@ -215,12 +215,21 @@ export class Customer {
   private _customerId: number;
   private _firstName: string;
   private _lastName: string;
-  constructor(customerId?: number) {
-    this._customerId = customerId;
+  constructor() { }
+  public get fullName(){
+    return `${this._firstName} ${this._lastName}`;
   }
+
   /**
    * Getter customerId @return {string}
    */
+
+  /**
+   * Setter customerId @param {number} customerId
+   */
+  public set customerId(customerId: number) {
+    this._customerId = customerId;
+  }
   public get customerId(): number {
     return this._customerId;
   }
@@ -260,10 +269,7 @@ export class Invoice {
   private _createDate: number;
   private _totalPrice: number;
 
-  constructor(invoiceId: number, customerId: number) {
-    this._invoiceId = invoiceId;
-    this._customerId = customerId;
-  }
+  constructor() {}
 
   /**
    * Getter invoiceId @return {number}
@@ -272,12 +278,28 @@ export class Invoice {
     return this._invoiceId;
   }
 
+    /**
+     * Setter invoiceId @param {number} value
+     */
+	public set invoiceId(value: number) {
+		this._invoiceId = value;
+	}
+
+
   /**
    * Getter customerId @return {number}
    */
   public get customerId(): number {
     return this._customerId;
   }
+
+    /**
+     * Setter customerId @param {number} value
+     */
+	public set customerId(value: number) {
+		this._customerId = value;
+	}
+
 
   /**
    * Getter createDate @return {number}
