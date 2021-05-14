@@ -9,7 +9,8 @@ const itemTableQuery = `
   CREATE TABLE IF NOT EXISTS Item(
   item_id INTEGER PRIMARY KEY ASC AUTOINCREMENT  NOT NULL,
   name TEXT NOT NULL UNIQUE,
-  price REAL NOT NULL,uom TEXT NOT NULL
+  price REAL NOT NULL,
+  uom TEXT NOT NULL
   );`;
 
 const customerTableQuery = `
@@ -23,7 +24,7 @@ const cartTableQuery = `
   invoice_id INTEGER REFERENCES Invoice(invoice_id) MATCH[FULL] NOT NULL,
   item_id INTEGER REFERENCES Item(item_id),
   quantity INTEGER DEFAULT(0),
-  price REAL NOT NULL,
+  price REAL DEFAULT[0],
   total_item_price REAL DEFAULT[0],
   PRIMARY KEY(invoice_id,item_id));`;
 
@@ -32,12 +33,13 @@ const invoiceTableQuery = `
   invoice_id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
   customer_id INTEGER REFERENCES Customer(customer_id) ,
   created_date TEXT NOT NULL,
-  total_price REAL DEFAULT[]);`;
+  total_price REAL DEFAULT[0]);`;
 
 const triggerQuery = `
-  DROP TRIGGER IF EXISTS update_total_price;
-  CREATE TRIGGER update_total_priceAFTER INSERTON CartBEGINUPDATE InvoiceSET total_price = (
-    SELECT sum(quantity * price)FROM Cart WHERE Cart.invoice_id = Invoice.invoice_id);END;`;
+  CREATE TRIGGER IF NOT EXISTS update_total_price AFTER INSERT ON
+  Cart BEGIN UPDATE Invoice SET total_price = (
+  SELECT sum(quantity * price)
+  FROM Cart WHERE Cart.invoice_id = Invoice.invoice_id);END;`;
 
 export { itemTableQuery, customerTableQuery, cartTableQuery, invoiceTableQuery, triggerQuery };
 
@@ -66,4 +68,7 @@ export class CustomQueries {
   addCustomer = () => `INSERT INTO Customer(first_name, last_name) VALUES(?,?)`;
   getCustomerById = (customerId: number) =>   `SELECT first_name, last_name FROM Customer WHERE customer_id=${customerId}`;
   getAllCustomer = () =>   `SELECT * FROM Customer`;
+  //cart related functions queries
+  addItemToCart = () => `INSERT INTO Cart(invoice_id, item_id, price, quantity, total_item_price) VALUES (?,?,?,?,?)`;
+  getItemsFromCartByInvoiceId =() => ` select`;
 }

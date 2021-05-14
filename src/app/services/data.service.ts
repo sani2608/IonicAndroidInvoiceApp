@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
-import { Customer, Invoice, Invoices, Item, ItemAddedInNewInvoice, ReadOnlyInvoice } from '../models/data';
+import { Cart, Customer, Invoice, Invoices, Item, ItemAddedInNewInvoice, ReadOnlyInvoice } from '../models/data';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -167,7 +167,7 @@ export class DataService {
 
   async getInvoiceById(invoiceId: number): Promise<Invoice> {
     const invoice: Invoice = new Invoice();
-    await this.databaseObject.executeSql(this.customQueries.getInvoiceById(invoiceId),[]).then(
+    await this.databaseObject.executeSql(this.customQueries.getInvoiceById(invoiceId), []).then(
       (response) => {
         console.log(response.rows.item(0).customer_id);
         invoice.invoiceId = response.rows.item(0).invoice_id;
@@ -175,7 +175,7 @@ export class DataService {
         invoice.createDate = response.rows.item(0).created_date;
         invoice.totalPrice = response.rows.item(0).total_price;
         console.log('got response', invoice);
-      }).catch((e) => console.log('got error while getting invoide',e));
+      }).catch((e) => console.log('got error while getting invoide', e));
     return invoice;
   }
 
@@ -200,8 +200,13 @@ export class DataService {
 
 
 
-  async addItemInNewInvoice(itemId: number, quantity: number, invoice: number): Promise<void> {
-    return;
+  async addItemInNewInvoice(item: Cart): Promise<void> {
+    const itemDataArrayToBePassedInQuery: Array<number> = [item.invoiceId, item.itemId, item.buyPrice, item.quantity, item.totalItemPrice];
+    await this.databaseObject.executeSql(this.customQueries.addItemToCart(), itemDataArrayToBePassedInQuery)
+      .then((response) => {
+        console.log('item added successfully to cart ', response);
+      })
+      .catch(err => console.log('Got error while adding item to cart', err));
   }
 
   async getItemsFromNewInvoice(): Promise<ItemAddedInNewInvoice[]> {

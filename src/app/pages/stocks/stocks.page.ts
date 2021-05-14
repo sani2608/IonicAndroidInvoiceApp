@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Cart } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
 import { Alert } from 'src/app/shared/alert';
 
@@ -12,6 +13,7 @@ import { Alert } from 'src/app/shared/alert';
 export class StocksPage implements OnInit {
   private _flag = false;
   private _isStocksPageOrAddItemInInvoicePage: string;
+  private invoiceId: number;
 
 
   constructor(
@@ -41,8 +43,8 @@ export class StocksPage implements OnInit {
   public get itemsInStock() {
     return this.dataService.listOfItemsInStock;
   }
-  cardClicked(itemId: number) {
-    console.log('itemId which is going to be added in cart \n', itemId);
+  public showAlertBox(itemId: number, itemPrice: number) {
+    console.log('itemId which is going to be added in cart \n', itemId , itemPrice);
     const inputObj = [
       {
         name: 'quantity',
@@ -61,15 +63,14 @@ export class StocksPage implements OnInit {
       }, {
         text: 'Ok',
         handler: (quantity: any) => {
-          // eslint-disable-next-line radix
-          const quantityNumber = parseInt(quantity.quantity);
-          console.log(quantityNumber);
-          if (quantityNumber <= 0) {
-            console.log('Your validation message');
-            return false;
-          } else {
-            //make HTTP call
-          }
+          const quantityNumber = parseInt(quantity.quantity,10);
+          const cartItem = new Cart();
+          cartItem.invoiceId = this.invoiceId;
+          cartItem.itemId = itemId;
+          cartItem.quantity = quantityNumber;
+          cartItem.buyPrice = itemPrice;
+          this.addItemInInvoice(cartItem);
+
         }
       }
     ];
@@ -80,9 +81,10 @@ export class StocksPage implements OnInit {
       buttonObj,
     );
   }
+
   /**will add new item in the invoice */
-  public addItemInNewInvoice(itemId: number, quantity: number, invoiceNumber: number): void {
-    this.dataService.addItemInNewInvoice(itemId, quantity, invoiceNumber);
+  private addItemInInvoice(cartItem: Cart): void {
+    this.dataService.addItemInNewInvoice(cartItem);
   }
 
   /** This will get all the items present in the stock from Database */
@@ -100,6 +102,8 @@ export class StocksPage implements OnInit {
     if (this._isStocksPageOrAddItemInInvoicePage === 's') {
       this._flag = true;
     } else {
+      this.invoiceId = parseInt(this._isStocksPageOrAddItemInInvoicePage,10);
+      console.log('invoice id is',this.invoiceId);
       this._flag = false;
     }
   }

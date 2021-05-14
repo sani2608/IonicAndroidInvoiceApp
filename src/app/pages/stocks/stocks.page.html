@@ -61,7 +61,7 @@
     <div *ngIf="!flag">
     <ion-card
       *ngFor="let item of itemsInStock | async"
-      (click) = "cardClicked(item.itemId)"
+      (click) = "showAlertBox(item.itemId, item.price)"
       class="no-ripple"
     >
       <ion-card-content>
