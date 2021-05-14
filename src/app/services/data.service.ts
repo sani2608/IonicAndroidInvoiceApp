@@ -31,7 +31,8 @@ export class DataService {
   ) {
     this.platform.ready().then(() => {
       console.log('PLATFORM READY FOR DATABASE OPERATIONS');
-      this.createDatabase().then(() => this.isDatabaseReady.next(true));
+      this.createDatabase()
+        .then(() => this.isDatabaseReady.next(true));
     });
   }
 
@@ -127,12 +128,14 @@ export class DataService {
         }
         this._listOfItemsInStock.next(items);
       }
-    ).catch((response) => console.log(response));
+      ).catch((response) => console.log(response));
   }
 
   //? HOME SECTION RELATED FUNCTION
-  async getAllInvoices(): Promise<Invoices[]> {
-    return;
+  async getAllInvoices(): Promise<void> {
+    await this.databaseObject.executeSql(this.customQueries.getAllInvoices(), [])
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
   }
 
   async searchInvoiceByCustomerName(customerName: string): Promise<ReadOnlyInvoice> {
@@ -152,42 +155,50 @@ export class DataService {
   }
 
   //? NEW INVOICE PAGE RELATED FUNCTIONS
-  // customerName: Customer
-  async createNewInvoice(date: Date,): Promise<void> {
-    await this.databaseObject.executeSql(this.customQueries.createNewInvoice(),[])
-    .then(async () => {
-
-      await this.databaseObject.executeSql(this.customQueries.getLastInsertedRow(),[])
+  async createNewInvoice(customerId: number): Promise<number> {
+    let invoiceNumber: number;
+    await this.databaseObject.executeSql(this.customQueries.createNewInvoice(customerId), [])
       .then((res) => {
-        console.log('new invoice created with id = ', res.rows.item());
-      } );
-    }
-    )
-    .catch((e) => console.log('got some error',e));
+        //console.log('created new invoice with id ', res.insertId);
+        invoiceNumber = res.insertId;
+      }).catch((e) => console.log('got some error', e));
+    return invoiceNumber;
+  }
 
-    await this.databaseObject.executeSql(`SELECT last_insert_rowid();`,[])
-      .then((res) => {
-        console.log('new invoice created with id number ', res.rows.item(0)['last_insert_rowid()']);
-        for (let i = 0; i < res.rows.length; i++) {
-          console.log(res.rows.item(i));
-        }
+  async getInvoiceById(invoiceId: number): Promise<Invoice> {
+    const invoice: Invoice = new Invoice();
+    await this.databaseObject.executeSql(this.customQueries.getInvoiceById(invoiceId),[]).then(
+      (response) => {
+        console.log(response.rows.item(0).customer_id);
+        invoice.invoiceId = response.rows.item(0).invoice_id;
+        invoice.customerId = response.rows.item(0).customer_id;
+        invoice.createDate = response.rows.item(0).created_date;
+        invoice.totalPrice = response.rows.item(0).total_price;
+        console.log('got response', invoice);
+      }).catch((e) => console.log('got error while getting invoide',e));
+    return invoice;
+  }
+
+  //? CUSTOMER TABLE
+  async addCustomer(customerName: Customer): Promise<number> {
+    let customerId: number;
+    console.log('adding customer to database', customerName.fullName);
+    await this.databaseObject.executeSql(this.customQueries.addCustomer(),
+      [customerName.firstName, customerName.lastName])
+      .then(res => customerId = res.insertId)
+      .catch(err => console.log('Got error while adding customer', err));
+    return customerId;
+  }
+
+  async getCustomerById(customerId: number): Promise<void> {
+    await this.databaseObject.executeSql(this.customQueries.getCustomerById(customerId), [])
+      .then((response) => {
+        console.log('Got Customer By Id ', response.rows.item(0));
       })
-    .catch((e) => console.log('got some error',e));
-    // await this.databaseObject.executeSql(this.customQueries.deleteRows('Invoice'),[])
-    //   .then((res) => {
-    //     console.log('ALL THE INVOICE ARE DELETED', res.rows.item);
-    //     for (let i = 0; i < res.rows.length; i++) {
-    //       console.log(res.rows.item(i));
-    //     }
-    //   })
-    // .catch((e) => console.log('got some error',e));
-
-
+      .catch(err => console.log('Got error while customer by ID', err));
   }
 
-  async addCustomerInNewInvoice(customerName: Customer, invoiceNumber: number): Promise<void> {
-    return;
-  }
+
 
   async addItemInNewInvoice(itemId: number, quantity: number, invoice: number): Promise<void> {
     return;

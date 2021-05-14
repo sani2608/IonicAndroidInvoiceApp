@@ -50,7 +50,7 @@ export { itemTableQuery, customerTableQuery, cartTableQuery, invoiceTableQuery, 
  */
 export class CustomQueries {
   //global queries (can be used by anyone)
-  getLastInsertedRow = () => `SELECT last_insert_rowid()`;
+  getLastInsertedRowId = () => `SELECT last_insert_rowid()`;
   //query to delete all the rows
   deleteRows = (tableName: string) => `DELETE FROM ${tableName}`;
   //items related functions
@@ -59,10 +59,11 @@ export class CustomQueries {
   getItemById = (itemId: number) => `SELECT item_id,name,price,uom FROM Item WHERE item_id=${itemId}`;
   updateItemById = (itemId: number) => `UPDATE Item SET name = ?, price = ?,  uom = ? WHERE item_id = ${itemId}`;
   //invoice related functions
-  createNewInvoice = () => `INSERT INTO INVOICE(invoice_id, created_date) VALUES (?,date('now'))`;
-  getInvoiceById = (invoiceId: string) => `SELECT invoice_id,created_date FROM Invoice WHERE invoice_id = ${invoiceId}`;
+  createNewInvoice = (customerId: number) => `INSERT INTO Invoice(customer_id, created_date) VALUES (${customerId}, date('now'))`;
+  getAllInvoices = () => `SELECT * FROM Invoice`;
+  getInvoiceById = (invoiceId: number) => `SELECT * FROM Invoice WHERE invoice_id = ${invoiceId}`;
   //customer related functions
-  addCustomer = () => `INSERT INTO Customer(first_name, last_name)`;
-  getCustomer = () =>   `SELECT first_name, last_name FROM Customer`;
+  addCustomer = () => `INSERT INTO Customer(first_name, last_name) VALUES(?,?)`;
+  getCustomerById = (customerId: number) =>   `SELECT first_name, last_name FROM Customer WHERE customer_id=${customerId}`;
   getAllCustomer = () =>   `SELECT * FROM Customer`;
 }
