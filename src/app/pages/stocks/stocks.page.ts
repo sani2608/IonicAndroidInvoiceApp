@@ -39,10 +39,14 @@ export class StocksPage implements OnInit {
     return this._flag;
   }
 
+
+
   /** Getter itemsInStock used by template */
   public get itemsInStock() {
     return this.dataService.listOfItemsInStock;
   }
+
+
   public showAlertBox(itemId: number, itemPrice: number) {
     console.log('itemId which is going to be added in cart \n', itemId , itemPrice);
     const inputObj = [
@@ -70,7 +74,7 @@ export class StocksPage implements OnInit {
           cartItem.quantity = quantityNumber;
           cartItem.buyPrice = itemPrice;
           this.addItemInInvoice(cartItem);
-
+          this.getAllItemsInNewInvoice(this.invoiceId);
         }
       }
     ];
@@ -106,5 +110,14 @@ export class StocksPage implements OnInit {
       console.log('invoice id is',this.invoiceId);
       this._flag = false;
     }
+  }
+  private getAllItemsInNewInvoice(invoiceId: number) {
+    this.dataService.databaseState()
+      .subscribe((response) => {
+        console.log('getting items in new invoice .....\n', response)
+        if (response) {
+          this.dataService.getItemsFromNewInvoice(invoiceId);
+        }
+      });
   }
 }
