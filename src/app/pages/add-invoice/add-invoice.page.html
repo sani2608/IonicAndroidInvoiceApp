@@ -5,13 +5,12 @@
     </ion-buttons>
     <ion-title class="ion-text-center">New Invoice</ion-title>
     <ion-buttons slot="end">
-      <ion-button color="danger" (click)="getInvoiceById()">Save</ion-button>
+      <ion-button color="danger" (click)="onClickSave()">Save</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <div class="fixed-header"></div>
-
 <ion-content>
   <!-- * Customer Information Card -->
   <ion-card color="secondary">
@@ -20,10 +19,16 @@
         <!-- 1 row -->
         <ion-row>
           <ion-col>
-            <ion-text  button (click)="captureCustomerName(200)"><h1>{{customerName.firstName}} {{customerName.lastName}}</h1></ion-text>
+            <ion-text button (click)="captureCustomerName(200)"
+              ><h1>
+                {{customerName.firstName}} {{customerName.lastName}}
+              </h1></ion-text
+            >
           </ion-col>
           <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
-            <ion-text color="danger"><h2>{{date | date: 'dd-MMMM-yyyy'}}</h2></ion-text>
+            <ion-text color="danger"
+              ><h2>{{date | date: 'dd-MMMM-yyyy'}}</h2></ion-text
+            >
           </ion-col>
         </ion-row>
         <!-- 2nd row -->
@@ -40,9 +45,11 @@
   </ion-card>
 
   <!-- * Add Items card -->
-  <ion-card >
+  <ion-card>
     <ion-toolbar>
-      <ion-title align="center">Items(5)</ion-title>
+      <ion-title align="center"
+        >Items({{(itemsAddedInNewInvoice | async).length}})</ion-title
+      >
       <ion-buttons slot="primary">
         <ion-button [routerLink]="['./','stocks',invoiceId]">
           <ion-icon
@@ -55,52 +62,56 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-card>
+<!-- *Empty cart image  -->
+  <ion-card *ngIf="(itemsAddedInNewInvoice | async).length == 0">
+                <ion-card-title align="center">Add Items To Invoice</ion-card-title>
+    <img src="assets/emtyCart.png" />
+  </ion-card>
 
-  <!-- * Show Add Items message if the item list is 0 -->
-  <!-- //TODO *ngIf to be added here -->
-  <!-- <ion-item>
-    <ion-grid>
-      <ion-row>
-        <ion-col align="center">
-          <ion-list>
-            <ion-text>Add Items</ion-text>
-          </ion-list>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item> -->
-  <!-- *Item section
+
+  <!-- *Item section -->
   <div>
-    <!-- //TODO *Implementation to be added later
-    <!-- *FIRST ITEM CARD
-    <ion-card *ngFor="let item of itemsAddedInInvoice" class="border">
+    <!-- //TODO *Implementation to be added later -->
+    <!-- *FIRST ITEM CARD -->
+    <ion-card
+      *ngFor="let item of itemsAddedInNewInvoice | async; let i = index;"
+      class="border"
+    >
       <ion-card-content class="item-margin">
         <ion-grid>
-          <!-- 1 row
+          <!-- 1 row -->
           <ion-row>
             <ion-col>
               <ion-text><h1>{{item.name}}</h1></ion-text>
             </ion-col>
             <ion-col align="right">
-              <ion-text color="primary"><h2 style="padding-right: 15px !important; ">₹  {{item.totalPrice}}</h2></ion-text>
+              <ion-text color="primary"
+                ><h2 style="padding-right: 15px !important">
+                  ₹ {{item.totalPrice}}
+                </h2></ion-text
+              >
             </ion-col>
           </ion-row>
-          <!-- 2nd row
+          <!-- 2nd row -->
           <ion-row>
             <ion-col>
-              <ion-text> <h3>Quantity: {{item.price}}</h3></ion-text>
+              <ion-text> <h3>Quantity: {{item.quantity}}</h3></ion-text>
               <div style="clear: both">
                 <h4 style="float: left">Price:</h4>
-                <h4 style="float: left; color: #3880ff">₹  {{item.price}} per  {{item.uom}}</h4>
+                <h4 style="float: left; color: #3880ff">
+                  ₹ {{item.price}} per {{item.uom}}
+                </h4>
               </div>
             </ion-col>
-            <!-- *DELETE ICON SECTION
+            <!-- *DELETE ICON SECTION -->
             <ion-col>
               <ion-buttons>
                 <ion-grid>
                   <ion-row>
                     <ion-col align="right">
-                      <ion-button>
+                      <ion-button
+                        (click)="deleteItemFromInvoice(item.itemId,invoiceId,i)"
+                      >
                         <ion-icon
                           color="danger"
                           slot="icon-only"
@@ -117,6 +128,5 @@
         </ion-grid>
       </ion-card-content>
     </ion-card>
-  </div> -->
+  </div>
 </ion-content>
-

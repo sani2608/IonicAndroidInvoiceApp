@@ -12,12 +12,12 @@
     >
     <ion-title
       class="ion-text-center"
-      *ngIf="isStocksPageOrAddItemInInvoicePage === 'AI'"
+      *ngIf="!flag"
     >
       Add Items ({{(itemsInStock | async).length }})</ion-title
     >
 
-    <ion-buttons slot="primary">
+    <ion-buttons slot="primary" *ngIf="flag">
       <ion-button [routerLink]="['./','add-update-item','addNewItem']">
         <ion-icon
           color="primary"

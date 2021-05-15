@@ -15,7 +15,7 @@
         ></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">Invoices({{invoices.length}})</ion-title>
+    <ion-title class="ion-text-center">Invoices({{(invoices | async).length}})</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -23,13 +23,13 @@
   <ion-searchbar
     #searchBox
     placeholder="search by customer name or invoice no."
-    (search)="searchInvoice(searchBox.value)"
+    (ionChange)="searchInvoice(searchBox.value)"
   ></ion-searchbar>
 
   <div>
     <!-- *FIRST CARD -->
     <ion-card
-      *ngFor="let invoice of invoices"
+      *ngFor="let invoice of invoices | async"
       [routerLink]="['./','view-invoice-in-readonly',invoice.invoiceId]"
       class="no-ripple"
     >
@@ -38,10 +38,10 @@
           <!-- 1 row -->
           <ion-row>
             <ion-col>
-              <ion-text><h1>{{invoice.customerName}}</h1></ion-text>
+              <ion-text><h1>{{invoice.customerFullName}}</h1></ion-text>
             </ion-col>
             <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
-              <ion-text color="danger"><h2>{{invoice.date}}</h2></ion-text>
+              <ion-text color="danger"><h2>{{invoice.createdDate | date}}</h2></ion-text>
             </ion-col>
           </ion-row>
           <!-- 2nd row -->
@@ -58,7 +58,7 @@
           <!-- 3rd row -->
           <ion-row>
             <ion-col>
-              <ion-text> <h4>Invoice #: 1000</h4></ion-text>
+              <ion-text> <h4>Invoice #: {{invoice.invoiceId}}</h4></ion-text>
             </ion-col>
           </ion-row>
         </ion-grid>
