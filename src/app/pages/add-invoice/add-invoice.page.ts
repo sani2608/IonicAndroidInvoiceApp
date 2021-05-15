@@ -1,8 +1,10 @@
 /* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Customer, Invoice } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
 import { Alert } from 'src/app/shared/alert';
+import { Toast } from 'src/app/shared/toast';
 
 @Component({
   selector: 'app-add-invoice',
@@ -17,6 +19,14 @@ export class AddInvoicePage implements OnInit {
   private _invoiceId: number;
 
 
+
+  // public get itemsInStock() {
+  //   return this.dataService.itemsAddedInNewInvoice;
+  // }
+
+  public get itemsAddedInNewInvoice() {
+    return this.dataService.itemsAddedInNewInvoice;
+  }
 
   /**
    * Getter invoiceId @return {number}
@@ -38,6 +48,8 @@ export class AddInvoicePage implements OnInit {
 
   constructor(
     private alert: Alert,
+    private toast: Toast,
+    private router: Router,
     private dataService: DataService
   ) { }
 
@@ -62,8 +74,20 @@ export class AddInvoicePage implements OnInit {
       );
   }
 
-  public deleteItemFromInvoice(itemId: number, invoiceNumber: number): void {
-    this.dataService.deleteItemFromNewInvoice(itemId, invoiceNumber);
+  public deleteItemFromInvoice(itemId: number, invoiceNumber: number,index: number): void {
+    console.log('deleteing item', itemId, invoiceNumber);
+    this.dataService.deleteItemFromNewInvoice(itemId, invoiceNumber, index)
+    .then(() => this.getAllItemsInNewInvoice(this._invoiceId));
+
+  }
+  private getAllItemsInNewInvoice(invoiceId: number) {
+    this.dataService.databaseState()
+      .subscribe((response) => {
+        console.log('getting items in new invoice .....\n', response.valueOf())
+        if (response) {
+          this.dataService.getItemsFromNewInvoice(invoiceId);
+        }
+      });
   }
 
   public createInvoice(customerId: number): void {
@@ -75,8 +99,14 @@ export class AddInvoicePage implements OnInit {
       });
   }
 
-  getInvoiceById() {
+  public getInvoiceById() {
     this.dataService.getInvoiceById(this._invoiceId);
+  }
+
+  public onClickSave(){
+    this.dataService.getAllInvoices();
+    this.toast.displayToast('Invoice Saved Successfully','primary','bottom');
+    this.router.navigateByUrl('home');
   }
 
 
