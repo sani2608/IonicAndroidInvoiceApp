@@ -82,8 +82,20 @@ export class ItemAddedInNewInvoice {
   private _uom: string;
   private _quantity: number;
   private _totalPrice: number;
-  constructor(itemId: number) {
+  constructor(
+    itemId?: number,
+    name?: string,
+    price?: number,
+    uom?: string,
+    quantity?: number,
+    totalPrice?: number
+  ) {
     this._itemId = itemId;
+    this._name = name;
+    this._price = price;
+    this._uom = uom;
+    this._quantity = quantity;
+    this._totalPrice = totalPrice;
   }
 
   /**
@@ -153,7 +165,7 @@ export class ItemAddedInNewInvoice {
    * Getter totalPrice @return {number}
    */
   public get totalPrice(): number {
-    const total = this._quantity * this._totalPrice;
+    const total = this._quantity * this._price;
     return total;
   }
 }
@@ -165,7 +177,7 @@ export class Cart {
   private _buyPrice: number;
   private _totalItemPrice: number;
 
-  constructor() {}
+  constructor() { }
 
 
   /**
@@ -175,12 +187,12 @@ export class Cart {
     return this._invoiceId;
   }
 
-    /**
-     * Setter invoiceId @param {number} value
-     */
-	public set invoiceId(value: number) {
-		this._invoiceId = value;
-	}
+  /**
+   * Setter invoiceId @param {number} value
+   */
+  public set invoiceId(value: number) {
+    this._invoiceId = value;
+  }
 
 
   /**
@@ -190,12 +202,12 @@ export class Cart {
     return this._itemId;
   }
 
-    /**
-     * Setter itemId @param {number} value
-     */
-	public set itemId(value: number) {
-		this._itemId = value;
-	}
+  /**
+   * Setter itemId @param {number} value
+   */
+  public set itemId(value: number) {
+    this._itemId = value;
+  }
 
 
 
@@ -241,7 +253,7 @@ export class Customer {
   private _firstName: string;
   private _lastName: string;
   constructor() { }
-  public get fullName(){
+  public get fullName() {
     return `${this._firstName} ${this._lastName}`;
   }
 
@@ -294,7 +306,7 @@ export class Invoice {
   private _createDate: number;
   private _totalPrice: number;
 
-  constructor() {}
+  constructor() { }
 
   /**
    * Getter invoiceId @return {number}
@@ -303,12 +315,12 @@ export class Invoice {
     return this._invoiceId;
   }
 
-    /**
-     * Setter invoiceId @param {number} value
-     */
-	public set invoiceId(value: number) {
-		this._invoiceId = value;
-	}
+  /**
+   * Setter invoiceId @param {number} value
+   */
+  public set invoiceId(value: number) {
+    this._invoiceId = value;
+  }
 
 
   /**
@@ -318,12 +330,12 @@ export class Invoice {
     return this._customerId;
   }
 
-    /**
-     * Setter customerId @param {number} value
-     */
-	public set customerId(value: number) {
-		this._customerId = value;
-	}
+  /**
+   * Setter customerId @param {number} value
+   */
+  public set customerId(value: number) {
+    this._customerId = value;
+  }
 
 
   /**
@@ -359,12 +371,22 @@ export class Invoice {
 export class Invoices {
   private _customerFullName: string;
   private _totalItems: number;
-  private _invoiceNumber: number;
-  private _createdDate: number;
+  private _invoiceId: number;
+  private _createdDate: string;
   private _totalPrice: number;
 
-  constructor(invoiceNumbar: number) {
-    this._invoiceNumber = invoiceNumbar;
+  constructor(
+    customerFullName?: string,
+    totalItems?: number,
+    invoiceId?: number,
+    createDate?: string,
+    totalPrice?: number,
+  ) {
+    this.customerFullName = customerFullName;
+    this._totalItems = totalItems;
+    this._invoiceId = invoiceId;
+    this._createdDate = createDate;
+    this._totalPrice = totalPrice;
   }
 
   /**
@@ -398,21 +420,21 @@ export class Invoices {
   /**
    * Getter invoiceNumber @return {number}
    */
-  public get invoiceNumber(): number {
-    return this._invoiceNumber;
+  public get invoiceId(): number {
+    return this._invoiceId;
   }
 
   /**
    * Getter createdDate @return {number}
    */
-  public get createdDate(): number {
+  public get createdDate(): string {
     return this._createdDate;
   }
 
   /**
    * Setter createdDate @param {number} createdDate
    */
-  public set createdDate(createdDate: number) {
+  public set createdDate(createdDate: string) {
     this._createdDate = createdDate;
   }
 
