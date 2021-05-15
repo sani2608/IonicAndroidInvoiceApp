@@ -56,7 +56,7 @@ export class AddUpdateItemPage implements OnInit {
   public addItem(item: Item): void {
     this.dataService.addItemInStock(item)
       .then((res) => {
-        console.log(`${item.name} added successuflly amd itemId is `);
+        console.log(`${item.name} added successuflly and itemId is `,res);
         this.toast.displayToast(`${item.name} added successfully`, 'primary','bottom');
         this.updateStockList();
         this.router.navigateByUrl('home/stocks/s');
