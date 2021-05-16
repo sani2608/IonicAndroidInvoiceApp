@@ -136,30 +136,24 @@ export class DataService {
 
   //? HOME SECTION RELATED FUNCTION
   async getAllInvoices(): Promise<void> {
-    await this.databaseObject.executeSql(this.customQueries.getAllInvoices(), [])
+    await this.databaseObject.executeSql(this.customQueries.getInvoicesForHomePage(), [])
       .then((resp) => {
-        //console.log('got response for getAll INvoices', resp);
         const invoice: Array<Invoices> = [];
         if (resp.rows.length > 0) {
           for (let i = 0; i < resp.rows.length; i++) {
-            let totalItem: number;
-            this.getTotalItemsInInvoice(resp.rows.item(i).invoice_id)
-              .then(r => {
-                totalItem = r;
-               // console.log(typeof totalItem);
-                const newInvoiceData = new Invoices(
-                  resp.rows.item(i).customer_full_name,
-                  totalItem,
-                  resp.rows.item(i).invoice_id,
-                  resp.rows.item(i).created_date,
-                  resp.rows.item(i).total_price,
-                );
-                invoice.push(newInvoiceData);
-              })
-          }}
-          console.log(invoice);
-          this._homePageInvoiceList.next(invoice);
+            const newInvoiceData = new Invoices(
+              resp.rows.item(i).customer_full_name,
+              resp.rows.item(i).total_items_in_cart,
+              resp.rows.item(i).invoice_id,
+              resp.rows.item(i).created_date,
+              resp.rows.item(i).total_price,
+            );
+            invoice.push(newInvoiceData);
+          }
         }
+        console.log(invoice);
+        this._homePageInvoiceList.next(invoice);
+      }
       ).catch((response) => console.log(response));
   }
 
@@ -175,10 +169,19 @@ export class DataService {
 
 
   //? READONLY PAGE RELATED FUNCTIONS
-  async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<ReadOnlyInvoice> {
-
-    return;
-  }
+  // async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<ReadOnlyInvoice> {
+  //   const invoice: ReadOnlyInvoice = new ReadOnlyInvoice();
+  //   await this.databaseObject.executeSql(this.customQueries.getReadOnlyInvoiceDetailsById(invoiceId), []).then(
+  //     (response) => {
+  //       // console.log(response.rows.item(0).customer_id);
+  //       invoice.invoiceId = response.rows.item(0).invoice_id;
+  //       invoice.customerId = response.rows.item(0).customer_id;
+  //       invoice.createDate = response.rows.item(0).created_date;
+  //       invoice.totalPrice = response.rows.item(0).total_price;
+  //       console.log('got response', invoice);
+  //     }).catch((e) => console.log('got error while getting invoide', e));
+  //   return invoice;
+  // }
 
   //? NEW INVOICE PAGE RELATED FUNCTIONS
   async createNewInvoice(customerId: number): Promise<number> {
@@ -195,7 +198,7 @@ export class DataService {
     const invoice: Invoice = new Invoice();
     await this.databaseObject.executeSql(this.customQueries.getInvoiceById(invoiceId), []).then(
       (response) => {
-        console.log(response.rows.item(0).customer_id);
+       // console.log(response.rows.item(0).customer_id);
         invoice.invoiceId = response.rows.item(0).invoice_id;
         invoice.customerId = response.rows.item(0).customer_id;
         invoice.createDate = response.rows.item(0).created_date;
@@ -205,17 +208,17 @@ export class DataService {
     return invoice;
   }
 
-  async getTotalItemsInInvoice(invoiceId: number): Promise<number> {
-    let totalItems: number;
-   // console.log('getting total for ', invoiceId)
-    await this.databaseObject.executeSql(this.customQueries.getTotalItemsByInvoiceNo(invoiceId), [])
-      .then((response) => {
-        totalItems = response.rows.item(0)['total_items'];
-        //console.log(totalItems);
-      })
-      .catch(e => console.log('got error while getting total items', e));
-    return totalItems;
-  }
+  // async getTotalItemsInInvoice(invoiceId: number): Promise<number> {
+  //   let totalItems: number;
+  //   // console.log('getting total for ', invoiceId)
+  //   await this.databaseObject.executeSql(this.customQueries.getTotalItemsByInvoiceNo(invoiceId), [])
+  //     .then((response) => {
+  //       totalItems = response.rows.item(0)['total_items'];
+  //       //console.log(totalItems);
+  //     })
+  //     .catch(e => console.log('got error while getting total items', e));
+  //   return totalItems;
+  // }
 
   //? CUSTOMER TABLE
   async addCustomer(customerName: Customer): Promise<number> {

@@ -62,7 +62,7 @@ export class CustomQueries {
   updateItemById = (itemId: number) => `UPDATE Item SET name = ?, price = ?,  uom = ? WHERE item_id = ${itemId}`;
   //invoice related functions
   createNewInvoice = (customerId: number) => `INSERT INTO Invoice(customer_id, created_date) VALUES (${customerId}, date('now'))`;
- // getAllInvoices = () => `SELECT * FROM Invoice`;
+  // getAllInvoices = () => `SELECT * FROM Invoice`;
   getInvoiceById = (invoiceId: number) => `SELECT * FROM Invoice WHERE invoice_id = ${invoiceId}`;
   //customer related functions
   addCustomer = () => `INSERT INTO Customer(first_name, last_name) VALUES(?,?)`;
@@ -72,23 +72,63 @@ export class CustomQueries {
   addItemToCart = () => `INSERT INTO Cart(invoice_id, item_id, price, quantity, total_item_price) VALUES (?,?,?,?,?)`;
   // getItemsFromCartByInvoiceId =(invoiceId: number) => `SELECT * FROM Cart WHERE invoice_id = ${invoiceId}`;
   getItemsFromCartByInvoiceId = (invoiceId: number) =>
-                    `SELECT Cart.item_id, Item.name,
-                     Cart.price, Item.uom,
-                     Cart.quantity, Cart.total_item_price
-                     From Cart INNER JOIN Item ON
-                     Cart.item_id = Item.item_id WHERE
-                     invoice_id = ${invoiceId}`;
+                  `SELECT Cart.item_id, Item.name,
+                    Cart.price, Item.uom,
+                    Cart.quantity, Cart.total_item_price
+                    From Cart INNER JOIN Item ON
+                    Cart.item_id = Item.item_id WHERE
+                    invoice_id = ${invoiceId}`;
 
   deleteCartItemByInvoiceIdAndItemId =
-                     (itemId: number, invoiceId: number) =>
-                     `DELETE  from Cart WHERE invoice_id = ${invoiceId} AND item_id = ${itemId}`;
+    (itemId: number, invoiceId: number) =>
+      `DELETE  from Cart WHERE invoice_id = ${invoiceId} AND item_id = ${itemId}`;
+
   getAllInvoices = () =>
-                    `SELECT Invoice.invoice_id, Invoice.created_date,
+    `SELECT Invoice.invoice_id, Invoice.created_date,
                         Invoice.total_price,
                         Customer.first_name ||' '|| Customer.last_name as customer_full_name
-                        FROM Invoice INNER JOIN Customer ON Invoice.customer_id = Customer.customer_id ORDER BY invoice_id DESC`;
+                        FROM Invoice INNER JOIN
+                        Customer ON Invoice.customer_id = Customer.customer_id ORDER BY invoice_id DESC`;
 
-  getTotalItemsByInvoiceNo = (invoiceId: number) =>
-                            `SELECT count(invoice_id) as total_items
-                            FROM Cart  WHERE invoice_id = ${invoiceId}`;
+  // getTotalItemsByInvoiceNo = (invoiceId: number) =>
+  //                           `SELECT count(invoice_id) as total_items
+  //                           FROM Cart  WHERE invoice_id = ${invoiceId}`;
+
+  getInvoicesForHomePage = () =>
+    `SELECT Invoice.invoice_id, Invoice.created_date,
+                              Invoice.total_price,count(Cart.invoice_id) as total_items_in_cart,
+                              Customer.first_name||' '|| Customer.last_name as customer_full_name
+                              from Cart
+                              INNER JOIN Invoice
+                              on (Cart.invoice_id = Invoice.invoice_id)
+                              INNER JOIN Customer
+                              on (Customer.customer_id = Invoice.invoice_id)
+                              GROUP by Invoice.invoice_id`;
+
+
+  getReadOnlyInvoiceDetailsById = (invoiceId: number) =>
+                              `SELECT Invoice.invoice_id, Invoice.created_date,
+                                Invoice.total_price, count(Cart.invoice_id) as total_items_in_cart,
+                                sum(Cart.quantity) as total_quantity_of_all_items,
+                                Customer.first_name||' '|| Customer.last_name as customer_full_name
+                                from Cart
+                                INNER JOIN Invoice
+                                on (Cart.invoice_id = Invoice.invoice_id)
+                                INNER JOIN Customer
+                                on (Customer.customer_id = Invoice.invoice_id)
+                                WHERE Invoice.invoice_id = ${invoiceId} GROUP by Invoice.invoice_id;
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
