@@ -25,7 +25,7 @@ export class HomePage implements OnInit {
   public getAllInvoices(): void {
     this.dataService.databaseState()
       .subscribe((response) => {
-        console.log('getting invoice on homepage .....\n', response)
+        console.log('getting invoice on homepage .....\n', response);
         if (response) {
           this.dataService.getAllInvoices();
         }
@@ -40,6 +40,16 @@ export class HomePage implements OnInit {
     } else {
       this.dataService.searchInvoiceByInvoiceNumber(convertSearchValueToNumber);
     }
+  }
+
+  clearSearch(event){
+    console.log('clearing search');
+    console.log(event);
+    this.getAllInvoices();
+  }
+
+  titleClicked(){
+    this.getAllInvoices();
   }
 }
 

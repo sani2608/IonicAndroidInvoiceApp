@@ -150,15 +150,25 @@ export class DataService {
       ).catch((response) => console.log(response));
   }
 
-  async searchInvoiceByCustomerName(customerName: string): Promise<Invoices> {
+  async searchInvoiceByCustomerName(customerName: string): Promise<void> {
     console.log('from search by name function\n', customerName);
-    return;
+    let newInvoice: Array<Invoices> = [];
+    newInvoice = this._homePageInvoiceList.value
+      .filter((invoice) => invoice.customerFullName === customerName);
+    this._homePageInvoiceList.next(newInvoice);
   }
 
-  async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<Invoices> {
+  async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<void> {
     console.log('from search by invoiceNumber \n', invoiceNumber);
-    return;
+   let newInvoice: Array<Invoices> = [];
+    newInvoice = this._homePageInvoiceList.value
+    .filter((invoice) => invoice.invoiceId === invoiceNumber);
+    this._homePageInvoiceList.next(newInvoice);
   }
+
+
+
+
 
 
   //? READONLY PAGE RELATED FUNCTIONS

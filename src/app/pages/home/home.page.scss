@@ -7,3 +7,6 @@ ion-card {
   --ripple-color: transparent;
 }
 
+.ion-content {
+  user-select: none !important;
+}

@@ -15,15 +15,17 @@
         ></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">Invoices({{(invoices | async).length}})</ion-title>
+    <ion-title (click)="titleClicked()" class="ion-text-center">Invoices({{(invoices | async).length}})</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- ionChange -->
   <ion-searchbar
     #searchBox
     placeholder="search by customer name or invoice no."
-    (ionChange)="searchInvoice(searchBox.value)"
+    (cancel)="clearSearch($event)"
+    (search)="searchInvoice(searchBox.value)"
   ></ion-searchbar>
 
   <div>
