@@ -160,9 +160,9 @@ export class DataService {
 
   async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<void> {
     console.log('from search by invoiceNumber \n', invoiceNumber);
-   let newInvoice: Array<Invoices> = [];
+    let newInvoice: Array<Invoices> = [];
     newInvoice = this._homePageInvoiceList.value
-    .filter((invoice) => invoice.invoiceId === invoiceNumber);
+      .filter((invoice) => invoice.invoiceId === invoiceNumber);
     this._homePageInvoiceList.next(newInvoice);
   }
 
@@ -221,13 +221,13 @@ export class DataService {
     return customerId;
   }
 
-  async getCustomerById(customerId: number): Promise<void> {
-    await this.databaseObject.executeSql(this.customQueries.getCustomerById(customerId), [])
-      .then((response) => {
-        console.log('Got Customer By Id ', response.rows.item(0));
-      })
-      .catch(err => console.log('Got error while customer by ID', err));
-  }
+  // async getCustomerById(customerId: number): Promise<void> {
+  //   await this.databaseObject.executeSql(this.customQueries.getCustomerById(customerId), [])
+  //     .then((response) => {
+  //       console.log('Got Customer By Id ', response.rows.item(0));
+  //     })
+  //     .catch(err => console.log('Got error while customer by ID', err));
+  // }
 
 
 

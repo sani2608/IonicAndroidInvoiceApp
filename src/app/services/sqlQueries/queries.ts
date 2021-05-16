@@ -59,6 +59,7 @@ export class CustomQueries {
   getItemsFromStock = () => `SELECT item_id,name,price,uom FROM Item`;
   insertNewItem = () => `INSERT INTO Item(name, price, uom ) VALUES (?,?,?)`;
   getItemById = (itemId: number) => `SELECT item_id,name,price,uom FROM Item WHERE item_id=${itemId}`;
+
   updateItemById = (itemId: number) => `UPDATE Item SET name = ?, price = ?,  uom = ? WHERE item_id = ${itemId}`;
   //invoice related functions
   createNewInvoice = (customerId: number) => `INSERT INTO Invoice(customer_id, created_date) VALUES (${customerId}, date('now'))`;
