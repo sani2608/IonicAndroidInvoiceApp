@@ -72,7 +72,7 @@ export class CustomQueries {
   addItemToCart = () => `INSERT INTO Cart(invoice_id, item_id, price, quantity, total_item_price) VALUES (?,?,?,?,?)`;
   // getItemsFromCartByInvoiceId =(invoiceId: number) => `SELECT * FROM Cart WHERE invoice_id = ${invoiceId}`;
   getItemsFromCartByInvoiceId = (invoiceId: number) =>
-                  `SELECT Cart.item_id, Item.name,
+    `SELECT Cart.item_id, Item.name,
                     Cart.price, Item.uom,
                     Cart.quantity, Cart.total_item_price
                     From Cart INNER JOIN Item ON
@@ -103,11 +103,11 @@ export class CustomQueries {
                               on (Cart.invoice_id = Invoice.invoice_id)
                               INNER JOIN Customer
                               on (Customer.customer_id = Invoice.invoice_id)
-                              GROUP by Invoice.invoice_id`;
+                              GROUP by Invoice.invoice_id ORDER BY Invoice.invoice_id DESC`;
 
 
   getReadOnlyInvoiceDetailsById = (invoiceId: number) =>
-                              `SELECT Invoice.invoice_id, Invoice.created_date,
+    `SELECT Invoice.invoice_id, Invoice.created_date,
                                 Invoice.total_price, count(Cart.invoice_id) as total_items_in_cart,
                                 sum(Cart.quantity) as total_quantity_of_all_items,
                                 Customer.first_name||' '|| Customer.last_name as customer_full_name
