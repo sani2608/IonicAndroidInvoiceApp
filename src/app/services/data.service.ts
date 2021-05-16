@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
-import { Cart, Customer, Invoice, Invoices, Item, ItemAddedInNewInvoice, ReadOnlyInvoice } from '../models/data';
+import { Cart, Customer, Invoice, Invoices, Item, ItemAddedInNewInvoice } from '../models/data';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { itemTableQuery, customerTableQuery, cartTableQuery, invoiceTableQuery, triggerQuery, CustomQueries } from '../services/sqlQueries/queries';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,8 +18,8 @@ export class DataService {
   private _homePageInvoiceList: BehaviorSubject<Array<Invoices>> = new BehaviorSubject([]);
   /** This will store the items that are added in stock while creating new invoice */
   private _itemsAddedInNewInvoice: BehaviorSubject<Array<ItemAddedInNewInvoice>> = new BehaviorSubject([]);
-  /** This will store the ready only invoice details */
-  private _readOnlyInvoiceDetails: ReadOnlyInvoice;
+
+
   //?DATABASE OBJECT
   private databaseObject: SQLiteObject;
   private isDatabaseReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -47,18 +47,11 @@ export class DataService {
     return this._homePageInvoiceList.asObservable();
   }
 
-  /** Getter itemsAddedInNewInvoice */
-  // public get itemsAddedInNewInvoice(): Observable<ItemAddedInNewInvoice[]> {
-  //   return this._itemsAddedInNewInvoice.asObservable();
-  // }
+
   public get itemsAddedInNewInvoice(): Observable<ItemAddedInNewInvoice[]> {
     return this._itemsAddedInNewInvoice.asObservable();
   }
 
-  /** Getter readOnlyInvoiceDetails */
-  public get readOnlyInvoiceDetails(): ReadOnlyInvoice {
-    return this._readOnlyInvoiceDetails;
-  }
 
   //? DATABASE RELATED FUNCTIONS
   databaseState() {
@@ -157,31 +150,31 @@ export class DataService {
       ).catch((response) => console.log(response));
   }
 
-  async searchInvoiceByCustomerName(customerName: string): Promise<ReadOnlyInvoice> {
+  async searchInvoiceByCustomerName(customerName: string): Promise<Invoices> {
     console.log('from search by name function\n', customerName);
     return;
   }
 
-  async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<ReadOnlyInvoice> {
+  async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<Invoices> {
     console.log('from search by invoiceNumber \n', invoiceNumber);
     return;
   }
 
 
   //? READONLY PAGE RELATED FUNCTIONS
-  // async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<ReadOnlyInvoice> {
-  //   const invoice: ReadOnlyInvoice = new ReadOnlyInvoice();
-  //   await this.databaseObject.executeSql(this.customQueries.getReadOnlyInvoiceDetailsById(invoiceId), []).then(
-  //     (response) => {
-  //       // console.log(response.rows.item(0).customer_id);
-  //       invoice.invoiceId = response.rows.item(0).invoice_id;
-  //       invoice.customerId = response.rows.item(0).customer_id;
-  //       invoice.createDate = response.rows.item(0).created_date;
-  //       invoice.totalPrice = response.rows.item(0).total_price;
-  //       console.log('got response', invoice);
-  //     }).catch((e) => console.log('got error while getting invoide', e));
-  //   return invoice;
-  // }
+  async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<Invoices> {
+    const readOnlyInvoice: Invoices = new Invoices();
+    await this.databaseObject.executeSql(this.customQueries.getReadOnlyInvoiceDetailsById(invoiceId), [])
+      .then(
+        (response) => {
+          readOnlyInvoice.customerFullName = response.rows.item(0).customer_full_name;
+          readOnlyInvoice.totalItems = response.rows.item(0).total_items_in_cart;
+          readOnlyInvoice.invoiceId = response.rows.item(0).invoice_id;
+          readOnlyInvoice.createdDate = response.rows.item(0).created_date;
+          readOnlyInvoice.totalPrice = response.rows.item(0).total_price;
+        }).catch((e) => console.log('got error while getting invoide', e));
+    return readOnlyInvoice;
+  }
 
   //? NEW INVOICE PAGE RELATED FUNCTIONS
   async createNewInvoice(customerId: number): Promise<number> {
@@ -198,7 +191,6 @@ export class DataService {
     const invoice: Invoice = new Invoice();
     await this.databaseObject.executeSql(this.customQueries.getInvoiceById(invoiceId), []).then(
       (response) => {
-       // console.log(response.rows.item(0).customer_id);
         invoice.invoiceId = response.rows.item(0).invoice_id;
         invoice.customerId = response.rows.item(0).customer_id;
         invoice.createDate = response.rows.item(0).created_date;
@@ -207,18 +199,6 @@ export class DataService {
       }).catch((e) => console.log('got error while getting invoide', e));
     return invoice;
   }
-
-  // async getTotalItemsInInvoice(invoiceId: number): Promise<number> {
-  //   let totalItems: number;
-  //   // console.log('getting total for ', invoiceId)
-  //   await this.databaseObject.executeSql(this.customQueries.getTotalItemsByInvoiceNo(invoiceId), [])
-  //     .then((response) => {
-  //       totalItems = response.rows.item(0)['total_items'];
-  //       //console.log(totalItems);
-  //     })
-  //     .catch(e => console.log('got error while getting total items', e));
-  //   return totalItems;
-  // }
 
   //? CUSTOMER TABLE
   async addCustomer(customerName: Customer): Promise<number> {
@@ -280,7 +260,7 @@ export class DataService {
       .executeSql(this.customQueries.deleteCartItemByInvoiceIdAndItemId(itemId, invoiceId), [])
       .then((res) => {
         console.log('item deleted', res.rows.item(0));
-        this.removeItemFromInvoiceList(index)
+        this.removeItemFromInvoiceList(index);
       })
       .catch(e => console.log('got error while deleteing', e));
   }
