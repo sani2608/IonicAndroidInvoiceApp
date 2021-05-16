@@ -165,9 +165,10 @@ export class ItemAddedInNewInvoice {
    * Getter totalPrice @return {number}
    */
   public get totalPrice(): number {
-    const total = this._quantity * this._price;
-    return total;
+    this._totalPrice = this._quantity * this._price;
+    return this._totalPrice;
   }
+
 }
 //? this Cart model is to enter values in Cart table.
 export class Cart {
@@ -424,6 +425,15 @@ export class Invoices {
     return this._invoiceId;
   }
 
+    /**
+     * Setter invoiceId @param {number} invoiceId
+     */
+	public set invoiceId(invoiceId: number) {
+		this._invoiceId = invoiceId;
+	}
+
+
+
   /**
    * Getter createdDate @return {number}
    */
@@ -453,156 +463,6 @@ export class Invoices {
   }
 }
 
-//? this model will be used to display data on ReadOnly page.
-export class ReadOnlyInvoice {
-  private _customerFullName: string;
-  private _createdDate: number;
-  private _invoiceNumber: number;
-  private _totalItems: number;
-  private _totalQuantity: number;
-  private _itemName: string;
-  private _itemPrice: number;
-  private _itemQuantity: number;
-  private _totalPrice: number;
-  private _uom: string;
-
-  constructor(invoiceNumber: number) {
-    this._invoiceNumber = invoiceNumber;
-  }
-
-  /**
-   * Getter invoiceNumber @return {number}
-   */
-  public get invoiceNumber(): number {
-    return this._invoiceNumber;
-  }
-
-  /**
-   * Getter customerFullName @return {string}
-   */
-  public get customerFullName(): string {
-    return this._customerFullName;
-  }
-
-  /**
-   * Setter customerFullName @param {string} customerFullName
-   */
-  public set customerFullName(customerFullName: string) {
-    this._customerFullName = customerFullName;
-  }
-
-  /**
-   * Getter createdDate @return {number}
-   */
-  public get createdDate(): number {
-    return this._createdDate;
-  }
-
-  /**
-   * Setter createdDate @param {number} createdDate
-   */
-  public set createdDate(createdDate: number) {
-    this._createdDate = createdDate;
-  }
-
-  /**
-   * Getter totalItems @return {number}
-   */
-  public get totalItems(): number {
-    return this._totalItems;
-  }
-
-  /**
-   * Setter totalItems @param {number} totalItems
-   */
-  public set totalItems(totalItems: number) {
-    this._totalItems = totalItems;
-  }
-
-  /**
-   * Getter totalQuantity @return {number}
-   */
-  public get totalQuantity(): number {
-    return this._totalQuantity;
-  }
-
-  /**
-   * Setter totalQuantity @param {number} totalQuantity
-   */
-  public set totalQuantity(totalQuantity: number) {
-    this._totalQuantity = totalQuantity;
-  }
-
-  /**
-   * Getter itemName @return {string}
-   */
-  public get itemName(): string {
-    return this._itemName;
-  }
-
-  /**
-   * Setter itemName @param {string} itemName
-   */
-  public set itemName(itemName: string) {
-    this._itemName = itemName;
-  }
-
-  /**
-   * Getter itemPrice @return {number}
-   */
-  public get itemPrice(): number {
-    return this._itemPrice;
-  }
-
-  /**
-   * Setter itemPrice @param {number} itemPrice
-   */
-  public set itemPrice(itemPrice: number) {
-    this._itemPrice = itemPrice;
-  }
-
-  /**
-   * Getter itemQuantity @return {number}
-   */
-  public get itemQuantity(): number {
-    return this._itemQuantity;
-  }
-
-  /**
-   * Setter itemQuantity @param {number} itemQuantity
-   */
-  public set itemQuantity(itemQuantity: number) {
-    this._itemQuantity = itemQuantity;
-  }
-
-  /**
-   * Getter totalPrice @return {number}
-   */
-  public get totalPrice(): number {
-    return this._totalPrice;
-  }
-
-  /**
-   * Setter totalPrice @param {number} totalPrice
-   */
-  public set totalPrice(totalPrice: number) {
-    this._totalPrice = totalPrice;
-  }
-
-  /**
-   * Getter uom @return {string}
-   */
-  public get uom(): string {
-    return this._uom;
-  }
-
-  /**
-   * Setter uom @param {string} uom
-   */
-  public set uom(uom: string) {
-    this._uom = uom;
-  }
-}
 
 
 
