@@ -116,19 +116,6 @@ export class CustomQueries {
                                 on (Cart.invoice_id = Invoice.invoice_id)
                                 INNER JOIN Customer
                                 on (Customer.customer_id = Invoice.invoice_id)
-                                WHERE Invoice.invoice_id = ${invoiceId} GROUP by Invoice.invoice_id;
-
-
-
-
-
-
-
-
-
-
+                                WHERE Invoice.invoice_id = ${invoiceId} GROUP by Invoice.invoice_id`;
 
 }
-
-
-
