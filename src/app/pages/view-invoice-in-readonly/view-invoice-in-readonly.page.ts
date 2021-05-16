@@ -44,7 +44,7 @@ export class ViewInvoiceInReadonlyPage implements OnInit {
   }
   public getInvoiceByInvoiceId(invoiceId: number): void {
     //get id from activated routerlink.
-    this.dataService.getInvoiceDetailsByInvoiceId(invoiceId);  //subscribe
+    this.dataService.getInvoiceById(invoiceId);  //subscribe
   }
 
 }
