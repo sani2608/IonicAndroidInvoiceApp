@@ -80,15 +80,7 @@ export class AddInvoicePage implements OnInit {
     .then(() => this.getAllItemsInNewInvoice(this._invoiceId));
 
   }
-  private getAllItemsInNewInvoice(invoiceId: number) {
-    this.dataService.databaseState()
-      .subscribe((response) => {
-        console.log('getting items in new invoice .....\n', response.valueOf())
-        if (response) {
-          this.dataService.getItemsFromNewInvoice(invoiceId);
-        }
-      });
-  }
+
 
   public createInvoice(customerId: number): void {
     this.dataService.createNewInvoice(customerId)
@@ -150,6 +142,15 @@ export class AddInvoicePage implements OnInit {
         buttonObj
       );
     }, delayTime);
+  }
+  private getAllItemsInNewInvoice(invoiceId: number) {
+    this.dataService.databaseState()
+      .subscribe((response) => {
+        console.log('getting items in new invoice .....\n', response.valueOf());
+        if (response) {
+          this.dataService.getItemsFromNewInvoice(invoiceId);
+        }
+      });
   }
 }
 

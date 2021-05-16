@@ -1,4 +1,7 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Invoices } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -8,43 +11,53 @@ import { DataService } from 'src/app/services/data.service';
 })
 export class ViewInvoiceInReadonlyPage implements OnInit {
 
-  //TODO: to be replace later.
-  readOnlyItemList = [
-    {
-      cartId: 100,
-      name: 'Onion',
-      quantity: 23,
-      price: 20,
-      uom: 'kg',
-      totalPrice: 460,
-    },
-    {
-      cartId: 101,
-      name: 'Milk',
-      quantity: 5,
-      price: 30,
-      uom: 'Litre',
-      totalPrice: 150,
-    },
-    {
-      cartId: 102,
-      name: 'Cabbage',
-      quantity: 10,
-      price: 40,
-      uom: 'kg',
-      totalPrice: 400,
-    },
-  ];
+
+
+  private invoiceId: number;
+  private _readOnlyInvoice: Invoices = new Invoices();
+
+
+    /**
+     * Getter readOnlyInvoice @return {Invoices}
+     */
+	public get readOnlyInvoice(): Invoices {
+		return this._readOnlyInvoice;
+	}
+
+  public get itemsInInvoice() {
+    return this.dataService.itemsAddedInNewInvoice;
+  }
+
+
 
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.getInvoiceIdFromUrl();
+    this.getInvoiceById(this.invoiceId);
+    this.dataService.getItemsFromNewInvoice(this.invoiceId);
   }
-  public getInvoiceByInvoiceId(invoiceId: number): void {
-    //get id from activated routerlink.
-    this.dataService.getInvoiceById(invoiceId);  //subscribe
+
+
+
+
+
+  public getInvoiceById(invoiceId: number): void {
+    this.dataService.getInvoiceDetailsByInvoiceId(invoiceId).then((res) => {
+      this.readOnlyInvoice.customerFullName = res.customerFullName;
+      this.readOnlyInvoice.createdDate = res.createdDate;
+      this.readOnlyInvoice.invoiceId = res.invoiceId;
+      this.readOnlyInvoice.totalItems = res.totalItems;
+      this.readOnlyInvoice.totalPrice = res.totalPrice;
+      console.log('inv details from view only invoice...',this.readOnlyInvoice);
+    });
+  }
+
+  private getInvoiceIdFromUrl(): void {
+    this.invoiceId = this.route.snapshot.params.id;
   }
 
 }

@@ -111,10 +111,11 @@ export class StocksPage implements OnInit {
       this._flag = false;
     }
   }
+
   private getAllItemsInNewInvoice(invoiceId: number) {
     this.dataService.databaseState()
       .subscribe((response) => {
-        console.log('getting items in new invoice .....\n', response)
+        console.log('getting items in new invoice .....\n', response);
         if (response) {
           this.dataService.getItemsFromNewInvoice(invoiceId);
         }

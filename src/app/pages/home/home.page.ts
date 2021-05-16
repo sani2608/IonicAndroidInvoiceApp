@@ -20,11 +20,7 @@ export class HomePage implements OnInit {
   public get invoices(){
     return this.dataService.homePageInvoiceList;
   }
-  getInvoiceById(invoiceId: number){
-    this.dataService.getInvoiceById(invoiceId)
-    .then((res) => console.log(res));
 
-  }
 
   public getAllInvoices(): void {
     this.dataService.databaseState()
