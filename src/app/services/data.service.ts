@@ -42,6 +42,7 @@ export class DataService {
     return this._listOfItemsInStock.asObservable();
   }
 
+
   /**Getter homePageInvoiceList */
   public get homePageInvoiceList(): Observable<Invoices[]> {
     return this._homePageInvoiceList.asObservable();
@@ -167,11 +168,7 @@ export class DataService {
   }
 
 
-
-
-
-
-  //? READONLY PAGE RELATED FUNCTIONS
+  //? READONLY PAGE  FUNCTION
   async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<Invoices> {
     const readOnlyInvoice: Invoices = new Invoices();
     await this.databaseObject.executeSql(this.customQueries.getReadOnlyInvoiceDetailsById(invoiceId), [])
@@ -186,14 +183,14 @@ export class DataService {
     return readOnlyInvoice;
   }
 
+
   //? NEW INVOICE PAGE RELATED FUNCTIONS
   async createNewInvoice(customerId: number): Promise<number> {
     let invoiceNumber: number;
     await this.databaseObject.executeSql(this.customQueries.createNewInvoice(customerId), [])
       .then((res) => {
-        //console.log('created new invoice with id ', res.insertId);
         invoiceNumber = res.insertId;
-      }).catch((e) => console.log('got some error', e));
+      }).catch((e) => console.log('got some error while createing new invoice..', e));
     return invoiceNumber;
   }
 
@@ -206,9 +203,10 @@ export class DataService {
         invoice.createDate = response.rows.item(0).created_date;
         invoice.totalPrice = response.rows.item(0).total_price;
         console.log('got response', invoice);
-      }).catch((e) => console.log('got error while getting invoide', e));
+      }).catch((e) => console.log('got error while getting invoide by id', e));
     return invoice;
   }
+
 
   //? CUSTOMER TABLE
   async addCustomer(customerName: Customer): Promise<number> {
@@ -220,15 +218,6 @@ export class DataService {
       .catch(err => console.log('Got error while adding customer', err));
     return customerId;
   }
-
-  // async getCustomerById(customerId: number): Promise<void> {
-  //   await this.databaseObject.executeSql(this.customQueries.getCustomerById(customerId), [])
-  //     .then((response) => {
-  //       console.log('Got Customer By Id ', response.rows.item(0));
-  //     })
-  //     .catch(err => console.log('Got error while customer by ID', err));
-  // }
-
 
 
   async addItemInNewInvoice(item: Cart): Promise<void> {

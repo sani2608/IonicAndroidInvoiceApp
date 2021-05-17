@@ -24,7 +24,8 @@
   <ion-searchbar
     #searchBox
     placeholder="search by customer name or invoice no."
-    (cancel)="clearSearch($event)"
+    showCancelButton="focus"
+    (ionCancel)="clearSearch($event)"
     (search)="searchInvoice(searchBox.value)"
   ></ion-searchbar>
 

@@ -12,7 +12,7 @@ import { Toast } from 'src/app/shared/toast';
   styleUrls: ['./add-update-item.page.scss'],
 })
 export class AddUpdateItemPage implements OnInit {
-
+  /*Array to store unit of measuring */
   private _unitOfMeasuring: Array<string> = ['unit', 'kg', 'litre'];
   private _flag = false;
   private _itemForm: FormGroup;
@@ -30,9 +30,7 @@ export class AddUpdateItemPage implements OnInit {
     this.formData();
   }
 
-  /**
-   * Getter _unitOfMeasuring @return {Array<string>}
-   */
+  /** Getter _unitOfMeasuring @return {Array<string>} */
   public get unitOfMeasuring(): Array<string> {
     return this._unitOfMeasuring;
   }
@@ -56,14 +54,14 @@ export class AddUpdateItemPage implements OnInit {
   public addItem(item: Item): void {
     this.dataService.addItemInStock(item)
       .then((res) => {
-        console.log(`${item.name} added successuflly and itemId is `,res);
+       // console.log(`${item.name} added successuflly and itemId is `,res);
         this.toast.displayToast(`${item.name} added successfully`, 'primary','bottom');
         this.updateStockList();
         this.router.navigateByUrl('home/stocks/s');
 
       })
       .catch((e) => {
-        console.log(item.name + ' is already present in the databse.',e);
+       // console.log(item.name + ' is already present in the databse.',e);
         this.toast.displayToast(`${item.name} is already present in Cart `, 'danger','bottom');
       });
   }
@@ -82,6 +80,7 @@ export class AddUpdateItemPage implements OnInit {
         (e) => console.log('Got some error while updating item', e)
       );
   }
+
   /**
    * this function checks if request is to update item or to add item.
    */
@@ -127,6 +126,7 @@ export class AddUpdateItemPage implements OnInit {
       }
     );
   }
+
   /** update the stocklist as soon as item is added or updated. */
   private updateStockList() {
     this.dataService.databaseState()

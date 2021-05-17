@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
+import { Toast } from 'src/app/shared/toast';
 
 
 @Component({
@@ -11,7 +12,8 @@ export class HomePage implements OnInit {
 
 
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
+    private toast: Toast
   ) {}
 
   ngOnInit() {
@@ -25,7 +27,7 @@ export class HomePage implements OnInit {
   public getAllInvoices(): void {
     this.dataService.databaseState()
       .subscribe((response) => {
-        console.log('getting invoice on homepage .....\n', response);
+        console.log('database state', response);
         if (response) {
           this.dataService.getAllInvoices();
         }
