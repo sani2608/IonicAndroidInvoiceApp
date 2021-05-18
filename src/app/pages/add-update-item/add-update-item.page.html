@@ -41,8 +41,8 @@
                     ></ion-label
                   >
 
-                  <ion-select formControlName="uom">
-                    <ion-select-option  *ngFor="let uom of unitOfMeasuring" >{{uom}}</ion-select-option>
+                  <ion-select interface="popover" formControlName="uom">
+                    <ion-select-option   *ngFor="let uom of unitOfMeasuring" >{{uom}}</ion-select-option>
                   </ion-select>
                 </ion-item>
 

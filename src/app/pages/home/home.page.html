@@ -15,7 +15,18 @@
         ></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title (click)="titleClicked()" class="ion-text-center">Invoices({{(invoices | async).length}})</ion-title>
+    <ion-title
+      (click)="titleClicked()"
+      class="ion-text-center"
+      *ngIf="invoices.length === 0"
+      >Invoices</ion-title
+    >
+    <ion-title
+      (click)="titleClicked()"
+      class="ion-text-center"
+      *ngIf="invoices.length > 0"
+      >Invoices({{invoices.length}})</ion-title
+    >
   </ion-toolbar>
 </ion-header>
 
@@ -32,7 +43,7 @@
   <div>
     <!-- *FIRST CARD -->
     <ion-card
-      *ngFor="let invoice of invoices | async"
+      *ngFor="let invoice of invoices"
       [routerLink]="['./','view-invoice-in-readonly',invoice.invoiceId]"
       class="no-ripple"
     >
@@ -44,7 +55,9 @@
               <ion-text><h1>{{invoice.customerFullName}}</h1></ion-text>
             </ion-col>
             <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
-              <ion-text color="danger"><h2>{{invoice.createdDate | date}}</h2></ion-text>
+              <ion-text color="danger"
+                ><h2>{{invoice.createdDate | date}}</h2></ion-text
+              >
             </ion-col>
           </ion-row>
           <!-- 2nd row -->

@@ -48,7 +48,7 @@
   <ion-card>
     <ion-toolbar>
       <ion-title align="center"
-        >Items({{(itemsAddedInNewInvoice | async).length}})</ion-title
+        >Items({{itemsAddedInNewInvoice.length}})</ion-title
       >
       <ion-buttons slot="primary">
         <ion-button [routerLink]="['./','stocks',invoiceId]">
@@ -63,7 +63,8 @@
     </ion-toolbar>
   </ion-card>
 <!-- *Empty cart image  -->
-  <ion-card *ngIf="(itemsAddedInNewInvoice | async).length == 0">
+{{itemsAddedInNewInvoice.length}}
+  <ion-card *ngIf="itemsAddedInNewInvoice.length === 0">
                 <ion-card-title align="center">Add Items To Invoice</ion-card-title>
     <img src="assets/emtyCart.png" />
   </ion-card>
@@ -73,7 +74,7 @@
   <div>
     <!-- *FIRST ITEM CARD -->
     <ion-card
-      *ngFor="let item of itemsAddedInNewInvoice | async; let i = index;"
+      *ngFor="let item of itemsAddedInNewInvoice  ; let i = index;"
       class="border"
     >
       <ion-card-content class="item-margin">

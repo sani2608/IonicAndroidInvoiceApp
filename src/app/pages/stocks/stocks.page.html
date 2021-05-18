@@ -6,15 +6,18 @@
 
     <ion-title
       class="ion-text-center"
-      *ngIf="isStocksPageOrAddItemInInvoicePage === 's'"
+      *ngIf="isStocksPageOrAddItemInInvoicePage === 's' && itemsInStock.length > 0"
     >
-      stocks ({{(itemsInStock | async).length }})</ion-title
+      Stocks ({{itemsInStock.length }})</ion-title
     >
-    <ion-title
+        <ion-title
       class="ion-text-center"
-      *ngIf="!flag"
+      *ngIf="isStocksPageOrAddItemInInvoicePage === 's' && itemsInStock.length === 0"
     >
-      Add Items ({{(itemsInStock | async).length }})</ion-title
+      Stocks</ion-title
+    >
+    <ion-title class="ion-text-center" *ngIf="!flag">
+      Add Items ({{itemsInStock.length }})</ion-title
     >
 
     <ion-buttons slot="primary" *ngIf="flag">
@@ -34,7 +37,7 @@
 <ion-content [fullscreen]="true">
   <div *ngIf="flag">
     <ion-card
-      *ngFor="let item of itemsInStock | async"
+      *ngFor="let item of itemsInStock "
       [routerLink]="['./','add-update-item',item.itemId]"
       class="no-ripple"
     >
@@ -58,10 +61,10 @@
       </ion-card-content>
     </ion-card>
   </div>
-    <div *ngIf="!flag">
+  <div *ngIf="!flag">
     <ion-card
-      *ngFor="let item of itemsInStock | async"
-      (click) = "showAlertBox(item.itemId, item.price)"
+      *ngFor="let item of itemsInStock"
+      (click)="showAlertBox(item.itemId, item.price)"
       class="no-ripple"
     >
       <ion-card-content>
