@@ -33,17 +33,15 @@
 <ion-content [fullscreen]="true">
   <!-- ionChange -->
   <ion-searchbar
-    #searchBox
+    [(ngModel)]="searchText"
     placeholder="search by customer name or invoice no."
-    showCancelButton="focus"
-    (ionCancel)="clearSearch($event)"
-    (search)="searchInvoice(searchBox.value)"
-  ></ion-searchbar>
-
-  <div>
+    autocomplete="off"
+    ></ion-searchbar>
+    <!-- (ionCancel)="clearSearch($event)" -->
+    <div>
     <!-- *FIRST CARD -->
     <ion-card
-      *ngFor="let invoice of invoices"
+      *ngFor="let invoice of invoices | filter:searchText"
       [routerLink]="['./','view-invoice-in-readonly',invoice.invoiceId]"
       class="no-ripple"
     >
