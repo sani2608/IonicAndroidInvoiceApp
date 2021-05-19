@@ -76,7 +76,7 @@
   <div *ngIf="!flag">
     <ion-card
       *ngFor="let item of itemsInStock"
-      (click)="showAlertBox(item.itemId, item.price)"
+      (click)="showAlertBox(item.itemId, item.price, item.uom)"
       class="no-ripple"
     >
       <ion-card-content>

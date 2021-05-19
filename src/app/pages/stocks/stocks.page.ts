@@ -55,7 +55,7 @@ export class StocksPage implements OnInit {
     return this._flag;
   }
 
-  public showAlertBox(itemId: number, itemPrice: number) {
+  public showAlertBox(itemId: number, itemPrice: number, uom: string) {
     const inputObj = [
       {
         name: 'quantity',
@@ -87,7 +87,8 @@ export class StocksPage implements OnInit {
         }
       }
     ];
-    const header = 'Enter Quantity';
+    // const unit = uom.fontcolor('red');
+    const header = `Enter Quantity in ${uom}` ;
     this.alert.presentAlertPrompt(
       header,
       inputObj,
