@@ -2,7 +2,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Invoices } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
-import { Toast } from 'src/app/shared/toast';
 
 
 @Component({
@@ -12,11 +11,9 @@ import { Toast } from 'src/app/shared/toast';
 })
 export class HomePage implements OnInit {
 
+  public searchText: string | number;
   private _homePageInvoiceList: Array<Invoices> = [];
 
-    /**
-     * Getter homePageInvoiceList@return {Array<Invoices> }
-     */
 	public get invoices(): Array<Invoices>  {
 		return this._homePageInvoiceList;
 	}
@@ -25,9 +22,9 @@ export class HomePage implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private toast: Toast
-  ) {}
+    ) {}
 
+    // private toast: Toast
   ngOnInit() {
     this.getAllInvoices();
   }
@@ -45,21 +42,20 @@ export class HomePage implements OnInit {
       });
   }
 
-  public searchInvoice(searchValue: string): void {
-    // eslint-disable-next-line radix
-    const convertSearchValueToNumber = parseInt(searchValue);
-    if (isNaN(convertSearchValueToNumber)) {
-      this.dataService.searchInvoiceByCustomerName(searchValue);
-    } else {
-      this.dataService.searchInvoiceByInvoiceNumber(convertSearchValueToNumber);
-    }
-  }
+  // public searchInvoice(searchValue: string): void {
+  //   const convertSearchValueToNumber = parseInt(searchValue);
+  //   if (isNaN(convertSearchValueToNumber)) {
+  //     this.dataService.searchInvoiceByCustomerName(searchValue);
+  //   } else {
+  //     this.dataService.searchInvoiceByInvoiceNumber(convertSearchValueToNumber);
+  //   }
+  // }
 
-  clearSearch(event){
-    console.log('clearing search');
-    console.log(event);
-    this.getAllInvoices();
-  }
+  // clearSearch(event){
+  //   console.log('clearing search');
+  //   console.log(event);
+  //   this.getAllInvoices();
+  // }
 
   titleClicked(){
     this.getAllInvoices();
