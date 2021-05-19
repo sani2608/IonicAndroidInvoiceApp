@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { Item } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
 import { Toast } from 'src/app/shared/toast';
@@ -23,7 +24,8 @@ export class AddUpdateItemPage implements OnInit {
     private dataService: DataService,
     private route: ActivatedRoute,
     private router: Router,
-    private toast: Toast
+    private toast: Toast,
+    public navCtrl: NavController
   ) { }
   ngOnInit(): void {
     this.getStatusOfUrl();
@@ -54,15 +56,17 @@ export class AddUpdateItemPage implements OnInit {
   public addItem(item: Item): void {
     this.dataService.addItemInStock(item)
       .then((res) => {
-       // console.log(`${item.name} added successuflly and itemId is `,res);
-        this.toast.displayToast(`${item.name} added successfully`, 'primary','bottom');
+        console.log(`${item.name} added successuflly and itemId is `, res);
+        this.toast.displayToast(`${item.name} added successfully`, 'primary', 'bottom',);
         this.updateStockList();
+
+        this.navCtrl.pop();
         this.router.navigateByUrl('home/stocks/s');
 
       })
       .catch((e) => {
-       // console.log(item.name + ' is already present in the databse.',e);
-        this.toast.displayToast(`${item.name} is already present in Cart `, 'danger','bottom');
+        console.log(item.name + ' is already present in the databse.', e);
+        this.toast.displayToast(`${item.name} is already present in Cart `, 'danger', 'bottom');
       });
   }
 
@@ -73,7 +77,7 @@ export class AddUpdateItemPage implements OnInit {
   public updateItem(item: Item, itemId: number): void {
     this.dataService.updateItemInStock(item, itemId)
       .then(() => {
-        this.toast.displayToast(`${item.name} Updated Successfully`, 'primary','bottom');
+        this.toast.displayToast(`${item.name} Updated Successfully`, 'primary', 'bottom');
         this.updateStockList();
         this.router.navigateByUrl('home/stocks/s');
       }).catch(
