@@ -1,4 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
+import { Invoices } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
 import { Toast } from 'src/app/shared/toast';
 
@@ -10,6 +12,16 @@ import { Toast } from 'src/app/shared/toast';
 })
 export class HomePage implements OnInit {
 
+  private _homePageInvoiceList: Array<Invoices> = [];
+
+    /**
+     * Getter homePageInvoiceList@return {Array<Invoices> }
+     */
+	public get invoices(): Array<Invoices>  {
+		return this._homePageInvoiceList;
+	}
+
+
 
   constructor(
     private dataService: DataService,
@@ -19,17 +31,16 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.getAllInvoices();
   }
-  public get invoices(){
-    return this.dataService.homePageInvoiceList;
-  }
+  // public get invoices(){
+  //   return this.dataService.homePageInvoiceList;
+  // }
 
 
   public getAllInvoices(): void {
     this.dataService.databaseState()
       .subscribe((response) => {
-        console.log('database state', response);
         if (response) {
-          this.dataService.getAllInvoices();
+          this.dataService.getAllInvoices().then(responseArray => this._homePageInvoiceList =responseArray);
         }
       });
   }
