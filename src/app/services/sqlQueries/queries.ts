@@ -118,5 +118,7 @@ export class CustomQueries {
                                 INNER JOIN Customer
                                 on (Customer.customer_id = Invoice.invoice_id)
                                 WHERE Invoice.invoice_id = ${invoiceId} GROUP by Invoice.invoice_id`;
-
+  getTotalPriceByInvoiceId = (invoiceId: number) =>
+                              `SELECT total_price from
+                                Invoice WHERE invoice_id ==${invoiceId}`;
 }
