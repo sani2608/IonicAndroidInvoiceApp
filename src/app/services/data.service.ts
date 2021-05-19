@@ -13,11 +13,11 @@ import { EMPTY, Observable } from 'rxjs';
 export class DataService {
   //? Private variables to store data.
   /** this variable will store all the items present in the stock */
-  private _listOfItemsInStock: BehaviorSubject<Array<Item>> = new BehaviorSubject([]);
+  //private _listOfItemsInStock: Array<ItemAddedInNewInvoice> = [];
   /**this will store all the invoice to show on homepage */
-  private _homePageInvoiceList: BehaviorSubject<Array<Invoices>> = new BehaviorSubject([]);
+ // private _homePageInvoiceList: BehaviorSubject<Array<Invoices>> = new BehaviorSubject([]);
   /** This will store the items that are added in stock while creating new invoice */
-  private _itemsAddedInNewInvoice: BehaviorSubject<Array<ItemAddedInNewInvoice>> = new BehaviorSubject([]);
+  //private _itemsAddedInNewInvoice: BehaviorSubject<Array<ItemAddedInNewInvoice>> = new BehaviorSubject([]);
 
 
   //?DATABASE OBJECT
@@ -38,20 +38,20 @@ export class DataService {
 
   //? Getters and Setters for private variables
   /** Getter listOfItemsInStock */
-  public get listOfItemsInStock(): Observable<Item[]> {
-    return this._listOfItemsInStock.asObservable();
-  }
+  // public get listOfItemsInStock(): Observable<Item[]> {
+  //   return this._listOfItemsInStock.asObservable();
+  // }
 
 
   /**Getter homePageInvoiceList */
-  public get homePageInvoiceList(): Observable<Invoices[]> {
-    return this._homePageInvoiceList.asObservable();
-  }
+  // public get homePageInvoiceList(): Observable<Invoices[]> {
+  //   return this._homePageInvoiceList.asObservable();
+  // }
 
 
-  public get itemsAddedInNewInvoice(): Observable<ItemAddedInNewInvoice[]> {
-    return this._itemsAddedInNewInvoice.asObservable();
-  }
+  // public get itemsAddedInNewInvoice(): Observable<ItemAddedInNewInvoice[]> {
+  //   return this._itemsAddedInNewInvoice.asObservable();
+  // }
 
 
   //? DATABASE RELATED FUNCTIONS
@@ -109,10 +109,10 @@ export class DataService {
   /**
    * @returns list of items present in the stock
    */
-  async getListOfItemsFromStock(): Promise<void> {
+  async getListOfItemsFromStock(): Promise<Item[]> {
+    const itemsArray: Array<Item> = [];
     await this.databaseObject.executeSql(this.customQueries.getItemsFromStock(), [])
       .then((res) => {
-        const items: Array<Item> = [];
         if (res.rows.length > 0) {
           for (let i = 0; i < res.rows.length; i++) {
             const newItemData = new Item(
@@ -120,19 +120,19 @@ export class DataService {
               res.rows.item(i).name,
               res.rows.item(i).price,
               res.rows.item(i).uom);
-            items.push(newItemData);
+            itemsArray.push(newItemData);
           }
         }
-        this._listOfItemsInStock.next(items);
       }
       ).catch((response) => console.log(response));
+      return itemsArray;
   }
 
   //? HOME SECTION RELATED FUNCTION
-  async getAllInvoices(): Promise<void> {
+  async getAllInvoices(): Promise<Invoices[]> {
+    const invoiceArray: Array<Invoices> = [];
     await this.databaseObject.executeSql(this.customQueries.getInvoicesForHomePage(), [])
       .then((resp) => {
-        const invoice: Array<Invoices> = [];
         if (resp.rows.length > 0) {
           for (let i = 0; i < resp.rows.length; i++) {
             const newInvoiceData = new Invoices(
@@ -140,31 +140,29 @@ export class DataService {
               resp.rows.item(i).total_items_in_cart,
               resp.rows.item(i).invoice_id,
               resp.rows.item(i).created_date,
-              resp.rows.item(i).total_price,
-            );
-            invoice.push(newInvoiceData);
+              resp.rows.item(i).total_price);
+            invoiceArray.push(newInvoiceData);
           }
         }
-        console.log(invoice);
-        this._homePageInvoiceList.next(invoice);
       }
       ).catch((response) => console.log(response));
+      return invoiceArray;
   }
-
+//FIXME: FIX THIS.
   async searchInvoiceByCustomerName(customerName: string): Promise<void> {
     console.log('from search by name function\n', customerName);
-    let newInvoice: Array<Invoices> = [];
-    newInvoice = this._homePageInvoiceList.value
-      .filter((invoice) => invoice.customerFullName === customerName);
-    this._homePageInvoiceList.next(newInvoice);
+    // let newInvoice: Array<Invoices> = [];
+    // newInvoice = this._homePageInvoiceList.value
+    //   .filter((invoice) => invoice.customerFullName === customerName);
+    // this._homePageInvoiceList.next(newInvoice);
   }
-
+//FIXME return invoice (return type)
   async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<void> {
-    console.log('from search by invoiceNumber \n', invoiceNumber);
-    let newInvoice: Array<Invoices> = [];
-    newInvoice = this._homePageInvoiceList.value
-      .filter((invoice) => invoice.invoiceId === invoiceNumber);
-    this._homePageInvoiceList.next(newInvoice);
+    // console.log('from search by invoiceNumber \n', invoiceNumber);
+    // let newInvoice: Array<Invoices> = [];
+    // newInvoice = this._homePageInvoiceList.value
+    //   .filter((invoice) => invoice.invoiceId === invoiceNumber);
+    // this._homePageInvoiceList.next(newInvoice);
   }
 
 
@@ -189,23 +187,33 @@ export class DataService {
     let invoiceNumber: number;
     await this.databaseObject.executeSql(this.customQueries.createNewInvoice(customerId), [])
       .then((res) => {
+        console.log('New Invoice Created Successfully.. with Id = ',res.insertId);
         invoiceNumber = res.insertId;
-      }).catch((e) => console.log('got some error while createing new invoice..', e));
+      }).catch((e) => console.log('Error while creating New Invoice..', e));
     return invoiceNumber;
   }
-
-  async getInvoiceById(invoiceId: number): Promise<Invoice> {
-    const invoice: Invoice = new Invoice();
-    await this.databaseObject.executeSql(this.customQueries.getInvoiceById(invoiceId), []).then(
-      (response) => {
-        invoice.invoiceId = response.rows.item(0).invoice_id;
-        invoice.customerId = response.rows.item(0).customer_id;
-        invoice.createDate = response.rows.item(0).created_date;
-        invoice.totalPrice = response.rows.item(0).total_price;
-        console.log('got response', invoice);
-      }).catch((e) => console.log('got error while getting invoide by id', e));
-    return invoice;
+  async getTotalPriceOfInvoice(invoiceId: number): Promise<number> {
+    let totalPrice: number;
+    await this.databaseObject.executeSql(this.customQueries.getTotalPriceByInvoiceId(invoiceId),[])
+    .then(res => {
+      totalPrice = res.rows.item(0).total_price;
+      console.log('got totalPrice',totalPrice);
+    }).catch(() => console.log('Got error while getting totalPrice'));
+        return totalPrice;
   }
+
+  // async getInvoiceById(invoiceId: number): Promise<Invoice> {
+  //   const invoice: Invoice = new Invoice();
+  //   await this.databaseObject.executeSql(this.customQueries.getInvoiceById(invoiceId), []).then(
+  //     (response) => {
+  //       invoice.invoiceId = response.rows.item(0).invoice_id;
+  //       invoice.customerId = response.rows.item(0).customer_id;
+  //       invoice.createDate = response.rows.item(0).created_date;
+  //       invoice.totalPrice = response.rows.item(0).total_price;
+  //       console.log('got response', invoice);
+  //     }).catch((e) => console.log('Got error while getting invoide by id', e));
+  //   return invoice;
+  // }
 
 
   //? CUSTOMER TABLE
@@ -224,16 +232,16 @@ export class DataService {
     const itemDataArrayToBePassedInQuery: Array<number> = [item.invoiceId, item.itemId, item.buyPrice, item.quantity, item.totalItemPrice];
     await this.databaseObject.executeSql(this.customQueries.addItemToCart(), itemDataArrayToBePassedInQuery)
       .then((response) => {
-        console.log('item added successfully to cart ', response);
+        console.log('Item added successfully in Cart ', response);
       })
       .catch(err => console.log('Got error while adding item to cart', err));
   }
 
-  async getItemsFromNewInvoice(invoiceId: number): Promise<void> {
+  async getItemsFromNewInvoice(invoiceId: number): Promise<ItemAddedInNewInvoice[]> {
+    const itemsInInvoiceArray: Array<ItemAddedInNewInvoice> = [];
     await this.databaseObject.executeSql(this.customQueries.getItemsFromCartByInvoiceId(invoiceId), [])
       .then((res) => {
         console.log('got response from get new items from cart', res);
-        const items: Array<ItemAddedInNewInvoice> = [];
         if (res.rows.length > 0) {
           for (let i = 0; i < res.rows.length; i++) {
             const newItemData = new ItemAddedInNewInvoice(
@@ -244,27 +252,21 @@ export class DataService {
               res.rows.item(i).quantity,
               res.rows.item(i).total_item_price,
             );
-            items.push(newItemData);
+            itemsInInvoiceArray.push(newItemData);
           }
         }
-        console.log(items);
-        this._itemsAddedInNewInvoice.next(items);
       }
-      ).catch((response) => console.log(response));
+      ).catch((response) => console.log('got error while fetching items\n',response));
+      console.log(itemsInInvoiceArray);
+      return itemsInInvoiceArray;
   }
-
 
   async deleteItemFromNewInvoice(itemId: number, invoiceId: number, index: number): Promise<void> {
     await this.databaseObject
       .executeSql(this.customQueries.deleteCartItemByInvoiceIdAndItemId(itemId, invoiceId), [])
       .then((res) => {
-        console.log('item deleted', res.rows.item(0));
-        this.removeItemFromInvoiceList(index);
+        console.log('Item Deleted', res.rows.item(0));
       })
-      .catch(e => console.log('got error while deleteing', e));
-  }
-
-  private removeItemFromInvoiceList(i: number) {
-    this._itemsAddedInNewInvoice.value.splice(i, 1);
+      .catch(e => console.log('Got Error While Deleting Item..', e));
   }
 }
