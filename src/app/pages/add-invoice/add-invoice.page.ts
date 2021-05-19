@@ -2,7 +2,6 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
 import { Customer, ItemAddedInNewInvoice } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
 import { Alert } from 'src/app/shared/alert';
@@ -58,11 +57,12 @@ export class AddInvoicePage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService) {
-    route.params.subscribe(val => {
+    route.params.subscribe(() => {
       // put the code from `ngOnInit` here
       console.log('Inside Constructor of  add-new-invoice');
       this.getAllItemsInNewInvoice(this._invoiceId);
-      this.getTotalPriceOfItemsInNewInvoice(this._invoiceId);
+      this.calculateTotalPrice();
+      // this.getTotalPriceOfItemsInNewInvoice(this._invoiceId);
     });
     console.log('from add invoice constructor');
   }
@@ -78,16 +78,17 @@ export class AddInvoicePage implements OnInit {
     console.log('deleteing item', itemId, invoiceNumber);
     this.dataService.deleteItemFromNewInvoice(itemId, invoiceNumber, index)
       .then(() => {
-        this.getTotalPriceOfItemsInNewInvoice(this._invoiceId);
-        this.getAllItemsInNewInvoice(this._invoiceId);
         this.toast.displayToast('Item Deleted Successfully', 'primary', 'bottom');
+        this.getAllItemsInNewInvoice(this._invoiceId);
+        //this.getTotalPriceOfItemsInNewInvoice(this._invoiceId);
       });
   }
 
 
 
 
-  public onClickSave() {
+
+  public onClickSave(): void {
     this.dataService.getAllInvoices();
     this.toast.displayToast('Invoice Saved Successfully', 'primary', 'bottom');
     this.router.navigateByUrl('home');
@@ -97,7 +98,7 @@ export class AddInvoicePage implements OnInit {
   /**
    * @param delayTime is passed to function to open the alert after some delay.
    */
-  public captureCustomerName(delayTime: number) {
+  public captureCustomerName(delayTime: number): void {
 
     const inputObj = [
       {
@@ -140,6 +141,7 @@ export class AddInvoicePage implements OnInit {
       );
     }, delayTime);
   }
+
   private getAllItemsInNewInvoice(invoiceId: number): void {
     this.dataService.databaseState()
       .subscribe(res => {
@@ -147,6 +149,7 @@ export class AddInvoicePage implements OnInit {
           this.dataService.getItemsFromNewInvoice(invoiceId)
             .then(responseArray => {
               this._itemsAddedInNewInvoice = responseArray;
+              this.calculateTotalPrice();
               console.log('got all the items from new invoice', this._itemsAddedInNewInvoice);
             }
             );
@@ -178,8 +181,15 @@ export class AddInvoicePage implements OnInit {
       });
   }
 
-  private getTotalPriceOfItemsInNewInvoice(invoiceId: number) {
-    this.dataService.getTotalPriceOfInvoice(invoiceId).then((res) => this._totalPrice = res);
+  private calculateTotalPrice(): void {
+    this._totalPrice = this._itemsAddedInNewInvoice.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.totalPrice,
+      0
+    );
   }
+
+  // private getTotalPriceOfItemsInNewInvoice(invoiceId: number) {
+  //   this.dataService.getTotalPriceOfInvoice(invoiceId).then((res) => this._totalPrice = res);
+  // }
 }
 

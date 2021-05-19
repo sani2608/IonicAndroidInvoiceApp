@@ -175,15 +175,16 @@ export class DataService {
       }).catch((e) => console.log('Error while creating New Invoice..', e));
     return invoiceNumber;
   }
-  async getTotalPriceOfInvoice(invoiceId: number): Promise<number> {
-    let totalPrice: number;
-    await this.databaseObject.executeSql(this.customQueries.getTotalPriceByInvoiceId(invoiceId),[])
-    .then(res => {
-      totalPrice = res.rows.item(0).total_price;
-      console.log('got totalPrice',totalPrice);
-    }).catch(() => console.log('Got error while getting totalPrice'));
-        return totalPrice;
-  }
+
+  // async getTotalPriceOfInvoice(invoiceId: number): Promise<number> {
+  //   let totalPrice: number;
+  //   await this.databaseObject.executeSql(this.customQueries.getTotalPriceByInvoiceId(invoiceId),[])
+  //   .then(res => {
+  //     totalPrice = res.rows.item(0).total_price;
+  //     console.log('got totalPrice',totalPrice);
+  //   }).catch(() => console.log('Got error while getting totalPrice'));
+  //       return totalPrice;
+  // }
 
   // async getInvoiceById(invoiceId: number): Promise<Invoice> {
   //   const invoice: Invoice = new Invoice();
