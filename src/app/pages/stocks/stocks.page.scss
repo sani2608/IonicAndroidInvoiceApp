@@ -4,3 +4,9 @@ ion-card {
 .no-ripple {
   --ripple-color: transparent;
 }
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

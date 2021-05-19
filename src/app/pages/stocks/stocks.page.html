@@ -10,7 +10,7 @@
     >
       Stocks ({{itemsInStock.length }})</ion-title
     >
-        <ion-title
+    <ion-title
       class="ion-text-center"
       *ngIf="isStocksPageOrAddItemInInvoicePage === 's' && itemsInStock.length === 0"
     >
@@ -43,24 +43,36 @@
     >
       <ion-card-content>
         <ion-grid>
-          <!-- 1 row -->
           <ion-row>
             <ion-col>
-              <ion-text><h1>{{item.name}}</h1></ion-text>
+              <!-- 1 row -->
+              <ion-row>
+                <ion-col>
+                  <ion-text><h1>{{item.name}}</h1></ion-text>
+                </ion-col>
+              </ion-row>
+              <!-- 2nd row -->
+              <ion-row>
+                <ion-col>
+                  <ion-text color="secondary">
+                    <h2>₹ {{item.price}} per {{item.uom}}</h2>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
             </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text color="secondary">
-                <h2>₹ {{item.price}} per {{item.uom}}</h2></ion-text
-              >
-            </ion-col>
+            <!-- <div class="center">
+              <ion-col>
+                <ion-row>
+                  <ion-text color="success">Added</ion-text>
+                </ion-row>
+              </ion-col>
+            </div> -->
           </ion-row>
         </ion-grid>
       </ion-card-content>
     </ion-card>
   </div>
+  <!-- *second half------------------------------ -->
   <div *ngIf="!flag">
     <ion-card
       *ngFor="let item of itemsInStock"
@@ -69,19 +81,30 @@
     >
       <ion-card-content>
         <ion-grid>
-          <!-- 1 row -->
           <ion-row>
             <ion-col>
-              <ion-text><h1>{{item.name}}</h1></ion-text>
+              <!-- 1 row -->
+              <ion-row>
+                <ion-col>
+                  <ion-text><h1>{{item.name}}</h1></ion-text>
+                </ion-col>
+              </ion-row>
+              <!-- 2nd row -->
+              <ion-row>
+                <ion-col>
+                  <ion-text color="secondary">
+                    <h2>₹ {{item.price}} per {{item.uom}}</h2>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
             </ion-col>
-          </ion-row>
-          <!-- 2nd row -->
-          <ion-row>
-            <ion-col>
-              <ion-text color="secondary">
-                <h2>₹ {{item.price}} per {{item.uom}}</h2></ion-text
-              >
-            </ion-col>
+            <div class="center">
+              <ion-col>
+                <ion-row>
+                  <ion-text color="success">Added</ion-text>
+                </ion-row>
+              </ion-col>
+            </div>
           </ion-row>
         </ion-grid>
       </ion-card-content>
