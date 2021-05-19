@@ -42,21 +42,6 @@ export class HomePage implements OnInit {
       });
   }
 
-  // public searchInvoice(searchValue: string): void {
-  //   const convertSearchValueToNumber = parseInt(searchValue);
-  //   if (isNaN(convertSearchValueToNumber)) {
-  //     this.dataService.searchInvoiceByCustomerName(searchValue);
-  //   } else {
-  //     this.dataService.searchInvoiceByInvoiceNumber(convertSearchValueToNumber);
-  //   }
-  // }
-
-  // clearSearch(event){
-  //   console.log('clearing search');
-  //   console.log(event);
-  //   this.getAllInvoices();
-  // }
-
   titleClicked(){
     this.getAllInvoices();
   }

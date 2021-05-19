@@ -72,7 +72,7 @@
       </ion-card-content>
     </ion-card>
   </div>
-  <!-- *second half------------------------------ -->
+  <!-- *second half---------------------------------------------------------- -->
   <div *ngIf="!flag">
     <ion-card
       *ngFor="let item of itemsInStock"
@@ -101,7 +101,11 @@
             <div class="center">
               <ion-col>
                 <ion-row>
-                  <ion-text color="success">Added</ion-text>
+                  <ion-text
+                    color="success"
+                    *ngIf="itemIdArray.includes(item.itemId)"
+                    >Added</ion-text
+                  >
                 </ion-row>
               </ion-col>
             </div>

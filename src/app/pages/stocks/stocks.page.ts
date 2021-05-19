@@ -13,6 +13,7 @@ import { Alert } from 'src/app/shared/alert';
   styleUrls: ['./stocks.page.scss'],
 })
 export class StocksPage implements OnInit {
+  public itemIdArray: Array<number> = [];
   private _listOfItemsInStock: Array<Item> = [];
   private _flag = false;
   private _isStocksPageOrAddItemInInvoicePage: string;
@@ -81,6 +82,7 @@ export class StocksPage implements OnInit {
           cartItem.quantity = quantityNumber;
           cartItem.buyPrice = itemPrice;
           this.addItemInInvoice(cartItem);
+          this.itemIdArray.push(itemId);
           this.getAllItemsInNewInvoice(itemId);
         }
       }

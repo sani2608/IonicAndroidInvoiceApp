@@ -148,23 +148,6 @@ export class DataService {
       ).catch((response) => console.log(response));
       return invoiceArray;
   }
-//FIXME: FIX THIS.
-  async searchInvoiceByCustomerName(customerName: string): Promise<void> {
-    console.log('from search by name function\n', customerName);
-    // let newInvoice: Array<Invoices> = [];
-    // newInvoice = this._homePageInvoiceList.value
-    //   .filter((invoice) => invoice.customerFullName === customerName);
-    // this._homePageInvoiceList.next(newInvoice);
-  }
-//FIXME return invoice (return type)
-  async searchInvoiceByInvoiceNumber(invoiceNumber: number): Promise<void> {
-    // console.log('from search by invoiceNumber \n', invoiceNumber);
-    // let newInvoice: Array<Invoices> = [];
-    // newInvoice = this._homePageInvoiceList.value
-    //   .filter((invoice) => invoice.invoiceId === invoiceNumber);
-    // this._homePageInvoiceList.next(newInvoice);
-  }
-
 
   //? READONLY PAGE  FUNCTION
   async getInvoiceDetailsByInvoiceId(invoiceId: number): Promise<Invoices> {
