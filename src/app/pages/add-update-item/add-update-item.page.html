@@ -34,7 +34,7 @@
                   ></ion-input>
                 </ion-item>
                 <!-- *unit of measuring -->
-                <ion-item>
+                <ion-item lines="none">
                   <ion-label
                     >Unit of Measuring<ion-text color="danger"
                       >*</ion-text
@@ -42,9 +42,12 @@
                   >
 
                   <ion-select interface="popover" formControlName="uom">
-                    <ion-select-option   *ngFor="let uom of unitOfMeasuring" >{{uom}}</ion-select-option>
+                    <ion-select-option *ngFor="let uom of unitOfMeasuring"
+                      >{{uom}}</ion-select-option
+                    >
                   </ion-select>
                 </ion-item>
+
 
                 <!-- *price -->
                 <ion-item>
@@ -64,10 +67,18 @@
                         type="submit"
                         [disabled]="!itemForm.valid"
                       >
-                        <ion-icon  *ngIf="!flag" slot="end" name="add-circle-outline"></ion-icon>
-                        <ion-icon *ngIf="flag" slot="end" name="add-outline"></ion-icon>
-                       <ion-text *ngIf="!flag">Update Item</ion-text>
-                       <ion-text *ngIf="flag">Add Item</ion-text>
+                        <ion-icon
+                          *ngIf="!flag"
+                          slot="end"
+                          name="add-circle-outline"
+                        ></ion-icon>
+                        <ion-icon
+                          *ngIf="flag"
+                          slot="end"
+                          name="add-outline"
+                        ></ion-icon>
+                        <ion-text *ngIf="!flag">Update Item</ion-text>
+                        <ion-text *ngIf="flag">Add Item</ion-text>
                       </ion-button>
                     </ion-col>
                   </ion-row>

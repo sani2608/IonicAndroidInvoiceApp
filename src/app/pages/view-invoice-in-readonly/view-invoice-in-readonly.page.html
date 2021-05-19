@@ -20,7 +20,7 @@
             <ion-text><h1>{{readOnlyInvoice.customerFullName}}</h1></ion-text>
           </ion-col>
           <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
-            <ion-text color="danger"><h2>{{readOnlyInvoice.createdDate | date}}</h2></ion-text>
+            <ion-text><h2>{{readOnlyInvoice.createdDate | date}}</h2></ion-text>
           </ion-col>
         </ion-row>
         <!-- 2nd row -->
@@ -29,7 +29,7 @@
             <ion-text> <h4>Invoice #: {{readOnlyInvoice.invoiceId}}</h4></ion-text>
           </ion-col>
           <ion-col offset-xs="1">
-            <ion-text color="secondary" align="right"><h2>₹ {{readOnlyInvoice.totalPrice}}</h2></ion-text>
+            <ion-text  align="right"><h2>₹ {{readOnlyInvoice.totalPrice}}</h2></ion-text>
           </ion-col>
         </ion-row>
         <!-- 3rd row -->
@@ -48,7 +48,7 @@
   <div>
     <!-- *FIRST ITEM CARD -->
     <ion-card
-      *ngFor="let item of itemsInInvoice | async; let i = index;"
+      *ngFor="let item of itemsInInvoice let i = index;"
       class="border"
     >
       <ion-card-content class="item-margin">

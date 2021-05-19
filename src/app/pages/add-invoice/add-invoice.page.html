@@ -13,22 +13,18 @@
 <div class="fixed-header"></div>
 <ion-content>
   <!-- * Customer Information Card -->
-  <ion-card color="secondary">
+  <ion-card>
     <ion-card-content>
       <ion-grid>
         <!-- 1 row -->
         <ion-row>
           <ion-col>
-            <ion-text button (click)="captureCustomerName(200)"
-              ><h1>
-                {{customerName.firstName}} {{customerName.lastName}}
-              </h1></ion-text
-            >
+            <ion-text>
+              <h1>{{customerName.firstName}} {{customerName.lastName}}</h1>
+            </ion-text>
           </ion-col>
           <ion-col offset-md="3" offset-sm="5" offset-lg="3" align="right">
-            <ion-text color="danger"
-              ><h2>{{date | date: 'dd-MMMM-yyyy'}}</h2></ion-text
-            >
+            <ion-text><h2>{{date | date: 'dd-MMMM-yyyy'}}</h2></ion-text>
           </ion-col>
         </ion-row>
         <!-- 2nd row -->
@@ -37,7 +33,7 @@
             <ion-text> <h4>Invoice #: {{invoiceId}}</h4></ion-text>
           </ion-col>
           <ion-col offset-xs="1">
-            <ion-text color="secondary" align="right"><h2>₹ 1000</h2></ion-text>
+            <ion-text color="secondary" align="right"><h2>₹ {{totalPrice}}</h2></ion-text>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -47,8 +43,11 @@
   <!-- * Add Items card -->
   <ion-card>
     <ion-toolbar>
-      <ion-title align="center"
+      <ion-title align="center" *ngIf="itemsAddedInNewInvoice.length > 0"
         >Items({{itemsAddedInNewInvoice.length}})</ion-title
+      >
+      <ion-title align="center" *ngIf="itemsAddedInNewInvoice.length === 0"
+        >Items</ion-title
       >
       <ion-buttons slot="primary">
         <ion-button [routerLink]="['./','stocks',invoiceId]">
@@ -62,13 +61,11 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-card>
-<!-- *Empty cart image  -->
-{{itemsAddedInNewInvoice.length}}
+  <!-- *Empty cart image  -->
   <ion-card *ngIf="itemsAddedInNewInvoice.length === 0">
-                <ion-card-title align="center">Add Items To Invoice</ion-card-title>
+    <ion-card-title align="center">Add Items To Invoice</ion-card-title>
     <img src="assets/emtyCart.png" />
   </ion-card>
-
 
   <!-- *Item section -->
   <div>
