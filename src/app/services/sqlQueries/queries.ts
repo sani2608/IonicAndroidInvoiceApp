@@ -48,7 +48,7 @@ export { itemTableQuery, customerTableQuery, cartTableQuery, invoiceTableQuery, 
 
 @NgModule({})
 /**
- * This class will contain all the custom queris
+ * This class will contain all the custom queries
  */
 export class CustomQueries {
   //global queries (can be used by anyone)
@@ -71,7 +71,6 @@ export class CustomQueries {
   getAllCustomer = () => `SELECT * FROM Customer`;
   //cart related functions queries
   addItemToCart = () => `INSERT INTO Cart(invoice_id, item_id, price, quantity, total_item_price) VALUES (?,?,?,?,?)`;
-  // getItemsFromCartByInvoiceId =(invoiceId: number) => `SELECT * FROM Cart WHERE invoice_id = ${invoiceId}`;
   getItemsFromCartByInvoiceId = (invoiceId: number) =>
     `SELECT Cart.item_id, Item.name,
                     Cart.price, Item.uom,
@@ -91,9 +90,6 @@ export class CustomQueries {
                         FROM Invoice INNER JOIN
                         Customer ON Invoice.customer_id = Customer.customer_id ORDER BY invoice_id DESC`;
 
-  // getTotalItemsByInvoiceNo = (invoiceId: number) =>
-  //                           `SELECT count(invoice_id) as total_items
-  //                           FROM Cart  WHERE invoice_id = ${invoiceId}`;
 
   getInvoicesForHomePage = () =>
     `SELECT Invoice.invoice_id, Invoice.created_date,

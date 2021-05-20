@@ -25,9 +25,6 @@ export class AddInvoicePage implements OnInit {
   }
 
 
-  // public get itemsInStock() {
-  //   return this.dataService.itemsAddedInNewInvoice;
-  // }
 
   public get itemsAddedInNewInvoice() {
     return this._itemsAddedInNewInvoice;
@@ -58,11 +55,9 @@ export class AddInvoicePage implements OnInit {
     private router: Router,
     private dataService: DataService) {
     route.params.subscribe(() => {
-      // put the code from `ngOnInit` here
       console.log('Inside Constructor of  add-new-invoice');
       this.getAllItemsInNewInvoice(this._invoiceId);
       this.calculateTotalPrice();
-      // this.getTotalPriceOfItemsInNewInvoice(this._invoiceId);
     });
     console.log('from add invoice constructor');
   }
@@ -80,7 +75,6 @@ export class AddInvoicePage implements OnInit {
       .then(() => {
         this.toast.displayToast('Item Deleted Successfully', 'primary', 'bottom');
         this.getAllItemsInNewInvoice(this._invoiceId);
-        //this.getTotalPriceOfItemsInNewInvoice(this._invoiceId);
       });
   }
 
@@ -188,8 +182,5 @@ export class AddInvoicePage implements OnInit {
     );
   }
 
-  // private getTotalPriceOfItemsInNewInvoice(invoiceId: number) {
-  //   this.dataService.getTotalPriceOfInvoice(invoiceId).then((res) => this._totalPrice = res);
-  // }
 }
 

@@ -1,24 +1,15 @@
 /* eslint-disable max-len */
 /* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
-import { Cart, Customer, Invoice, Invoices, Item, ItemAddedInNewInvoice } from '../models/data';
+import { Cart, Customer, Invoices, Item, ItemAddedInNewInvoice } from '../models/data';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite/ngx';
 import { Platform } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { itemTableQuery, customerTableQuery, cartTableQuery, invoiceTableQuery, triggerQuery, CustomQueries } from '../services/sqlQueries/queries';
-import { EMPTY, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  //? Private variables to store data.
-  /** this variable will store all the items present in the stock */
-  //private _listOfItemsInStock: Array<ItemAddedInNewInvoice> = [];
-  /**this will store all the invoice to show on homepage */
- // private _homePageInvoiceList: BehaviorSubject<Array<Invoices>> = new BehaviorSubject([]);
-  /** This will store the items that are added in stock while creating new invoice */
-  //private _itemsAddedInNewInvoice: BehaviorSubject<Array<ItemAddedInNewInvoice>> = new BehaviorSubject([]);
-
 
   //?DATABASE OBJECT
   private databaseObject: SQLiteObject;
@@ -36,22 +27,6 @@ export class DataService {
     });
   }
 
-  //? Getters and Setters for private variables
-  /** Getter listOfItemsInStock */
-  // public get listOfItemsInStock(): Observable<Item[]> {
-  //   return this._listOfItemsInStock.asObservable();
-  // }
-
-
-  /**Getter homePageInvoiceList */
-  // public get homePageInvoiceList(): Observable<Invoices[]> {
-  //   return this._homePageInvoiceList.asObservable();
-  // }
-
-
-  // public get itemsAddedInNewInvoice(): Observable<ItemAddedInNewInvoice[]> {
-  //   return this._itemsAddedInNewInvoice.asObservable();
-  // }
 
 
   //? DATABASE RELATED FUNCTIONS
@@ -125,7 +100,7 @@ export class DataService {
         }
       }
       ).catch((response) => console.log(response));
-      return itemsArray;
+    return itemsArray;
   }
 
   //? HOME SECTION RELATED FUNCTION
@@ -146,7 +121,7 @@ export class DataService {
         }
       }
       ).catch((response) => console.log(response));
-      return invoiceArray;
+    return invoiceArray;
   }
 
   //? READONLY PAGE  FUNCTION
@@ -170,34 +145,11 @@ export class DataService {
     let invoiceNumber: number;
     await this.databaseObject.executeSql(this.customQueries.createNewInvoice(customerId), [])
       .then((res) => {
-        console.log('New Invoice Created Successfully.. with Id = ',res.insertId);
+        console.log('New Invoice Created Successfully.. with Id = ', res.insertId);
         invoiceNumber = res.insertId;
       }).catch((e) => console.log('Error while creating New Invoice..', e));
     return invoiceNumber;
   }
-
-  // async getTotalPriceOfInvoice(invoiceId: number): Promise<number> {
-  //   let totalPrice: number;
-  //   await this.databaseObject.executeSql(this.customQueries.getTotalPriceByInvoiceId(invoiceId),[])
-  //   .then(res => {
-  //     totalPrice = res.rows.item(0).total_price;
-  //     console.log('got totalPrice',totalPrice);
-  //   }).catch(() => console.log('Got error while getting totalPrice'));
-  //       return totalPrice;
-  // }
-
-  // async getInvoiceById(invoiceId: number): Promise<Invoice> {
-  //   const invoice: Invoice = new Invoice();
-  //   await this.databaseObject.executeSql(this.customQueries.getInvoiceById(invoiceId), []).then(
-  //     (response) => {
-  //       invoice.invoiceId = response.rows.item(0).invoice_id;
-  //       invoice.customerId = response.rows.item(0).customer_id;
-  //       invoice.createDate = response.rows.item(0).created_date;
-  //       invoice.totalPrice = response.rows.item(0).total_price;
-  //       console.log('got response', invoice);
-  //     }).catch((e) => console.log('Got error while getting invoide by id', e));
-  //   return invoice;
-  // }
 
 
   //? CUSTOMER TABLE
@@ -240,9 +192,9 @@ export class DataService {
           }
         }
       }
-      ).catch((response) => console.log('got error while fetching items\n',response));
-      console.log(itemsInInvoiceArray);
-      return itemsInInvoiceArray;
+      ).catch((response) => console.log('got error while fetching items\n', response));
+    console.log(itemsInInvoiceArray);
+    return itemsInInvoiceArray;
   }
 
   async deleteItemFromNewInvoice(itemId: number, invoiceId: number, index: number): Promise<void> {

@@ -8,10 +8,6 @@ const routes: Routes = [
     path: '',
     component: AddInvoicePage
   },
-  // {
-  //   path: 'add-item-in-invoice',
-  //   loadChildren: () => import('../add-item-in-invoice/add-item-in-invoice.module').then(m => m.AddItemInInvoicePageModule)
-  // },
   {
     path: 'stocks/:s',
     loadChildren: () => import('../stocks/stocks.module').then(m => m.StocksPageModule)

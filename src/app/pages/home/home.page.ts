@@ -32,12 +32,9 @@ export class HomePage implements OnInit {
     });
   }
 
-  // private toast: Toast
   ngOnInit() {
   }
-  // public get invoices(){
-  //   return this.dataService.homePageInvoiceList;
-  // }
+
 
 
   public getAllInvoices(): void {
