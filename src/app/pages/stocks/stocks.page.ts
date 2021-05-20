@@ -14,24 +14,17 @@ import { Toast } from 'src/app/shared/toast';
   styleUrls: ['./stocks.page.scss'],
 })
 export class StocksPage implements OnInit {
-
   private _listOfItemsInStock: Array<Item> = [];
   private _flag = false;
   private _isStocksPageOrAddItemInInvoicePage: string;
   private invoiceId: number;
-
-
-
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
     private alert: Alert,
     private toast: Toast,
     public navCtrl: NavController) {
-    route.params.subscribe(() => {
-      console.log('constructor inside Stocks');
-      this.getAllItems();
-    });
+    route.params.subscribe(() => this.getAllItems());
   }
 
   ngOnInit() {
@@ -46,7 +39,7 @@ export class StocksPage implements OnInit {
   }
 
   /**
-   * Getter listOfItemsInStock @return {Array<Item> }
+   * Getter listOfItemsInStock @return {Array<Item>}
    */
   public get itemsInStock(): Array<Item> {
     return this._listOfItemsInStock;
@@ -95,7 +88,6 @@ export class StocksPage implements OnInit {
         }
       }
     ];
-    // const unit = uom.fontcolor('red');
     const header = `Enter Quantity in ${uom}`;
     this.alert.presentAlertPrompt(
       header,
@@ -132,11 +124,10 @@ export class StocksPage implements OnInit {
       this._flag = false;
     }
   }
-
+  /** @param invoiceId is passed to get all the items with invoicId */
   private getAllItemsInNewInvoice(invoiceId: number) {
     this.dataService.databaseState()
       .subscribe((response) => {
-        console.log('getting items in new invoice .....\n', response);
         if (response) {
           this.dataService.getItemsFromNewInvoice(invoiceId);
         }

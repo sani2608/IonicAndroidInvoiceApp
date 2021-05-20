@@ -19,24 +19,37 @@ export class AddInvoicePage implements OnInit {
   private customerId: number;
   private _invoiceId: number;
   private _totalPrice: number;
+  constructor(
+    private alert: Alert,
+    private toast: Toast,
+    private route: ActivatedRoute,
+    private router: Router,
+    private dataService: DataService) {
+    route.params.subscribe(() => {
+      this.getAllItemsInNewInvoice(this._invoiceId);
+      this.calculateTotalPrice();
+    });
+  }
 
+  ngOnInit() {
+    console.log('ngOnInit Lifecycle ');
+    this.captureCustomerName(1000);
+  }
+
+  /** Getter totalPrice @returns {totalPrice} */
   public get totalPrice(): number {
     return this._totalPrice;
   }
 
-
-
+  /** Getter itemsAddedInNewInvoice @returns {items In New Invoice} */
   public get itemsAddedInNewInvoice() {
     return this._itemsAddedInNewInvoice;
   }
 
-  /**
-   * Getter invoiceId @return {number}
-   */
+  /** Getter invoiceId @return {number} */
   public get invoiceId(): number {
     return this._invoiceId;
   }
-
 
   /**Getter date used by template */
   public get date(): Date {
@@ -48,46 +61,25 @@ export class AddInvoicePage implements OnInit {
     return this._customerName;
   }
 
-  constructor(
-    private alert: Alert,
-    private toast: Toast,
-    private route: ActivatedRoute,
-    private router: Router,
-    private dataService: DataService) {
-    route.params.subscribe(() => {
-      console.log('Inside Constructor of  add-new-invoice');
-      this.getAllItemsInNewInvoice(this._invoiceId);
-      this.calculateTotalPrice();
-    });
-    console.log('from add invoice constructor');
-  }
-
-  ngOnInit() {
-    console.log('ngOnInit Lifecycle ');
-    this.captureCustomerName(1000);
-  }
-
-
-
-  public deleteItemFromInvoice(itemId: number, invoiceNumber: number, index: number): void {
-    console.log('deleteing item', itemId, invoiceNumber);
-    this.dataService.deleteItemFromNewInvoice(itemId, invoiceNumber, index)
+  /**
+   * @param itemId is passed to delete item
+   * @param invoiceId is passed to delete item
+   */
+  public deleteItemFromInvoice(itemId: number, invoiceId: number): void {
+    console.log('deleteing item', itemId, invoiceId);
+    this.dataService.deleteItemFromNewInvoice(itemId, invoiceId)
       .then(() => {
         this.toast.displayToast('Item Deleted Successfully', 'primary', 'bottom');
         this.getAllItemsInNewInvoice(this._invoiceId);
       });
   }
 
-
-
-
-
+  /** When user clicks on save button */
   public onClickSave(): void {
     this.dataService.getAllInvoices();
     this.toast.displayToast('Invoice Saved Successfully', 'primary', 'bottom');
     this.router.navigateByUrl('home');
   }
-
 
   /**
    * @param delayTime is passed to function to open the alert after some delay.
@@ -104,8 +96,6 @@ export class AddInvoicePage implements OnInit {
         name: 'lastName',
         type: 'text',
         placeholder: 'last name',
-
-
       },
     ];
     const buttonObj = [
@@ -113,11 +103,9 @@ export class AddInvoicePage implements OnInit {
         text: 'Submit',
         handler: (name: any) => {
           if (name.firstName == null || name.firstName.trim() === '') {
-            console.log('first name is null');
             this.toast.displayToast('first name cannot be blank', 'danger', 'top');
             this.captureCustomerName(100);
           } else {
-            console.log('submiting name');
             this.customerName.firstName = name.firstName.trim();
             this.customerName.lastName = name.lastName.trim();
             this.createNewInvoice(this.customerName);
@@ -135,7 +123,9 @@ export class AddInvoicePage implements OnInit {
       );
     }, delayTime);
   }
-
+  /**
+   * @param invoiceId is passed to get all the items with invoiceId
+   */
   private getAllItemsInNewInvoice(invoiceId: number): void {
     this.dataService.databaseState()
       .subscribe(res => {
@@ -144,9 +134,7 @@ export class AddInvoicePage implements OnInit {
             .then(responseArray => {
               this._itemsAddedInNewInvoice = responseArray;
               this.calculateTotalPrice();
-              console.log('got all the items from new invoice', this._itemsAddedInNewInvoice);
-            }
-            );
+            });
         }
       });
   }
@@ -158,29 +146,23 @@ export class AddInvoicePage implements OnInit {
    */
   private createNewInvoice(customerName: Customer): void {
     this.dataService.addCustomer(customerName)
-      .then(response => {
-        this.customerId = response;
-        console.log('Got CustomerId from Datbase After Inserting customer Name', this.customerId);
-      })
-      .then(() =>
-        this.createInvoice(this.customerId)
+      .then(response =>   this.customerId = response)
+      .then(() => this.createInvoice(this.customerId)
       );
   }
 
+  /** @param customerId is passed to new Invoice */
   private createInvoice(customerId: number): void {
     this.dataService.createNewInvoice(customerId)
-      .then((response) => {
-        this._invoiceId = response;
-        console.log('After Creating New Invoice got InvoiceId = ', this._invoiceId);
-      });
+      .then((response) => this._invoiceId = response);
   }
 
+  /** Calculates the total price of item in the invoice */
   private calculateTotalPrice(): void {
     this._totalPrice = this._itemsAddedInNewInvoice.reduce(
       (accumulator, currentValue) => accumulator + currentValue.totalPrice,
       0
     );
   }
-
 }
 

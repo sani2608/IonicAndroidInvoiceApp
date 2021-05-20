@@ -11,43 +11,35 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-
-  public searchText: string | number;
+  public searchText: string;
   private _homePageInvoiceList: Array<Invoices> = [];
-
-  public get invoices(): Array<Invoices> {
-    return this._homePageInvoiceList;
-  }
-
-
-
   constructor(
     private dataService: DataService,
-    private route: ActivatedRoute,
-  ) {
-    route.params.subscribe(() => {
-
-      this.getAllInvoices();
-      console.log('Inside Constructor of  home..');
-    });
+    private route: ActivatedRoute) {
+    route.params.subscribe(() => this.getAllInvoices());
   }
 
   ngOnInit() {
   }
 
-
-
-  public getAllInvoices(): void {
-    this.dataService.databaseState()
-      .subscribe((response) => {
-        if (response) {
-          this.dataService.getAllInvoices().then(responseArray => this._homePageInvoiceList = responseArray);
-        }
-      });
+  /** Getter invoice @returns {invoices} */
+  public get invoices(): Array<Invoices> {
+    return this._homePageInvoiceList;
   }
 
-  titleClicked() {
+  /** invoked whe title is clicked*/
+  public titleClicked() {
     this.getAllInvoices();
+  }
+
+  /** Gets All the list of invoices */
+  private getAllInvoices(): void {
+    this.dataService.databaseState().subscribe((dbState) => {
+      if (dbState) {
+        this.dataService.getAllInvoices()
+          .then(invoicesArray => this._homePageInvoiceList = invoicesArray);
+      }
+    });
   }
 }
 

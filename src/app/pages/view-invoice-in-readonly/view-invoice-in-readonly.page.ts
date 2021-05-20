@@ -14,19 +14,6 @@ export class ViewInvoiceInReadonlyPage implements OnInit {
   private _readOnlyInvoice: Invoices = new Invoices();
   private _itemsInInvoice: Array<ItemAddedInNewInvoice> = [];
 
-
-  /**
-   * Getter readOnlyInvoice @return {Invoices}
-   */
-  public get readOnlyInvoice(): Invoices {
-    return this._readOnlyInvoice;
-  }
-
-  public get itemsInInvoice() {
-    return this._itemsInInvoice;
-  }
-
-
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute
@@ -35,22 +22,29 @@ export class ViewInvoiceInReadonlyPage implements OnInit {
   ngOnInit() {
     this.getInvoiceIdFromUrl();
     this.getInvoiceById(this.invoiceId);
-    this.dataService.getItemsFromNewInvoice(this.invoiceId).then((res) => {
-      console.log(res);
-      this._itemsInInvoice = res;
-    });
+    this.getItemsInReadOnlyInvoice(this.invoiceId);
   }
 
+  public get readOnlyInvoice(): Invoices {
+    return this._readOnlyInvoice;
+  }
+
+  public set readOnlyInvoice(value: Invoices) {
+    this._readOnlyInvoice = value;
+  }
+
+  public get itemsInInvoice() {
+    return this._itemsInInvoice;
+  }
 
   public getInvoiceById(invoiceId: number): void {
-    this.dataService.getInvoiceDetailsByInvoiceId(invoiceId).then((res) => {
-      this.readOnlyInvoice.customerFullName = res.customerFullName;
-      this.readOnlyInvoice.createdDate = res.createdDate;
-      this.readOnlyInvoice.invoiceId = res.invoiceId;
-      this.readOnlyInvoice.totalItems = res.totalItems;
-      this.readOnlyInvoice.totalPrice = res.totalPrice;
-      console.log('invoice details from view only invoice...', this.readOnlyInvoice);
-    });
+    this.dataService.getInvoiceDetailsByInvoiceId(invoiceId).then(
+      (invoice) => this.readOnlyInvoice = invoice);
+  }
+
+  private getItemsInReadOnlyInvoice(invoiceId: number): void {
+    this.dataService.getItemsFromNewInvoice(invoiceId)
+    .then(items => this._itemsInInvoice = items);
   }
 
   private getInvoiceIdFromUrl(): void {

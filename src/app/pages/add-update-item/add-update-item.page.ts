@@ -41,39 +41,33 @@ export class AddUpdateItemPage implements OnInit {
   public get flag(): boolean {
     return this._flag;
   }
+
   /** Getter itemForm used by template */
   public get itemForm(): FormGroup {
     return this._itemForm;
   }
+
   /** Getter itemId used by template*/
   public get itemId(): number {
     return this._itemId;
   }
 
-  /**
-   * @param item new item is passed to dataService
-   */
+  /** @param item new item is passed to dataService */
   public addItem(item: Item): void {
     this.dataService.addItemInStock(item)
-      .then((res) => {
-        console.log(`${item.name} added successuflly and itemId is `, res);
+      .then(() => {
         this.toast.displayToast(`${item.name} added successfully`, 'primary', 'bottom',);
         this.updateStockList();
-
-        this.navCtrl.pop();
         this.router.navigateByUrl('home/stocks/s');
-
       })
-      .catch((e) => {
-        console.log(item.name + ' is already present in the databse.', e);
+      .catch(() => {
         this.toast.displayToast(`${item.name} is already present in Cart `, 'danger', 'bottom');
       });
   }
 
   /**
    * @param item is the updated item
-   * @param itemId is the itemId of the item
-   */
+   * @param itemId is the itemId of the item */
   public updateItem(item: Item, itemId: number): void {
     this.dataService.updateItemInStock(item, itemId)
       .then(() => {
@@ -120,9 +114,7 @@ export class AddUpdateItemPage implements OnInit {
     }
   }
 
-  /**
-   * @param itemId is pased to the database item with that id is fetched.
-   */
+  /** @param itemId is pased to the database item with that id is fetched */
   private getItemById(itemId: number): void {
     this.dataService.getItemByItemIdFromStock(itemId).then(
       (item) => {
