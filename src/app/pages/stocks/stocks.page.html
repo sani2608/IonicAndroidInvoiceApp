@@ -16,7 +16,10 @@
     >
       Stocks</ion-title
     >
-    <ion-title class="ion-text-center" *ngIf="!flag">
+    <ion-title class="ion-text-center" *ngIf="!flag && itemsInStock.length === 0">
+      Add Items</ion-title
+    >
+    <ion-title class="ion-text-center" *ngIf="!flag && itemsInStock.length > 0">
       Add Items ({{itemsInStock.length }})</ion-title
     >
 
@@ -60,13 +63,7 @@
                 </ion-col>
               </ion-row>
             </ion-col>
-            <!-- <div class="center">
-              <ion-col>
-                <ion-row>
-                  <ion-text color="success">Added</ion-text>
-                </ion-row>
-              </ion-col>
-            </div> -->
+
           </ion-row>
         </ion-grid>
       </ion-card-content>
@@ -75,8 +72,8 @@
   <!-- *second half---------------------------------------------------------- -->
   <div *ngIf="!flag">
     <ion-card
-      *ngFor="let item of itemsInStock"
-      (click)="showAlertBox(item.itemId, item.price, item.uom)"
+      *ngFor="let item of itemsInStock; let i = index"
+      (click)="showAlertBox(item.itemId, item.price, item.uom,i,item.name) "
       class="no-ripple"
     >
       <ion-card-content>
@@ -98,18 +95,7 @@
                 </ion-col>
               </ion-row>
             </ion-col>
-            <div class="center">
-              <ion-col>
-                <ion-row>
-                  <ion-text
-                    color="success"
-                    *ngIf="itemIdArray.includes(item.itemId)"
-                    >Added</ion-text
-                  >
-                </ion-row>
-              </ion-col>
-            </div>
-          </ion-row>
+           </ion-row>
         </ion-grid>
       </ion-card-content>
     </ion-card>

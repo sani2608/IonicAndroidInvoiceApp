@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { Cart, Item } from 'src/app/models/data';
 import { DataService } from 'src/app/services/data.service';
 import { Alert } from 'src/app/shared/alert';
+import { Toast } from 'src/app/shared/toast';
 
 
 @Component({
@@ -13,20 +14,21 @@ import { Alert } from 'src/app/shared/alert';
   styleUrls: ['./stocks.page.scss'],
 })
 export class StocksPage implements OnInit {
-  public itemIdArray: Array<number> = [];
+
   private _listOfItemsInStock: Array<Item> = [];
   private _flag = false;
   private _isStocksPageOrAddItemInInvoicePage: string;
   private invoiceId: number;
 
 
+
   constructor(
     private dataService: DataService,
     private route: ActivatedRoute,
     private alert: Alert,
+    private toast: Toast,
     public navCtrl: NavController) {
     route.params.subscribe(() => {
-      // put the code from `ngOnInit` here
       console.log('constructor inside Stocks');
       this.getAllItems();
     });
@@ -55,7 +57,7 @@ export class StocksPage implements OnInit {
     return this._flag;
   }
 
-  public showAlertBox(itemId: number, itemPrice: number, uom: string) {
+  public showAlertBox(itemId: number, itemPrice: number, uom: string, i: number, itemName: string) {
     const inputObj = [
       {
         name: 'quantity',
@@ -82,13 +84,19 @@ export class StocksPage implements OnInit {
           cartItem.quantity = quantityNumber;
           cartItem.buyPrice = itemPrice;
           this.addItemInInvoice(cartItem);
-          this.itemIdArray.push(itemId);
+          this._listOfItemsInStock.splice(i, 1);
+          if (this._listOfItemsInStock.length === 0) {
+            this.navCtrl.back();
+            this.toast.displayToast('All items are added to invoice ', 'primary', 'top');
+          } else {
+            this.toast.displayToast(`${itemName} added to Invoice`, 'primary', 'bottom');
+          }
           this.getAllItemsInNewInvoice(itemId);
         }
       }
     ];
     // const unit = uom.fontcolor('red');
-    const header = `Enter Quantity in ${uom}` ;
+    const header = `Enter Quantity in ${uom}`;
     this.alert.presentAlertPrompt(
       header,
       inputObj,
