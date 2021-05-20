@@ -14,6 +14,7 @@ import { Toast } from 'src/app/shared/toast';
   styleUrls: ['./stocks.page.scss'],
 })
 export class StocksPage implements OnInit {
+  public itemsInStockArray: Array<number> = [];
   private _listOfItemsInStock: Array<Item> = [];
   private _flag = false;
   private _isStocksPageOrAddItemInInvoicePage: string;
@@ -63,28 +64,27 @@ export class StocksPage implements OnInit {
         text: 'Cancel',
         role: 'cancel',
         cssClass: 'secondary',
-        handler: () => {
-          console.log('Confirm Cancel');
-        }
       },
       {
         text: 'Ok',
         handler: (quantity: any) => {
+
           const quantityNumber = parseInt(quantity.quantity, 10);
-          const cartItem = new Cart();
-          cartItem.invoiceId = this.invoiceId;
-          cartItem.itemId = itemId;
-          cartItem.quantity = quantityNumber;
-          cartItem.buyPrice = itemPrice;
-          this.addItemInInvoice(cartItem);
-          this._listOfItemsInStock.splice(i, 1);
-          if (this._listOfItemsInStock.length === 0) {
-            this.navCtrl.back();
-            this.toast.displayToast('All items are added to invoice ', 'primary', 'top');
+          console.log(quantityNumber);
+          if(isNaN(quantityNumber)){
+            this.toast.displayToast('quantity cannot be 0', 'danger', 'top');
+            this.showAlertBox(itemId, itemPrice,uom,i,itemName);
           } else {
-            this.toast.displayToast(`${itemName} added to Invoice`, 'primary', 'bottom');
+            const cartItem = new Cart();
+            cartItem.invoiceId = this.invoiceId;
+            cartItem.itemId = itemId;
+            cartItem.quantity = quantityNumber;
+            cartItem.buyPrice = itemPrice;
+            this.addItemInInvoice(cartItem);
+            this._listOfItemsInStock.splice(i, 1);
+            this.isItemAddedToInvoice(itemName, itemId);
           }
-          this.getAllItemsInNewInvoice(itemId);
+
         }
       }
     ];
@@ -94,6 +94,17 @@ export class StocksPage implements OnInit {
       inputObj,
       buttonObj,
     );
+  }
+
+  /** @param itemName will be displayed if item is added to invoice */
+  private isItemAddedToInvoice(itemName: string, itemId: number): void {
+    if (this._listOfItemsInStock.length === 0) {
+      this.navCtrl.back();
+      this.toast.displayToast('All items are added to invoice ', 'primary', 'top');
+    } else {
+      this.toast.displayToast(`${itemName} added to Invoice`, 'primary', 'bottom');
+      this.itemsInStockArray.push(itemId);
+    }
   }
 
   /**will add new item in the invoice */
@@ -120,17 +131,9 @@ export class StocksPage implements OnInit {
       this._flag = true;
     } else {
       this.invoiceId = parseInt(this._isStocksPageOrAddItemInInvoicePage, 10);
-      console.log('invoice id is', this.invoiceId);
+      //console.log('invoice id is', this.invoiceId);
       this._flag = false;
     }
   }
-  /** @param invoiceId is passed to get all the items with invoicId */
-  private getAllItemsInNewInvoice(invoiceId: number) {
-    this.dataService.databaseState()
-      .subscribe((response) => {
-        if (response) {
-          this.dataService.getItemsFromNewInvoice(invoiceId);
-        }
-      });
-  }
+
 }

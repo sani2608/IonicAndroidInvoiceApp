@@ -138,7 +138,6 @@ export class DataService {
     invoice.totalPrice = response.rows.item(0).total_price;
     invoice.totalItems = response.rows.item(0).total_items_in_cart;
     invoice.customerFullName = response.rows.item(0).customer_full_name;
-    console.log('got invoice from db', invoice);
     return invoice;
   }
 
