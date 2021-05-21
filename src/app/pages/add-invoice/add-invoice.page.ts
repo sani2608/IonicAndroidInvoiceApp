@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Customer, ItemAddedInNewInvoice } from 'src/app/models/data';
@@ -28,6 +27,7 @@ export class AddInvoicePage implements OnInit {
     route.params.subscribe(() => {
       this.getAllItemsInNewInvoice(this._invoiceId);
       this.calculateTotalPrice();
+      console.log('from constructor of add new invoice\n',this.dataService.itemIdArray);
     });
   }
 
@@ -71,6 +71,7 @@ export class AddInvoicePage implements OnInit {
       .then(() => {
         this.toast.displayToast('Item Deleted Successfully', 'primary', 'bottom');
         this.getAllItemsInNewInvoice(this._invoiceId);
+        this.dataService.itemIdArray = this.dataService.itemIdArray.filter((id) => id !== itemId);
       });
   }
 
@@ -79,6 +80,7 @@ export class AddInvoicePage implements OnInit {
     this.dataService.getAllInvoices();
     this.toast.displayToast('Invoice Saved Successfully', 'primary', 'bottom');
     this.router.navigateByUrl('home');
+    this.dataService.itemIdArray = [];
   }
 
   /**
@@ -123,6 +125,7 @@ export class AddInvoicePage implements OnInit {
       );
     }, delayTime);
   }
+
   /**
    * @param invoiceId is passed to get all the items with invoiceId
    */
@@ -164,5 +167,6 @@ export class AddInvoicePage implements OnInit {
       0
     );
   }
+
 }
 

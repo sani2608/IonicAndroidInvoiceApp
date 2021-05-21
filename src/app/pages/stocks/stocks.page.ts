@@ -14,7 +14,7 @@ import { Toast } from 'src/app/shared/toast';
   styleUrls: ['./stocks.page.scss'],
 })
 export class StocksPage implements OnInit {
-  public itemsInStockArray: Array<number> = [];
+  private _itemsInStockArrayForInvoicePage: Array<Item> = [];
   private _listOfItemsInStock: Array<Item> = [];
   private _flag = false;
   private _isStocksPageOrAddItemInInvoicePage: string;
@@ -46,6 +46,15 @@ export class StocksPage implements OnInit {
     return this._listOfItemsInStock;
   }
 
+
+  /**
+   * Getter $itemsInStockArrayForInvoicePage @return {Array<number> }
+   */
+  public get itemsInStockArrayForInvoicePage(): Array<Item> {
+    return this._itemsInStockArrayForInvoicePage;
+  }
+
+
   /** Getter itemsInStock used by template */
   public get flag() {
     return this._flag;
@@ -68,12 +77,10 @@ export class StocksPage implements OnInit {
       {
         text: 'Ok',
         handler: (quantity: any) => {
-
           const quantityNumber = parseInt(quantity.quantity, 10);
-          console.log(quantityNumber);
-          if(isNaN(quantityNumber)){
+          if (isNaN(quantityNumber)) {
             this.toast.displayToast('quantity cannot be 0', 'danger', 'top');
-            this.showAlertBox(itemId, itemPrice,uom,i,itemName);
+            this.showAlertBox(itemId, itemPrice, uom, i, itemName);
           } else {
             const cartItem = new Cart();
             cartItem.invoiceId = this.invoiceId;
@@ -81,10 +88,9 @@ export class StocksPage implements OnInit {
             cartItem.quantity = quantityNumber;
             cartItem.buyPrice = itemPrice;
             this.addItemInInvoice(cartItem);
-            this._listOfItemsInStock.splice(i, 1);
+            this._itemsInStockArrayForInvoicePage.splice(i, 1);
             this.isItemAddedToInvoice(itemName, itemId);
           }
-
         }
       }
     ];
@@ -98,12 +104,13 @@ export class StocksPage implements OnInit {
 
   /** @param itemName will be displayed if item is added to invoice */
   private isItemAddedToInvoice(itemName: string, itemId: number): void {
-    if (this._listOfItemsInStock.length === 0) {
+    if (this._itemsInStockArrayForInvoicePage.length === 0) {
+      this.dataService.itemIdArray.push(itemId);
       this.navCtrl.back();
       this.toast.displayToast('All items are added to invoice ', 'primary', 'top');
     } else {
       this.toast.displayToast(`${itemName} added to Invoice`, 'primary', 'bottom');
-      this.itemsInStockArray.push(itemId);
+      this.dataService.itemIdArray.push(itemId);
     }
   }
 
@@ -118,20 +125,22 @@ export class StocksPage implements OnInit {
       .subscribe((response) => {
         if (response) {
           this.dataService.getListOfItemsFromStock().then(
-            responseArray => this._listOfItemsInStock = responseArray
+            responseArray => {
+              this._listOfItemsInStock = responseArray;
+              this._itemsInStockArrayForInvoicePage = responseArray.filter((item) => !this.dataService.itemIdArray.includes(item.itemId));
+            }
           );
         }
       });
   }
 
-  /** this function will check if the route if toupdate item or add new item*/
+  /** this function will check if the route if to update item or add new item*/
   private getStatusOfUrl(): void {
     this._isStocksPageOrAddItemInInvoicePage = this.route.snapshot.params.s;
     if (this._isStocksPageOrAddItemInInvoicePage === 's') {
       this._flag = true;
     } else {
       this.invoiceId = parseInt(this._isStocksPageOrAddItemInInvoicePage, 10);
-      //console.log('invoice id is', this.invoiceId);
       this._flag = false;
     }
   }

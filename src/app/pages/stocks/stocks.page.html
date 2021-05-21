@@ -16,12 +16,7 @@
     >
       Stocks</ion-title
     >
-    <ion-title class="ion-text-center" *ngIf="!flag && itemsInStock.length === 0">
-      Add Items</ion-title
-    >
-    <ion-title class="ion-text-center" *ngIf="!flag && itemsInStock.length > 0">
-      Add Items ({{itemsInStock.length }})</ion-title
-    >
+    <ion-title class="ion-text-center" *ngIf="!flag"> Add Items</ion-title>
 
     <ion-buttons slot="primary" *ngIf="flag">
       <ion-button [routerLink]="['./','add-update-item','addNewItem']">
@@ -63,16 +58,21 @@
                 </ion-col>
               </ion-row>
             </ion-col>
-
           </ion-row>
         </ion-grid>
       </ion-card-content>
     </ion-card>
   </div>
-  <!-- *second half---------------------------------------------------------- -->
+
+  <!-- *second half------------------------------------------------------------->
   <div *ngIf="!flag">
+    <div class="task">
+      <h4 align="center" *ngIf="itemsInStockArrayForInvoicePage.length === 0">
+        No Items to add
+      </h4>
+    </div>
     <ion-card
-      *ngFor="let item of itemsInStock; let i = index"
+      *ngFor="let item of itemsInStockArrayForInvoicePage; let i = index"
       (click)="showAlertBox(item.itemId, item.price, item.uom,i,item.name) "
       class="no-ripple"
     >
@@ -95,7 +95,7 @@
                 </ion-col>
               </ion-row>
             </ion-col>
-           </ion-row>
+          </ion-row>
         </ion-grid>
       </ion-card-content>
     </ion-card>
