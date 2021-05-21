@@ -10,6 +10,19 @@ import { itemTableQuery, customerTableQuery, cartTableQuery, invoiceTableQuery, 
   providedIn: 'root'
 })
 export class DataService {
+  //items added in invoice
+  private _itemIdArray: Array<number> = [];
+
+  /**Getter itemIdArray @return {Array<number> }*/
+  public get itemIdArray(): Array<number> {
+    return this._itemIdArray;
+  }
+
+  /** Setter itemIdArray @param {Array<number> } value */
+  public set itemIdArray(value: Array<number>) {
+    this._itemIdArray = value;
+  }
+
 
   //?DATABASE OBJECT
   private databaseObject: SQLiteObject;
@@ -28,7 +41,7 @@ export class DataService {
   }
 
   //? DATABASE RELATED FUNCTIONS
-  /** @returns boolean value for database ready for operation or not */
+  /** @returns boolean value for database if ready for operation or not */
   databaseState() {
     return this.isDatabaseReady.asObservable();
   }
@@ -205,9 +218,6 @@ export class DataService {
   async deleteItemFromNewInvoice(itemId: number, invoiceId: number): Promise<void> {
     await this.databaseObject
       .executeSql(this.customQueries.deleteCartItemByInvoiceIdAndItemId(itemId, invoiceId), [])
-      .then((res) => {
-        console.log('Item Deleted', res.rows.item(0));
-      })
       .catch(e => console.log('Got Error While Deleting Item..', e));
   }
 }
